@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace madeupu.API.Controllers
 {
-    public class ProjectCategoryController : Controller
+    public class ProjectCategoriesController : Controller
     {
         private readonly DataContext _context;
 
-        public ProjectCategoryController(DataContext context)
+        public ProjectCategoriesController(DataContext context)
         {
             _context = context;
         }
@@ -29,9 +29,6 @@ namespace madeupu.API.Controllers
             return View();
         }
 
-        // POST: ParticipationTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProjectCategory projectCategory)

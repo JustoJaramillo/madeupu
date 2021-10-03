@@ -15,11 +15,13 @@ namespace madeupu.API.Data
         }
 
         public DbSet<Country> Countries { get; set; }
+        public DbSet<ParticipationType> participationTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Country>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<ParticipationType>().HasIndex(x => x.Description).IsUnique();
             
         }
     }

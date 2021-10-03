@@ -21,7 +21,7 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.participationTypes.ToListAsync());
+            return View(await _context.ParticipationTypes.ToListAsync());
         }
 
         // GET: ParticipationTypes/Create
@@ -54,7 +54,7 @@ namespace madeupu.API.Controllers
                 return NotFound();
             }
 
-            var participationType = await _context.participationTypes.FindAsync(id);
+            var participationType = await _context.ParticipationTypes.FindAsync(id);
             if (participationType == null)
             {
                 return NotFound();
@@ -105,21 +105,21 @@ namespace madeupu.API.Controllers
                 return NotFound();
             }
 
-            var participationType = await _context.participationTypes
+            var participationType = await _context.ParticipationTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (participationType == null)
             {
                 return NotFound();
             }
 
-            _context.participationTypes.Remove(participationType);
+            _context.ParticipationTypes.Remove(participationType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ParticipationTypeExists(int id)
         {
-            return _context.participationTypes.Any(e => e.Id == id);
+            return _context.ParticipationTypes.Any(e => e.Id == id);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace madeupu.API.Data
         }
 
         public DbSet<Country> Countries { get; set; }
-        public DbSet<ParticipationType> participationTypes { get; set; }
+        public DbSet<ParticipationType> ParticipationTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

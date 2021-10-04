@@ -1,5 +1,6 @@
 ﻿using madeupu.API.Data;
 using madeupu.API.Data.Entities;
+using madeupu.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -54,6 +55,16 @@ namespace madeupu.API.Helpers
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)
         {
             return await _userManager.IsInRoleAsync(user, roleName);
+        }
+
+        public async Task<SignInResult> LoginAsync(LoginViewModel model)
+        {
+            return await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
+        }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
         }
 
         /*
@@ -112,15 +123,7 @@ namespace madeupu.API.Helpers
                 .ThenInclude(x => x.Details)
                 .FirstOrDefaultAsync(x => x.Id == id.ToString());
         }
-        public async Task<SignInResult> LoginAsync(LoginViewModel model)
-        {
-            return await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
-        }
 
-        public async Task LogoutAsync()
-        {
-            await _signInManager.SignOutAsync();
-        }
 
         public async Task<IdentityResult> DeleteUserAsync(User user)
         {

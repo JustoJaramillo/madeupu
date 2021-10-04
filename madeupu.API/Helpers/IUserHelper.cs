@@ -1,4 +1,5 @@
 ﻿using madeupu.API.Data.Entities;
+using madeupu.API.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,13 @@ namespace madeupu.API.Helpers
         Task AddUserToRoleAsync(User user, string roleName);
         Task CheckRoleAsync(string roleName);
         Task<bool> IsUserInRoleAsync(User user, string roleName);
-       
-        
-        
+
+        Task<SignInResult> LoginAsync(LoginViewModel model);
+
+        Task LogoutAsync();
+
+
+
         /*
         Task<User> GetUserAsync(Guid id);
 
@@ -28,10 +33,7 @@ namespace madeupu.API.Helpers
         Task<IdentityResult> DeleteUserAsync(User user);
 
 
-        Task<SignInResult> LoginAsync(LoginViewModel model);
-
-        Task LogoutAsync();
-
+        
         Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword);
 
         Task<IdentityResult> ConfirmEmailAsync(User user, string token);

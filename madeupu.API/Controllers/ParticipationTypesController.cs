@@ -24,24 +24,39 @@ namespace madeupu.API.Controllers
             return View(await _context.ParticipationTypes.ToListAsync());
         }
 
-        // GET: ParticipationTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ParticipationTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ParticipationType participationType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(participationType);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                try
+                {
+                    _context.Add(participationType);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de participación.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
             return View(participationType);
         }
@@ -81,18 +96,21 @@ namespace madeupu.API.Controllers
                     _context.Update(participationType);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException dbUpdateException)
                 {
-                    if (!ParticipationTypeExists(participationType.Id))
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        return NotFound();
+                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de participación.");
                     }
                     else
                     {
-                        throw;
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
             return View(participationType);
         }
@@ -117,9 +135,5 @@ namespace madeupu.API.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ParticipationTypeExists(int id)
-        {
-            return _context.ParticipationTypes.Any(e => e.Id == id);
-        }
     }
 }

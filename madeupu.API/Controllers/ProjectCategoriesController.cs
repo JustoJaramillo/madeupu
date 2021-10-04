@@ -12,7 +12,6 @@ namespace madeupu.API.Controllers
     public class ProjectCategoriesController : Controller
     {
         private readonly DataContext _context;
-
         public ProjectCategoriesController(DataContext context)
         {
             _context = context;

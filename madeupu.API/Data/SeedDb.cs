@@ -1,4 +1,6 @@
 ﻿using madeupu.API.Data.Entities;
+using madeupu.API.Enums;
+using madeupu.API.Helpers;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,12 @@ namespace madeupu.API.Data
     public class SeedDb 
     {
         private readonly DataContext _context;
+        private readonly IUserHelper _iuserHelper;
 
-        public SeedDb(DataContext context)
+        public SeedDb(DataContext context, IUserHelper iuserHelper)
         {
             _context = context;
+            _iuserHelper = iuserHelper;
         }
 
         public async Task SeedAsync()
@@ -23,16 +27,46 @@ namespace madeupu.API.Data
             await CheckParticipationTypeAsync();
             await CheckProjectCategoryAsync();
             await CheckCountryAsync();
-            /*await CheckBrandsAsync();
-            await CheckProcedureAsync();
             await CheckRolesAsync();
             await CheckUsersAsync("1010", "Luis", "Salazar", "luis@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.Admin);
             await CheckUsersAsync("2020", "Juan", "Zuluaga", "zulu@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.User);
             await CheckUsersAsync("3030", "Ledys", "Bedoya", "ledys@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.User);
             await CheckUsersAsync("4040", "Sandra", "Salazar", "sandra@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.Admin);
+            /*await CheckBrandsAsync();
+            await CheckProcedureAsync();
             await CheckVehicleTypeAsync();*/
         }
 
+        private async Task CheckUsersAsync(string document, string firstName, string lastName, string email, string phoneNumber, string address, UserType userType)
+        {
+            User user = await _iuserHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                user = new User
+                {
+                    Address = address,
+                    Document = document,
+                    DocumentType = _context.DocumentTypes.FirstOrDefault(x => x.Description == "Cédula"),
+                    Email = email,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    PhoneNumber = phoneNumber,
+                    UserName = email,
+                    UserType = userType
+                };
+                await _iuserHelper.AddUserAsync(user, "123456");
+                await _iuserHelper.AddUserToRoleAsync(user, userType.ToString());
+
+                //string token = await _iuserHelper.GenerateEmailConfirmationTokenAsync(user);
+                //await _iuserHelper.ConfirmEmailAsync(user, token);
+            }
+        }
+
+        private async Task CheckRolesAsync()
+        {
+            await _iuserHelper.CheckRoleAsync(UserType.Admin.ToString());
+            await _iuserHelper.CheckRoleAsync(UserType.User.ToString());
+        }
         private async Task CheckCountryAsync()
         {
             if (!_context.Countries.Any())

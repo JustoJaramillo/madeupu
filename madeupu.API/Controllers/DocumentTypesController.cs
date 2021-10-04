@@ -12,7 +12,6 @@ namespace madeupu.API.Controllers
     public class DocumentTypesController : Controller
     {
         private readonly DataContext _context;
-
         public DocumentTypesController(DataContext context)
         {
             _context = context;

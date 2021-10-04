@@ -20,7 +20,7 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.documentTypes.ToListAsync());
+            return View(await _context.DocumentTypes.ToListAsync());
         }
 
         public IActionResult Create()
@@ -67,7 +67,7 @@ namespace madeupu.API.Controllers
                 return NotFound();
             }
 
-            var documentType = await _context.documentTypes.FindAsync(id);
+            var documentType = await _context.DocumentTypes.FindAsync(id);
             if (documentType == null)
             {
                 return NotFound();
@@ -118,14 +118,14 @@ namespace madeupu.API.Controllers
                 return NotFound();
             }
 
-            var documentType = await _context.documentTypes
+            var documentType = await _context.DocumentTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (documentType == null)
             {
                 return NotFound();
             }
 
-            _context.documentTypes.Remove(documentType);
+            _context.DocumentTypes.Remove(documentType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

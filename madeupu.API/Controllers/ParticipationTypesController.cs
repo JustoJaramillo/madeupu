@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using madeupu.API.Data;
 using madeupu.API.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace madeupu.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ParticipationTypesController : Controller
     {
         private readonly DataContext _context;

@@ -1,5 +1,6 @@
 ﻿using madeupu.API.Data;
 using madeupu.API.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace madeupu.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProjectCategoriesController : Controller
     {
         private readonly DataContext _context;

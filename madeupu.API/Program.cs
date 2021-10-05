@@ -24,11 +24,10 @@ namespace madeupu.API
         private static void RunSeeding(IWebHost host)
         {
             IServiceScopeFactory scopeFactory = host.Services.GetService<IServiceScopeFactory>();
-            using (IServiceScope scope = scopeFactory.CreateScope())
-            {
-                SeedDb seeder = scope.ServiceProvider.GetService<SeedDb>();
-                seeder.SeedAsync().Wait();
-            }
+            using IServiceScope scope = scopeFactory.CreateScope();
+
+            SeedDb seeder = scope.ServiceProvider.GetService<SeedDb>();
+            seeder.SeedAsync().Wait();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)

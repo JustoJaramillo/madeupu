@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace madeupu.API.Data
 {
-    public class DataContext : IdentityDbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options):base(options)
         {

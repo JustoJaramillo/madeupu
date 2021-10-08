@@ -1,4 +1,4 @@
-﻿@model IEnumerable<madeupu.API.Data.Entities.Country>
+﻿@model IEnumerable<madeupu.API.Data.Entities.ParticipationType>
 
 @{
     ViewData["Title"] = "Index";
@@ -20,7 +20,7 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.Name)
+                                @Html.DisplayNameFor(model => model.Description)
                             </th>
                             <th></th>
                         </tr>
@@ -30,7 +30,7 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
+                                    @Html.DisplayFor(modelItem => item.Description)
                                 </td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
@@ -64,7 +64,7 @@
                 ]
             });
             // Delete item
-            sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Countries/Delete/', false);
+            sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/ParticipationTypes/Delete/', false);
         });
     </script>
 }

@@ -4,23 +4,24 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace madeupu.API.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class CountriesController : Controller
+    public class DocumentTypesController : Controller
     {
         private readonly DataContext _context;
-
-        public CountriesController(DataContext context)
+        public DocumentTypesController(DataContext context)
         {
             _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Countries.ToListAsync());
+            return View(await _context.DocumentTypes.ToListAsync());
         }
 
         public IActionResult Create()
@@ -28,15 +29,16 @@ namespace madeupu.API.Controllers
             return View();
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Country country)
+        public async Task<IActionResult> Create(DocumentType documentType)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(country);
+                    _context.Add(documentType);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -44,21 +46,20 @@ namespace madeupu.API.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe este país.");
+                        ModelState.AddModelError(string.Empty, "Ya existe este documento.");
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                     }
                 }
-                catch (Exception exeption)
+                catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exeption.InnerException.Message);
+                    ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(country);
+            return View(documentType);
         }
-
 
         public async Task<IActionResult> Edit(int? id)
         {
@@ -67,20 +68,19 @@ namespace madeupu.API.Controllers
                 return NotFound();
             }
 
-            Country country = await _context.Countries.FindAsync(id);
-            if (country == null)
+            var documentType = await _context.DocumentTypes.FindAsync(id);
+            if (documentType == null)
             {
                 return NotFound();
             }
-            return View(country);
+            return View(documentType);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Country country)
+        public async Task<IActionResult> Edit(int id, DocumentType documentType)
         {
-            if (id != country.Id)
+            if (id != documentType.Id)
             {
                 return NotFound();
             }
@@ -89,7 +89,7 @@ namespace madeupu.API.Controllers
             {
                 try
                 {
-                    _context.Update(country);
+                    _context.Update(documentType);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -97,19 +97,19 @@ namespace madeupu.API.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe este país.");
+                        ModelState.AddModelError(string.Empty, "Ya existe este documento.");
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                     }
                 }
-                catch (Exception exeption)
+                catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exeption.InnerException.Message);
+                    ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(country);
+            return View(documentType);
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -119,14 +119,14 @@ namespace madeupu.API.Controllers
                 return NotFound();
             }
 
-            Country country = await _context.Countries
+            var documentType = await _context.DocumentTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (country == null)
+            if (documentType == null)
             {
                 return NotFound();
             }
 
-            _context.Countries.Remove(country);
+            _context.DocumentTypes.Remove(documentType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

@@ -27,6 +27,7 @@ namespace madeupu.API.Data
             await CheckParticipationTypeAsync();
             await CheckProjectCategoryAsync();
             await CheckCountryAsync();
+            //await CheckRegionAsync();
             await CheckRolesAsync();
             await CheckUsersAsync("1010", "Luis", "Salazar", "luis@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.Admin);
             await CheckUsersAsync("2020", "Juan", "Zuluaga", "zulu@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.User);
@@ -120,6 +121,18 @@ namespace madeupu.API.Data
                 await _context.SaveChangesAsync();
             }
         }
+
+        //private async Task CheckRegionAsync()
+        //{
+        //    if (!_context.Regions.Any())
+        //    {
+        //        _context.Regions.Add(new Region { Name = "Cédula" });
+        //        _context.Regions.Add(new Region { Name = "Tarjeta de Identidad" });
+        //        _context.Regions.Add(new Region { Name = "NIT" });
+        //        _context.Regions.Add(new Region { Name = "Pasaporte" });
+        //        await _context.SaveChangesAsync();
+        //    }
+        //}
 
     }
 }

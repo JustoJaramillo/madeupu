@@ -23,6 +23,7 @@ namespace madeupu.API.Helpers
         {
             return new Region
             {
+
                 CountryId = await _context.Countries.FindAsync(model.Country),
                 Name = model.Name,
                 Id = isNew ? 0 : model.Id
@@ -34,11 +35,11 @@ namespace madeupu.API.Helpers
         {
             return new RegionViewModel
             {
-                CountryId = region.CountryId,
+
                 Country = region.CountryId.Id,
                 Countries = _comboHelper.getComboCountries(),
                 Name = region.Name,
-                Id = region.Id
+                Id = region.Id,
             };
         }
     }

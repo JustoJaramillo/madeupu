@@ -237,7 +237,7 @@ namespace madeupu.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CountryIdId")
+                    b.Property<int>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -247,7 +247,7 @@ namespace madeupu.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryIdId");
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -403,11 +403,13 @@ namespace madeupu.API.Migrations
 
             modelBuilder.Entity("madeupu.API.Data.Entities.Region", b =>
                 {
-                    b.HasOne("madeupu.API.Data.Entities.Country", "CountryId")
-                        .WithMany()
-                        .HasForeignKey("CountryIdId");
+                    b.HasOne("madeupu.API.Data.Entities.Country", "Country")
+                        .WithMany("Regions")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("CountryId");
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("madeupu.API.Data.Entities.User", b =>
@@ -419,6 +421,11 @@ namespace madeupu.API.Migrations
                         .IsRequired();
 
                     b.Navigation("DocumentType");
+                });
+
+            modelBuilder.Entity("madeupu.API.Data.Entities.Country", b =>
+                {
+                    b.Navigation("Regions");
                 });
 
             modelBuilder.Entity("madeupu.API.Data.Entities.DocumentType", b =>

@@ -29,18 +29,18 @@ namespace madeupu.API.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Regions
-                .Include(x=> x.CountryId)
+                .Include(x=> x.Country)
                 .ToListAsync());
         }
 
         public IActionResult Create()
         {
-            RegionViewModel model = new()
+            RegionViewModel model = new RegionViewModel
             {
                 Countries = _comboHelper.getComboCountries()
             };
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]

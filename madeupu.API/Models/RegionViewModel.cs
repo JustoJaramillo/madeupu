@@ -20,7 +20,7 @@ namespace madeupu.API.Models
         [Display(Name = "País")]
         [Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar un país.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public int Country { get; set; }
+        public int CountryId { get; set; }
 
         public IEnumerable<SelectListItem> Countries { get; set; }
     }

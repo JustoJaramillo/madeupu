@@ -17,6 +17,6 @@ namespace madeupu.API.Data.Entities
 
         [Display(Name = "País")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public Country CountryId { get; set; }
+        public Country Country { get; set; }
     }
 }

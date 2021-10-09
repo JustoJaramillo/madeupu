@@ -97,6 +97,7 @@ namespace madeupu.API.Controllers
                 {
                     _context.Update(participationType);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
                 {

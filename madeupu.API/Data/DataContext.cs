@@ -1,20 +1,24 @@
 ﻿using madeupu.API.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace madeupu.API.Data
 {
     public class DataContext : IdentityDbContext<User>
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        public DataContext(DbContextOptions<DataContext> options):base(options)
         {
         }
 
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Region> Regions { get; set; }
         public DbSet<ParticipationType> ParticipationTypes { get; set; }
         public DbSet<ProjectCategory> ProjectCategories { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
-        public DbSet<Region> Regions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

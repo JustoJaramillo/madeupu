@@ -77,37 +77,6 @@ namespace madeupu.API.Controllers
             return View(model);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(Country country)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Add(country);
-        //            await _context.SaveChangesAsync();
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        catch (DbUpdateException dbUpdateException)
-        //        {
-        //            if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-        //            {
-        //                ModelState.AddModelError(string.Empty, "Ya existe este país.");
-        //            }
-        //            else
-        //            {
-        //                ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-        //            }
-        //        }
-        //        catch (Exception exeption)
-        //        {
-        //            ModelState.AddModelError(string.Empty, exeption.InnerException.Message);
-        //        }
-        //    }
-        //    return View(country);
-        //}
-
         //public async Task<IActionResult> Edit(int? id)
         //{
         //    if (id == null)

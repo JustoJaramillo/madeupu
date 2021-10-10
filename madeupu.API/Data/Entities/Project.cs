@@ -10,8 +10,14 @@ namespace madeupu.API.Data.Entities
     public class Project
     {
         public int Id { get; set; }
-        public int CityId { get; set; }
-        public int CategoryId { get; set; }
+
+        [Display(Name = "Ciudad")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public City City { get; set; }
+
+        [Display(Name = "Categoria")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public ProjectCategory ProjectCategory { get; set; }
 
         [Display(Name = "Nombre")]
         [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
@@ -38,13 +44,13 @@ namespace madeupu.API.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Description { get; set; }
 
-        [Display(Name = "Foto")]
-        public Guid ImageId { get; set; }
+        //[Display(Name = "Logo del proyecto")]
+        //public Guid ImageId { get; set; }
 
-        [Display(Name = "Foto")]
-        public string ImageFullPath => ImageId == Guid.Empty
-            ? Constants.NoImage
-            : $"{Constants.ImageUrl}/users/{ImageId}";
+        //[Display(Name = "Logo del proyecto")]
+        //public string ImageFullPath => ImageId == Guid.Empty
+        //    ? Constants.NoImage
+        //    : $"{Constants.ImageUrl}/users/{ImageId}";
 
     }
 }

@@ -20,6 +20,9 @@ namespace madeupu.API.Data
         public DbSet<ParticipationType> ParticipationTypes { get; set; }
         public DbSet<ProjectCategory> ProjectCategories { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
+        public DbSet<Project> Projects { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,7 +33,8 @@ namespace madeupu.API.Data
             modelBuilder.Entity<ParticipationType>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<ProjectCategory>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<DocumentType>().HasIndex(x => x.Description).IsUnique();
-            
+            modelBuilder.Entity<Project>().HasIndex(x => x.Name).IsUnique();
+
         }
     }
 }

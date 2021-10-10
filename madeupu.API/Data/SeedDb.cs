@@ -28,6 +28,7 @@ namespace madeupu.API.Data
             await CheckProjectCategoryAsync();
             await CheckCountryAsync();
             await CheckRegionAsync();
+            await CheckCityAsync();
             await CheckRolesAsync();
             await CheckUsersAsync("1010", "Luis", "Salazar", "luis@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.Admin);
             await CheckUsersAsync("2020", "Juan", "Zuluaga", "zulu@yopmail.com", "311 322 4620", "Calle Luna Calle Sol", UserType.User);
@@ -37,6 +38,8 @@ namespace madeupu.API.Data
             await CheckProcedureAsync();
             await CheckVehicleTypeAsync();*/
         }
+
+        
 
         private async Task CheckUsersAsync(string document, string firstName, string lastName, string email, string phoneNumber, string address, UserType userType)
         {
@@ -73,7 +76,7 @@ namespace madeupu.API.Data
             if (!_context.Countries.Any())
             {
                 _context.Countries.Add(new Country { Name = "Colombia" });
-                _context.Countries.Add(new Country { Name = "Brazil" });
+                _context.Countries.Add(new Country { Name = "Brasil" });
                 _context.Countries.Add(new Country { Name = "Perú" });
                 _context.Countries.Add(new Country { Name = "Bolivia" });
                 _context.Countries.Add(new Country { Name = "Venezuela" });
@@ -127,12 +130,25 @@ namespace madeupu.API.Data
             if (!_context.Regions.Any())
             {
                 _context.Regions.Add(new Region { Name = "Antioquia", Country = _context.Countries.FirstOrDefault(x => x.Name == "Colombia") });
-                _context.Regions.Add(new Region { Name = "Caracas", Country = _context.Countries.FirstOrDefault(x => x.Name == "Venezuela") });
+                _context.Regions.Add(new Region { Name = "Carabobo", Country = _context.Countries.FirstOrDefault(x => x.Name == "Venezuela") });
                 _context.Regions.Add(new Region { Name = "Cundinamarca", Country = _context.Countries.FirstOrDefault(x => x.Name == "Colombia") });
-                _context.Regions.Add(new Region { Name = "Rio de janeiro", Country = _context.Countries.FirstOrDefault(x => x.Name == "Brazil") });
+                _context.Regions.Add(new Region { Name = "Alagoas", Country = _context.Countries.FirstOrDefault(x => x.Name == "Brasil") });
+                _context.Regions.Add(new Region { Name = "Cusco", Country = _context.Countries.FirstOrDefault(x => x.Name == "Perú") });
                 await _context.SaveChangesAsync();
             }
         }
 
+        private async Task CheckCityAsync()
+        {
+            if (!_context.Cities.Any())
+            {
+                _context.Cities.Add(new City { Name = "Medellín", Region = _context.Regions.FirstOrDefault(x => x.Name == "Antioquia") });
+                _context.Cities.Add(new City { Name = "Valencia", Region = _context.Regions.FirstOrDefault(x => x.Name == "Carabobo") });
+                _context.Cities.Add(new City { Name = "Bogotá", Region = _context.Regions.FirstOrDefault(x => x.Name == "Cundinamarca") });
+                _context.Cities.Add(new City { Name = "Penedo", Region = _context.Regions.FirstOrDefault(x => x.Name == "Alagoas") });
+                _context.Cities.Add(new City { Name = "Paruro", Region = _context.Regions.FirstOrDefault(x => x.Name == "Cusco") });
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

@@ -12,5 +12,9 @@ namespace madeupu.API.Helpers
         Task<Region> ToRegionAsync(RegionViewModel model, bool isNew);
 
         RegionViewModel ToRegionViewModel(Region region);
+
+        Task<City> ToCityAsync(CityViewModel model, bool isNew);
+
+        CityViewModel ToCityViewModel(City city);
     }
 }

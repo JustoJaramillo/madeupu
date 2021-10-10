@@ -19,6 +19,28 @@ namespace madeupu.API.Helpers
             _comboHelper = comboHelper;
         }
 
+        public async Task<City> ToCityAsync(CityViewModel model, bool isNew)
+        {
+            return new City
+            {
+                Region = await _context.Regions.FindAsync(model.RegionId),
+                Name = model.Name,
+                Id = isNew ? 0 : model.Id
+
+            };
+        }
+
+        public CityViewModel ToCityViewModel(City city)
+        {
+            return new CityViewModel
+            {
+                RegionId = city.Region.Id,
+                Regions = _comboHelper.getComboRegions(),
+                Name = city.Name,
+                Id = city.Id,
+            };
+        }
+
         public async Task<Region> ToRegionAsync(RegionViewModel model, bool isNew)
         {
             return new Region

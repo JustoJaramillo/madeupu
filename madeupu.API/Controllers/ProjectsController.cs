@@ -1,5 +1,7 @@
 ﻿using madeupu.API.Data;
+using madeupu.API.Data.Entities;
 using madeupu.API.Helpers;
+using madeupu.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -32,49 +34,54 @@ namespace madeupu.API.Controllers
                 .ToListAsync());
         }
 
-        //public IActionResult Create()
-        //{
-        //    RegionViewModel model = new RegionViewModel
-        //    {
-        //        Countries = _comboHelper.getComboCountries()
-        //    };
+        public IActionResult Create()
+        {
+            ProjectViewModel model = new ProjectViewModel
+            {
+                Countries = _comboHelper.getComboCountries(),
+                Regions = _comboHelper.getComboRegions(),
+                Cities = _comboHelper.getComboCities()
+            };
 
-        //    return View(model);
-        //}
+            return View(model);
+        }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(RegionViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            Region region = await _converterHelper.ToRegionAsync(model, true);
-        //            _context.Regions.Add(region);
-        //            await _context.SaveChangesAsync();
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        catch (DbUpdateException dbUpdateException)
-        //        {
-        //            if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-        //            {
-        //                ModelState.AddModelError(string.Empty, "Ya existe esta region.");
-        //            }
-        //            else
-        //            {
-        //                ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-        //            }
-        //        }
-        //        catch (Exception exeption)
-        //        {
-        //            ModelState.AddModelError(string.Empty, exeption.InnerException.Message);
-        //        }
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ProjectViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Project project = await _converterHelper.ToProjectAsync(model, true);
+                    _context.Projects.Add(project);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Ya existe un proyecto con este nombre, intenta con uno nuevo.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exeption)
+                {
+                    ModelState.AddModelError(string.Empty, exeption.InnerException.Message);
+                }
+            }
 
-        //    model.Countries = _comboHelper.getComboCountries();
-        //    return View(model);
-        //}
+            model.Countries = _comboHelper.getComboCountries();
+            model.Regions = _comboHelper.getComboRegions();
+            model.Cities = _comboHelper.getComboCities();
+
+            return View(model);
+        }
 
         //public async Task<IActionResult> Edit(int? id)
         //{

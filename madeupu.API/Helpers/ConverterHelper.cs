@@ -41,6 +41,43 @@ namespace madeupu.API.Helpers
             };
         }
 
+        public async Task<Project> ToProjectAsync(ProjectViewModel model, bool isNew)
+        {
+            return new Project
+            {
+                Id = isNew?0 :model.Id,
+                Name = model.Name,
+                Website = model.Website,
+                Address = model.Address,
+                BeginAt = model.BeginAt,
+                Description = model.Description,
+                City = await _context.Cities.FindAsync(model.CityId),
+                ProjectCategory = await _context.ProjectCategories.FindAsync(model.ProjectCategoryId),
+            };
+        }
+
+        public ProjectViewModel ToProjectViewModel(Project project)
+        {
+            return new ProjectViewModel
+            {
+                Id = project.Id,
+                Name = project.Name,
+                Website = project.Website,
+                Address = project.Address,
+                BeginAt = project.BeginAt,
+                Description = project.Description,
+                CityId = project.City.Id,
+                Cities = _comboHelper.getComboCities(),
+                RegionId = project.City.Region.Id,
+                Regions = _comboHelper.getComboRegions(),
+                CountryId = project.City.Region.Country.Id,
+                Countries = _comboHelper.getComboCountries(),
+                ProjectCategoryId = project.ProjectCategory.Id,
+                ProjectCategories = _comboHelper.getComboProyectCategories()
+                
+            };
+        }
+
         public async Task<Region> ToRegionAsync(RegionViewModel model, bool isNew)
         {
             return new Region

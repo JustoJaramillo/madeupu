@@ -6,10 +6,11 @@
     <title>@ViewData["Title"] - madeupu.API</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/SharedLayoutStyles/SharedLayoutStyles.css"/>
     <!-- pendinete icono del proyecto-->
 </head>
 <body>
-    <header>
+    <header class="layout-header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Made Up U</a>
@@ -21,23 +22,38 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Countries" asp-action="Index">Países</a>
+                            <li class="nav-item d-sm-inline-flex">
+                                <div class="btn-group">
+                                    <button type="button" class="layout-dropdown-button dropdown-toggle border-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Administración de locación
+                                    </button>
+                                    <div class="shared-dropdown-menu dropdown-menu">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Countries" asp-action="Index">Países</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Regions" asp-action="Index">Regiones</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Cities" asp-action="Index">Ciudades</a>
+                                    </div>
+                                </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Regions" asp-action="Index">Regiones</a>
+                            <li class="nav-item d-sm-inline-flex">
+                                <div class="btn-group">
+                                    <button type="button" class="layout-dropdown-button dropdown-toggle border-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Administración de proyectos
+                                    </button>
+                                    <div class="shared-dropdown-menu dropdown-menu">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="ProjectCategories" asp-action="Index">Categorias proyectos</a>
+                                    </div>
+                                </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Cities" asp-action="Index">Ciudades</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ParticipationTypes" asp-action="Index">Tipos de participación</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ProjectCategories" asp-action="Index">Categorias proyectos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="DocumentTypes" asp-action="Index">Tipos de documento</a>
+                            <li class="nav-item d-sm-inline-flex">
+                                <div class="btn-group">
+                                    <button type="button" class="layout-dropdown-button dropdown-toggle border-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Administración de usuarios
+                                    </button>
+                                    <div class="shared-dropdown-menu dropdown-menu">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="ParticipationTypes" asp-action="Index">Tipos de participación</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="DocumentTypes" asp-action="Index">Tipos de documento</a>
+                                    </div>
+                                </div>
                             </li>
                         }
                     </ul>

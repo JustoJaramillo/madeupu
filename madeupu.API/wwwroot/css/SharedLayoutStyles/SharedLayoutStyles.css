@@ -1,0 +1,31 @@
+﻿body {
+}
+
+.layout-dropdown-button {
+    border: none !important;
+    background-color: transparent;
+    white-space: normal;
+    font-family: sans-serif;
+    margin: .5rem;
+    color: #343a40 !important;
+    position: relative;
+    bottom: -2px;
+}
+
+    .layout-dropdown-button .dropdown-toggle ::after {
+        background-color: #343a40 !important;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -50%;
+    }
+/*ul#navbar li div button {
+    ba
+}*/
+.layout-header nav {
+    /*background-color: #16BCEC !important;*/
+}
+
+.shared-dropdown-menu {
+    width: 100%;
+}

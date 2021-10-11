@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace madeupu.API.Helpers
 {
-    public class ComboHelper : IComboHelper
+    public class CombosHelper : ICombosHelper
     {
         private readonly DataContext _context;
 
-        public ComboHelper(DataContext context)
+        public CombosHelper(DataContext context)
         {
             _context = context;
         }
 
-        public IEnumerable<SelectListItem> getComboCities()
+        public IEnumerable<SelectListItem> GetComboCities()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<SelectListItem> getComboCountries()
+        public IEnumerable<SelectListItem> GetComboCountries()
         {
             List<SelectListItem> list = _context.Countries.Select(x => new SelectListItem
             {
@@ -40,7 +40,7 @@ namespace madeupu.API.Helpers
             return list;
         }
 
-        public IEnumerable<SelectListItem> getComboDocumentTypes()
+        public IEnumerable<SelectListItem> GetComboDocumentTypes()
         {
             List<SelectListItem> list = _context.DocumentTypes.Select(x => new SelectListItem
             {
@@ -59,7 +59,7 @@ namespace madeupu.API.Helpers
             return list;
         }
 
-        public IEnumerable<SelectListItem> getComboParticipationTypes()
+        public IEnumerable<SelectListItem> GetComboParticipationTypes()
         {
             List<SelectListItem> list = _context.ParticipationTypes.Select(x => new SelectListItem
             {
@@ -78,7 +78,7 @@ namespace madeupu.API.Helpers
             return list;
         }
 
-        public IEnumerable<SelectListItem> getComboProyectCategories()
+        public IEnumerable<SelectListItem> GetComboProyectCategories()
         {
             List<SelectListItem> list = _context.ProjectCategories.Select(x => new SelectListItem
             {
@@ -97,7 +97,7 @@ namespace madeupu.API.Helpers
             return list;
         }
 
-        public IEnumerable<SelectListItem> getComboRegions()
+        public IEnumerable<SelectListItem> GetComboRegions()
         {
             List<SelectListItem> list = _context.Regions.Select(x => new SelectListItem
             {

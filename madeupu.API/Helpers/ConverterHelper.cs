@@ -11,9 +11,9 @@ namespace madeupu.API.Helpers
     public class ConverterHelper : IConverterHelper
     {
         private readonly DataContext _context;
-        private readonly IComboHelper _comboHelper;
+        private readonly ICombosHelper _comboHelper;
 
-        public ConverterHelper(DataContext context, IComboHelper comboHelper)
+        public ConverterHelper(DataContext context, ICombosHelper comboHelper)
         {
             _context = context;
             _comboHelper = comboHelper;
@@ -35,7 +35,7 @@ namespace madeupu.API.Helpers
             return new CityViewModel
             {
                 RegionId = city.Region.Id,
-                Regions = _comboHelper.getComboRegions(),
+                Regions = _comboHelper.GetComboRegions(),
                 Name = city.Name,
                 Id = city.Id,
             };
@@ -57,9 +57,45 @@ namespace madeupu.API.Helpers
             return new RegionViewModel
             {
                 CountryId = region.Country.Id,
-                Countries = _comboHelper.getComboCountries(),
+                Countries = _comboHelper.GetComboCountries(),
                 Name = region.Name,
                 Id = region.Id,
+            };
+        }
+
+        public async Task<User> ToUserAsync(UserViewModel model, Guid imageId, bool isNew)
+        {
+            return new User
+            {
+                Address = model.Address,
+                Document = model.Document,
+                DocumentType = await _context.DocumentTypes.FindAsync(model.DocumentTypeId),
+                Email = model.Email,
+                FirstName = model.FirstName,
+                Id = isNew ? Guid.NewGuid().ToString() : model.Id,
+                ImageId = imageId,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
+                UserName = model.Email,
+                UserType = model.UserType,
+            };
+        }
+
+        public UserViewModel ToUserViewModel(User user)
+        {
+            return new UserViewModel
+            {
+                Address = user.Address,
+                Document = user.Document,
+                DocumentTypeId = user.DocumentType.Id,
+                DocumentTypes = _comboHelper.GetComboDocumentTypes(),
+                Email = user.Email,
+                FirstName = user.FirstName,
+                Id = user.Id,
+                ImageId = user.ImageId,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                UserType = user.UserType,
             };
         }
     }

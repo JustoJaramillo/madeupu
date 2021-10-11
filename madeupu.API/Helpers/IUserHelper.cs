@@ -12,6 +12,7 @@ namespace madeupu.API.Helpers
     public interface IUserHelper
     {
         Task<User> GetUserAsync(string email);
+        Task<User> GetUserAsync(Guid id);
         Task<IdentityResult> AddUserAsync(User user, string password);
         Task AddUserToRoleAsync(User user, string roleName);
         Task CheckRoleAsync(string roleName);
@@ -21,16 +22,16 @@ namespace madeupu.API.Helpers
 
         Task LogoutAsync();
 
+        Task<IdentityResult> UpdateUserAsync(User user);
+        Task<IdentityResult> DeleteUserAsync(User user);
 
 
         /*
-        Task<User> GetUserAsync(Guid id);
+        
 
         Task<User> AddUserAsync(AddUserViewModel model, Guid imageId, UserType userType);
 
-        Task<IdentityResult> UpdateUserAsync(User user);
-
-        Task<IdentityResult> DeleteUserAsync(User user);
+        
 
 
         

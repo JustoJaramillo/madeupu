@@ -16,10 +16,10 @@ namespace madeupu.API.Controllers
     public class CitiesController : Controller
     {
         private readonly DataContext _context;
-        private readonly IComboHelper _comboHelper;
+        private readonly ICombosHelper _comboHelper;
         private readonly IConverterHelper _converterHelper;
 
-        public CitiesController(DataContext context, IComboHelper comboHelper, IConverterHelper converterHelper)
+        public CitiesController(DataContext context, ICombosHelper comboHelper, IConverterHelper converterHelper)
         {
             _context = context;
             _comboHelper = comboHelper;
@@ -38,7 +38,7 @@ namespace madeupu.API.Controllers
         {
             CityViewModel model = new CityViewModel
             {
-                Regions = _comboHelper.getComboRegions()
+                Regions = _comboHelper.GetComboRegions()
             };
 
             return View(model);
@@ -74,7 +74,7 @@ namespace madeupu.API.Controllers
                 }
             }
 
-            model.Regions = _comboHelper.getComboCities();
+            model.Regions = _comboHelper.GetComboCities();
             return View(model);
         }
 
@@ -130,7 +130,7 @@ namespace madeupu.API.Controllers
                 }
             }
 
-            cityViewModel.Regions = _comboHelper.getComboRegions();
+            cityViewModel.Regions = _comboHelper.GetComboRegions();
             return View(cityViewModel);
         }
 

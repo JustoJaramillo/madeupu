@@ -18,8 +18,10 @@ namespace madeupu.API.Data
         public DbSet<Region> Regions { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<ParticipationType> ParticipationTypes { get; set; }
+        public DbSet<Participation> Participations { get; set; }
         public DbSet<ProjectCategory> ProjectCategories { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,9 +29,9 @@ namespace madeupu.API.Data
             modelBuilder.Entity<Country>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<Region>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<City>().HasIndex(x => x.Name).IsUnique();
-            modelBuilder.Entity<ParticipationType>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<ProjectCategory>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<DocumentType>().HasIndex(x => x.Description).IsUnique();
+            modelBuilder.Entity<ParticipationType>().HasIndex(x => x.Description).IsUnique();
             
         }
     }

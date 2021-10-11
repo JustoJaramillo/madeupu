@@ -14,10 +14,10 @@ namespace madeupu.API.Controllers
     public class RegionsController : Controller
     {
         private readonly DataContext _context;
-        private readonly IComboHelper _comboHelper;
+        private readonly ICombosHelper _comboHelper;
         private readonly IConverterHelper _converterHelper;
 
-        public RegionsController(DataContext context, IComboHelper comboHelper, IConverterHelper converterHelper)
+        public RegionsController(DataContext context, ICombosHelper comboHelper, IConverterHelper converterHelper)
         {
             _context = context;
             _comboHelper = comboHelper;
@@ -35,7 +35,7 @@ namespace madeupu.API.Controllers
         {
             RegionViewModel model = new RegionViewModel
             {
-                Countries = _comboHelper.getComboCountries()
+                Countries = _comboHelper.GetComboCountries()
             };
 
             return View(model);
@@ -71,7 +71,7 @@ namespace madeupu.API.Controllers
                 }
             }
 
-            model.Countries = _comboHelper.getComboCountries();
+            model.Countries = _comboHelper.GetComboCountries();
             return View(model);
         }
 
@@ -128,7 +128,7 @@ namespace madeupu.API.Controllers
                 }
             }
 
-            regionViewModel.Countries = _comboHelper.getComboCountries();
+            regionViewModel.Countries = _comboHelper.GetComboCountries();
             return View(regionViewModel);
         }
 

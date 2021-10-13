@@ -17,6 +17,9 @@ namespace madeupu.API.Helpers
 
         CityViewModel ToCityViewModel(City city);
 
+        Task<User> ToUserAsync(UserViewModel model, Guid imageId, bool isNew);
+        UserViewModel ToUserViewModel(User user);
+
         Task<Project> ToProjectAsync(ProjectViewModel model, bool isNew);
 
         ProjectViewModel ToProjectViewModel(Project project);

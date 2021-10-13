@@ -48,8 +48,9 @@ namespace madeupu.API
             });
             services.AddTransient<SeedDb>();
             services.AddScoped<IUserHelper, UserHelper>();
-            services.AddScoped<IComboHelper, ComboHelper>();
+            services.AddScoped<ICombosHelper, CombosHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
+            services.AddScoped<IBlobHelper, BlobHelper>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

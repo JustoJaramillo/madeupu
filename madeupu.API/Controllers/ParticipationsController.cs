@@ -1,56 +1,43 @@
 ﻿using madeupu.API.Data;
 using madeupu.API.Data.Entities;
-using madeupu.API.Helpers;
-using madeupu.API.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace madeupu.API.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class RegionsController : Controller
+    public class ParticipationsController : Controller
     {
         private readonly DataContext _context;
-        private readonly ICombosHelper _comboHelper;
-        private readonly IConverterHelper _converterHelper;
 
-        public RegionsController(DataContext context, ICombosHelper comboHelper, IConverterHelper converterHelper)
+        public ParticipationsController(DataContext context)
         {
             _context = context;
-            _comboHelper = comboHelper;
-            _converterHelper = converterHelper;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Regions
-                .Include(x => x.Country)
-                .ToListAsync());
+            return View(await _context.Participations.ToListAsync());
         }
 
         public IActionResult Create()
         {
-            RegionViewModel model = new RegionViewModel
-            {
-                Countries = _comboHelper.GetComboCountries()
-            };
-
-            return View(model);
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RegionViewModel model)
+        public async Task<IActionResult> Create(Participation participation)
         {
             if (ModelState.IsValid)
             {
+
                 try
                 {
-                    Region region = await _converterHelper.ToRegionAsync(model, true);
-                    _context.Regions.Add(region);
+                    _context.Add(participation);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -58,23 +45,22 @@ namespace madeupu.API.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe esta region.");
+                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de participación.");
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                     }
                 }
-                catch (Exception exeption)
+                catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exeption.InnerException.Message);
+                    ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-
-            model.Countries = _comboHelper.GetComboCountries();
-            return View(model);
+            return View(participation);
         }
 
+        // GET: ParticipationTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,56 +68,54 @@ namespace madeupu.API.Controllers
                 return NotFound();
             }
 
-            Region region = await _context.Regions
-                .Include(x => x.Country)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-
-            if (region == null)
+            var participations = await _context.Participations.FindAsync(id);
+            if (participations == null)
             {
                 return NotFound();
             }
-
-            RegionViewModel model = _converterHelper.ToRegionViewModel(region);
-            return View(model);
+            return View(participations);
         }
 
-
+        // POST: ParticipationTypes/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, RegionViewModel regionViewModel)
+        public async Task<IActionResult> Edit(int id, Participation participation)
         {
+            if (id != participation.Id)
+            {
+                return NotFound();
+            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Region region = await _converterHelper.ToRegionAsync(regionViewModel, false);
-                    _context.Regions.Update(region);
+                    _context.Update(participation);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index), new { id = regionViewModel.CountryId });
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe esta region.");
+                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de participación.");
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                     }
                 }
-                catch (Exception exeption)
+                catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exeption.InnerException.Message);
+                    ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-
-            regionViewModel.Countries = _comboHelper.GetComboCountries();
-            return View(regionViewModel);
+            return View(participation);
         }
 
+        // GET: ParticipationTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,16 +123,17 @@ namespace madeupu.API.Controllers
                 return NotFound();
             }
 
-            Region region = await _context.Regions
+            var participations = await _context.Participations
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (region == null)
+            if (participations == null)
             {
                 return NotFound();
             }
 
-            _context.Regions.Remove(region);
+            _context.Participations.Remove(participations);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

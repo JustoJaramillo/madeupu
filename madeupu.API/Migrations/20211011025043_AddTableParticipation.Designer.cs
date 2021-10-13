@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using madeupu.API.Data;
 
 namespace madeupu.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211011025043_AddTableParticipation")]
+    partial class AddTableParticipation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,55 +259,6 @@ namespace madeupu.API.Migrations
                     b.ToTable("ParticipationTypes");
                 });
 
-            modelBuilder.Entity("madeupu.API.Data.Entities.Project", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("BeginAt")
-                        .HasMaxLength(50)
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(800)
-                        .HasColumnType("nvarchar(800)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("ProjectCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Website")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.HasIndex("ProjectCategoryId");
-
-                    b.ToTable("Projects");
-                });
-
             modelBuilder.Entity("madeupu.API.Data.Entities.ProjectCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -515,21 +468,6 @@ namespace madeupu.API.Migrations
                         .HasForeignKey("ParticipationTypeId");
 
                     b.Navigation("ParticipationType");
-                });
-
-            modelBuilder.Entity("madeupu.API.Data.Entities.Project", b =>
-                {
-                    b.HasOne("madeupu.API.Data.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId");
-
-                    b.HasOne("madeupu.API.Data.Entities.ProjectCategory", "ProjectCategory")
-                        .WithMany()
-                        .HasForeignKey("ProjectCategoryId");
-
-                    b.Navigation("City");
-
-                    b.Navigation("ProjectCategory");
                 });
 
             modelBuilder.Entity("madeupu.API.Data.Entities.Region", b =>

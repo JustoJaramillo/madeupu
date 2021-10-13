@@ -14,13 +14,13 @@ namespace madeupu.API.Controllers
     public class ProjectsController : Controller
     {
         private readonly DataContext _context;
-        private readonly IComboHelper _comboHelper;
+        private readonly ICombosHelper _combosHelper;
         private readonly IConverterHelper _converterHelper;
 
-        public ProjectsController(DataContext context, IComboHelper comboHelper, IConverterHelper converterHelper)
+        public ProjectsController(DataContext context, ICombosHelper combosHelper, IConverterHelper converterHelper)
         {
             _context = context;
-            _comboHelper = comboHelper;
+            _combosHelper = combosHelper;
             _converterHelper = converterHelper;
         }
 
@@ -38,9 +38,10 @@ namespace madeupu.API.Controllers
         {
             ProjectViewModel model = new ProjectViewModel
             {
-                Countries = _comboHelper.getComboCountries(),
-                Regions = _comboHelper.getComboRegions(),
-                Cities = _comboHelper.getComboCities()
+                ProjectCategories = _combosHelper.GetComboProyectCategories(),
+                Countries = _combosHelper.GetComboCountries(),
+                Regions = _combosHelper.GetComboRegions(),
+                Cities = _combosHelper.GetComboCities()
             };
 
             return View(model);
@@ -75,10 +76,11 @@ namespace madeupu.API.Controllers
                     ModelState.AddModelError(string.Empty, exeption.InnerException.Message);
                 }
             }
-
-            model.Countries = _comboHelper.getComboCountries();
-            model.Regions = _comboHelper.getComboRegions();
-            model.Cities = _comboHelper.getComboCities();
+            
+            model.ProjectCategories = _combosHelper.GetComboProyectCategories();
+            model.Countries = _combosHelper.GetComboCountries();
+            model.Regions = _combosHelper.GetComboRegions();
+            model.Cities = _combosHelper.GetComboCities();
 
             return View(model);
         }

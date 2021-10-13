@@ -11,12 +11,12 @@ namespace madeupu.API.Helpers
     public class ConverterHelper : IConverterHelper
     {
         private readonly DataContext _context;
-        private readonly ICombosHelper _comboHelper;
+        private readonly ICombosHelper _combosHelper;
 
-        public ConverterHelper(DataContext context, ICombosHelper comboHelper)
+        public ConverterHelper(DataContext context, ICombosHelper combosHelper)
         {
             _context = context;
-            _comboHelper = comboHelper;
+            _combosHelper = combosHelper;
         }
 
         public async Task<City> ToCityAsync(CityViewModel model, bool isNew)
@@ -35,7 +35,7 @@ namespace madeupu.API.Helpers
             return new CityViewModel
             {
                 RegionId = city.Region.Id,
-                Regions = _comboHelper.GetComboRegions(),
+                Regions = _combosHelper.GetComboRegions(),
                 Name = city.Name,
                 Id = city.Id,
             };
@@ -67,13 +67,13 @@ namespace madeupu.API.Helpers
                 BeginAt = project.BeginAt,
                 Description = project.Description,
                 CityId = project.City.Id,
-                Cities = _comboHelper.getComboCities(),
+                Cities = _combosHelper.GetComboCities(),
                 RegionId = project.City.Region.Id,
-                Regions = _comboHelper.getComboRegions(),
+                Regions = _combosHelper.GetComboRegions(),
                 CountryId = project.City.Region.Country.Id,
-                Countries = _comboHelper.getComboCountries(),
+                Countries = _combosHelper.GetComboCountries(),
                 ProjectCategoryId = project.ProjectCategory.Id,
-                ProjectCategories = _comboHelper.getComboProyectCategories()
+                ProjectCategories = _combosHelper.GetComboProyectCategories()
                 
             };
         }
@@ -94,7 +94,7 @@ namespace madeupu.API.Helpers
             return new RegionViewModel
             {
                 CountryId = region.Country.Id,
-                Countries = _comboHelper.GetComboCountries(),
+                Countries = _combosHelper.GetComboCountries(),
                 Name = region.Name,
                 Id = region.Id,
             };
@@ -125,7 +125,7 @@ namespace madeupu.API.Helpers
                 Address = user.Address,
                 Document = user.Document,
                 DocumentTypeId = user.DocumentType.Id,
-                DocumentTypes = _comboHelper.GetComboDocumentTypes(),
+                DocumentTypes = _combosHelper.GetComboDocumentTypes(),
                 Email = user.Email,
                 FirstName = user.FirstName,
                 Id = user.Id,

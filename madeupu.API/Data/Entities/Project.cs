@@ -51,10 +51,10 @@ namespace madeupu.API.Data.Entities
         //public string ImageFullPath => ImageId == Guid.Empty
         //    ? Constants.NoImage
         //    : $"{Constants.ImageUrl}/users/{ImageId}";
-        [Display(Name = "Foto")]
-        public string ImageFullPath => ImageId == Guid.Empty
-            ? Constants.NoImage
-            : $"{Constants.ProjectImage}{ImageId}";
+        //[Display(Name = "Foto")]
+        //public string ImageFullPath => ImageId == Guid.Empty
+        //    ? Constants.NoImage
+        //    : $"{Constants.ProjectImage}{ImageId}";
 
     }
 }

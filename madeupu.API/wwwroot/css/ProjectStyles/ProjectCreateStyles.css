@@ -1,2 +1,73 @@
 ﻿body {
+    background-color: aliceblue;
+}
+
+.project-create__content {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.project-create__form {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.project-create__fields {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.project-create__fields-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.project-create__fields-row div {
+    width: 48%;
+}
+
+.project-create__fields-row-column {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+    .project-create__fields-row-column .project-create__field {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+ .project-create__field-location {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-around;
+    width: 100%;
+}
+
+    .project-create__field-location .project-create__field {
+        width: 32%;
+    }
+
+.project-create__fields-row-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 3rem;
 }

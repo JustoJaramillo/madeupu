@@ -76,7 +76,7 @@ namespace madeupu.API.Controllers
                     ModelState.AddModelError(string.Empty, exeption.InnerException.Message);
                 }
             }
-            
+
             model.ProjectCategories = _combosHelper.GetComboProyectCategories();
             model.Countries = _combosHelper.GetComboCountries();
             model.Regions = _combosHelper.GetComboRegions();
@@ -85,62 +85,66 @@ namespace madeupu.API.Controllers
             return View(model);
         }
 
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    Region region = await _context.Regions
-        //        .Include(x => x.Country)
-        //        .FirstOrDefaultAsync(x => x.Id == id);
-
-
-        //    if (region == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    RegionViewModel model = _converterHelper.ToRegionViewModel(region);
-        //    return View(model);
-        //}
+            Project project = await _context.Projects
+                .Include(x => x.City)
+                .Include(x => x.ProjectCategory)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, RegionViewModel regionViewModel)
-        //{
+            if (project == null)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            Region region = await _converterHelper.ToRegionAsync(regionViewModel, false);
-        //            _context.Regions.Update(region);
-        //            await _context.SaveChangesAsync();
-        //            return RedirectToAction(nameof(Index), new { id = regionViewModel.CountryId });
-        //        }
-        //        catch (DbUpdateException dbUpdateException)
-        //        {
-        //            if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-        //            {
-        //                ModelState.AddModelError(string.Empty, "Ya existe esta region.");
-        //            }
-        //            else
-        //            {
-        //                ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-        //            }
-        //        }
-        //        catch (Exception exeption)
-        //        {
-        //            ModelState.AddModelError(string.Empty, exeption.InnerException.Message);
-        //        }
-        //    }
+            ProjectViewModel model = _converterHelper.ToProjectViewModel(project);
+            return View(model);
+        }
 
-        //    regionViewModel.Countries = _comboHelper.getComboCountries();
-        //    return View(regionViewModel);
-        //}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, ProjectViewModel projectViewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Project project = await _converterHelper.ToProjectAsync(projectViewModel, false);
+                    _context.Projects.Update(project);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index), new { id = projectViewModel.CityId });
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Ya existe esta region.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exeption)
+                {
+                    ModelState.AddModelError(string.Empty, exeption.InnerException.Message);
+                }
+            }
+
+            projectViewModel.ProjectCategories = _combosHelper.GetComboProyectCategories();
+            projectViewModel.Countries = _combosHelper.GetComboCountries();
+            projectViewModel.Regions = _combosHelper.GetComboRegions();
+            projectViewModel.Cities = _combosHelper.GetComboCities();
+            return View(projectViewModel);
+        }
 
         //public async Task<IActionResult> Delete(int? id)
         //{

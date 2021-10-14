@@ -1,11 +1,11 @@
 ﻿@model madeupu.API.Models.ProjectViewModel
-@*<link rel="stylesheet" type="text/css" href="~/css/ProjectStyles/ProjectCreateStyles.css" />*@
+<link rel="stylesheet" type="text/css" href="~/css/ProjectStyles/ProjectCreateStyles.css" />
 
 <div class="project-create__fields">
 
     @*Project's title and category*@
     <div class="project-create__fields-row">
-        <div class="form-group project-create__project-title">
+        <div class="form-group project-create__field">
             <label asp-for="Name" class="control-label"></label>
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
@@ -33,7 +33,7 @@
     </div>
 
     @*Start date and  location*@
-    <div class="project-create__fields-row">
+    <div class="project-create__fields-row-column">
 
         @*Start date*@
         <div class="form-group project-create__field">
@@ -43,7 +43,7 @@
         </div>
 
         @*location selects*@
-        <div class="project-create__field project-create__field-location">
+        <div class="project-create__field-location">
             <div class="form-group project-create__field">
                 <label asp-for="CountryId" class="control-label"></label>
                 <select asp-for="CountryId" asp-items="Model.Countries" class="form-control"></select>
@@ -63,7 +63,7 @@
     </div>
 
     @*Description*@
-    <div class="project-create__fields-row">
+    <div class="project-create__fields-row-description">
         <label asp-for="Description" class="control-label"></label>
         <textarea asp-for="Description" class="form-control project-create__textarea" ></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>

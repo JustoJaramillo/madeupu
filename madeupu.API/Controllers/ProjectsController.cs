@@ -39,8 +39,6 @@ namespace madeupu.API.Controllers
             ProjectViewModel model = new ProjectViewModel
             {
                 ProjectCategories = _combosHelper.GetComboProyectCategories(),
-                Countries = _combosHelper.GetComboCountries(),
-                Regions = _combosHelper.GetComboRegions(),
                 Cities = _combosHelper.GetComboCities()
             };
 
@@ -78,8 +76,6 @@ namespace madeupu.API.Controllers
             }
 
             model.ProjectCategories = _combosHelper.GetComboProyectCategories();
-            model.Countries = _combosHelper.GetComboCountries();
-            model.Regions = _combosHelper.GetComboRegions();
             model.Cities = _combosHelper.GetComboCities();
 
             return View(model);
@@ -140,8 +136,6 @@ namespace madeupu.API.Controllers
             }
 
             projectViewModel.ProjectCategories = _combosHelper.GetComboProyectCategories();
-            projectViewModel.Countries = _combosHelper.GetComboCountries();
-            projectViewModel.Regions = _combosHelper.GetComboRegions();
             projectViewModel.Cities = _combosHelper.GetComboCities();
             return View(projectViewModel);
         }

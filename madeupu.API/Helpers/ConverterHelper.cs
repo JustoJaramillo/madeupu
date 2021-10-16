@@ -68,10 +68,6 @@ namespace madeupu.API.Helpers
                 Description = project.Description,
                 CityId = project.City.Id,
                 Cities = _combosHelper.GetComboCities(),
-                RegionId = project.City.Region.Id,
-                Regions = _combosHelper.GetComboRegions(),
-                CountryId = project.City.Region.Country.Id,
-                Countries = _combosHelper.GetComboCountries(),
                 ProjectCategoryId = project.ProjectCategory.Id,
                 ProjectCategories = _combosHelper.GetComboProyectCategories()
                 

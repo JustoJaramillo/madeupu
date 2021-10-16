@@ -18,20 +18,6 @@ namespace madeupu.API.Models
 
         public IEnumerable<SelectListItem> Cities { get; set; }
 
-        [Display(Name = "Región")]
-        [Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar una región.")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public int RegionId { get; set; }
-
-        public IEnumerable<SelectListItem> Regions { get; set; }
-
-        [Display(Name = "País")]
-        [Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar un país.")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public int CountryId { get; set; }
-
-        public IEnumerable<SelectListItem> Countries { get; set; }
-
         [Display(Name = "Categoria")]
         [Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar una categoria.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]

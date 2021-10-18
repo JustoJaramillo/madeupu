@@ -173,5 +173,29 @@ namespace madeupu.API.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+        public async Task<IActionResult> SingleProject(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Project project = await _context.Projects
+                .Include(x => x.ProjectCategory)
+                .Include(x => x.City)
+                .ThenInclude(x => x.Region)
+                .ThenInclude(x => x.Country)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            
+            return View(project);
+        }
     }
 }

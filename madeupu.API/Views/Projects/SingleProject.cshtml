@@ -1,0 +1,54 @@
+﻿@*@model IEnumerable<madeupu.API.Data.Entities.Project>*@
+
+@model madeupu.API.Data.Entities.Project
+
+@{
+    ViewData["Title"] = "SingleProject";
+}
+
+<link rel="stylesheet" href="~/css/ProjectStyles/SingleProyectStyles.css" />
+
+<div class="single-project">
+    <div class="single-project__content">
+        @*image and date*@
+        <div class="single-project__row">
+            <img src="@Model.ImageFullPath" alt="Project image" />
+        </div>
+        @*name*@
+        <div class="single-project__row">
+            <h2 class="single-project__name">
+                @Html.DisplayFor(model => model.Name)
+            </h2>
+        </div>
+        <div class="single-project__row">
+            <p class="single-project__description">
+                @Html.DisplayFor(model => model.Description)
+            </p>
+        </div>
+
+        <div class="single-project__about">
+            <p class="single-project__paragraph-head">Fecha de inicio:</p>
+            <p class="single-project__paragraph">
+                @Html.DisplayFor(model => model.BeginAt)
+            </p>
+            <p class="single-project__paragraph-head">Sitio web:</p>
+            <p class="single-project__paragraph">
+                @Html.DisplayFor(model => model.Website)
+            </p>
+            <p class="single-project__paragraph-head">Dirección:</p>
+            <p class="single-project__paragraph">
+                @Html.DisplayFor(model => model.Address)
+            </p>
+            <p class="single-project__paragraph-head">Lugar de origen:</p>
+            <p class="single-project__paragraph">
+                @Html.DisplayFor(model => model.City.Name),
+                @Html.DisplayFor(model => model.City.Region.Name),
+                @Html.DisplayFor(model => model.City.Region.Country.Name)
+            </p>
+        </div>
+
+        <p class="single-project__advertising">----------------Proximamente sección de rating-------------------</p>
+        <p class="single-project__advertising">----------------Proximamente sección de commentarios-----------------</p>
+    </div>
+</div>
+

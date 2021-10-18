@@ -41,12 +41,13 @@ namespace madeupu.API.Helpers
             };
         }
 
-        public async Task<Project> ToProjectAsync(ProjectViewModel model, bool isNew)
+        public async Task<Project> ToProjectAsync(ProjectViewModel model, Guid imageId, bool isNew)
         {
             return new Project
             {
                 Id = isNew?0 :model.Id,
                 Name = model.Name,
+                ImageId = imageId,
                 Website = model.Website,
                 Address = model.Address,
                 BeginAt = model.BeginAt,
@@ -62,6 +63,7 @@ namespace madeupu.API.Helpers
             {
                 Id = project.Id,
                 Name = project.Name,
+                ImageId = project.ImageId,
                 Website = project.Website,
                 Address = project.Address,
                 BeginAt = project.BeginAt,

@@ -9,7 +9,7 @@
 <div class="project-create">
     <div class="project-create__content">
         <h1 class="project-create__title">Creación de un nuevo proyecto</h1>
-        <form asp-action="Create" class="project-create__form">
+        <form asp-action="Create" class="project-create__form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <partial name="_Project" />

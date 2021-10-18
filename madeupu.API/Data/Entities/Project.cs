@@ -44,17 +44,13 @@ namespace madeupu.API.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Description { get; set; }
 
-        //[Display(Name = "Logo del proyecto")]
-        //public Guid ImageId { get; set; }
+        [Display(Name = "Logo")]
+        public Guid ImageId { get; set; }
 
-        //[Display(Name = "Logo del proyecto")]
-        //public string ImageFullPath => ImageId == Guid.Empty
-        //    ? Constants.NoImage
-        //    : $"{Constants.ImageUrl}/users/{ImageId}";
-        //[Display(Name = "Foto")]
-        //public string ImageFullPath => ImageId == Guid.Empty
-        //    ? Constants.NoImage
-        //    : $"{Constants.ProjectImage}{ImageId}";
+        [Display(Name = "Logo")]
+        public string ImageFullPath => ImageId == Guid.Empty
+            ? Constants.NoImage
+            : $"{Constants.ProjectImage}{ImageId}";
 
     }
 }

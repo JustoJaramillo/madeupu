@@ -34,6 +34,18 @@
     margin-bottom: 1rem;
 }
 
+.project-create__fields-row-name {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+    .project-create__fields-row-name .project-create__field {
+        width: 100%;
+    }
+
 .project-create__fields-row div {
     width: 48%;
 }
@@ -52,7 +64,7 @@
         margin-bottom: 1rem;
     }
 
- .project-create__field-location {
+.project-create__field-location {
     display: flex;
     flex-direction: row !important;
     justify-content: space-around;

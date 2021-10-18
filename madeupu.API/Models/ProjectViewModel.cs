@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using madeupu.API.Helpers;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -49,5 +51,16 @@ namespace madeupu.API.Models
         [MaxLength(800, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Description { get; set; }
+
+        [Display(Name = "Logo")]
+        public Guid ImageId { get; set; }
+
+        [Display(Name = "Logo")]
+        public IFormFile ImageFile { get; set; }
+
+        [Display(Name = "Logo")]
+        public string ImageFullPath => ImageId == Guid.Empty
+            ? Constants.NoImage
+            : $"{Constants.ProjectImage}{ImageId}";
     }
 }

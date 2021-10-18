@@ -16,12 +16,14 @@ namespace madeupu.API.Controllers
         private readonly DataContext _context;
         private readonly ICombosHelper _combosHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly IBlobHelper _blobHelper;
 
-        public ProjectsController(DataContext context, ICombosHelper combosHelper, IConverterHelper converterHelper)
+        public ProjectsController(DataContext context, ICombosHelper combosHelper, IConverterHelper converterHelper, IBlobHelper blobHelper)
         {
             _context = context;
             _combosHelper = combosHelper;
             _converterHelper = converterHelper;
+            _blobHelper = blobHelper;
         }
 
         public async Task<IActionResult> Index()
@@ -53,7 +55,14 @@ namespace madeupu.API.Controllers
             {
                 try
                 {
-                    Project project = await _converterHelper.ToProjectAsync(model, true);
+                    Guid imageId = Guid.Empty;
+
+                    if (model.ImageFile != null)
+                    {
+                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "projects");
+                    }
+
+                    Project project = await _converterHelper.ToProjectAsync(model, imageId, true);
                     _context.Projects.Add(project);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -113,7 +122,13 @@ namespace madeupu.API.Controllers
             {
                 try
                 {
-                    Project project = await _converterHelper.ToProjectAsync(projectViewModel, false);
+
+                    Guid imageId = projectViewModel.ImageId;
+                    if (projectViewModel.ImageFile != null)
+                    {
+                        imageId = await _blobHelper.UploadBlobAsync(projectViewModel.ImageFile, "projects");
+                    }
+                    Project project = await _converterHelper.ToProjectAsync(projectViewModel, imageId, false);
                     _context.Projects.Update(project);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index), new { id = projectViewModel.CityId });

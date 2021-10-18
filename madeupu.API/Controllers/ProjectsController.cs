@@ -155,23 +155,23 @@ namespace madeupu.API.Controllers
             return View(projectViewModel);
         }
 
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    Region region = await _context.Regions
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (region == null)
-        //    {
-        //        return NotFound();
-        //    }
+            Project project = await _context.Projects
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (project == null)
+            {
+                return NotFound();
+            }
 
-        //    _context.Regions.Remove(region);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+            _context.Projects.Remove(project);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

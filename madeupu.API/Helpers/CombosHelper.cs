@@ -1,5 +1,7 @@
 ﻿using madeupu.API.Data;
+using madeupu.API.Data.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,43 @@ namespace madeupu.API.Helpers
 
         public IEnumerable<SelectListItem> GetComboCities()
         {
-            throw new NotImplementedException();
+            List<SelectListItem> list = _context.Cities.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = $"{x.Id}"
+            })
+                .OrderBy(x => x.Text)
+                .ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "[Seleccione una ciudad...]",
+                Value = "0"
+            });
+
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> getComboCitiesByRegion(int regionId)
+        {
+
+            List<SelectListItem> list = _context.Cities
+                .Where(x => x.Region.Id == regionId)
+                .Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = $"{x.Id}"
+                })
+                .OrderBy(x => x.Text)
+                .ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "[Seleccione una ciudad...]",
+                Value = "0"
+            });
+
+            return list;
         }
 
         public IEnumerable<SelectListItem> GetComboCountries()
@@ -110,6 +148,27 @@ namespace madeupu.API.Helpers
             list.Insert(0, new SelectListItem
             {
                 Text = "[Seleccione una región...]",
+                Value = "0"
+            });
+
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> getComboRegionsByCountry(int countryId)
+        {
+            List<SelectListItem> list = _context.Regions
+                .Where(x => x.Country.Id == countryId)
+                .Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = $"{x.Id}"
+                })
+                .OrderBy(x => x.Text)
+                .ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "[Seleccione una ciudad...]",
                 Value = "0"
             });
 

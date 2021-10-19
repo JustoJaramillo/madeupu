@@ -10,7 +10,9 @@ namespace madeupu.API.Helpers
     {
         IEnumerable<SelectListItem> GetComboCountries();
         IEnumerable<SelectListItem> GetComboRegions();
+        IEnumerable<SelectListItem> getComboRegionsByCountry(int countryId);
         IEnumerable<SelectListItem> GetComboCities();
+        IEnumerable<SelectListItem> getComboCitiesByRegion(int regionId);
         IEnumerable<SelectListItem> GetComboDocumentTypes();
         IEnumerable<SelectListItem> GetComboProyectCategories();
         IEnumerable<SelectListItem> GetComboParticipationTypes();

@@ -1,21 +1,19 @@
-﻿@model madeupu.API.Models.RegionViewModel
+﻿@model madeupu.API.Models.ProjectViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Agregar una nueva región</h1>
+<link rel="stylesheet" href="~/css/ProjectStyles/ProjectCreateStyles.css" />
 
-<hr />
-<div class="row">
-    <div class="col-md-12">
-        <form asp-action="Create">
+<div class="project-create">
+    <div class="project-create__content">
+        <h1 class="project-create__title">Creación de un nuevo proyecto</h1>
+        <form asp-action="Create" class="project-create__form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<input type="hidden" asp-for="CountryId" />*@
 
-            <partial name="_Region"/>
+            <partial name="_Project" />
 
-            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-success">Regresar</a>
@@ -23,7 +21,6 @@
         </form>
     </div>
 </div>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

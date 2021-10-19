@@ -11,12 +11,12 @@ namespace madeupu.API.Helpers
     public class ConverterHelper : IConverterHelper
     {
         private readonly DataContext _context;
-        private readonly ICombosHelper _comboHelper;
+        private readonly ICombosHelper _combosHelper;
 
-        public ConverterHelper(DataContext context, ICombosHelper comboHelper)
+        public ConverterHelper(DataContext context, ICombosHelper combosHelper)
         {
             _context = context;
-            _comboHelper = comboHelper;
+            _combosHelper = combosHelper;
         }
 
         public async Task<City> ToCityAsync(CityViewModel model, bool isNew)
@@ -35,9 +35,44 @@ namespace madeupu.API.Helpers
             return new CityViewModel
             {
                 RegionId = city.Region.Id,
-                Regions = _comboHelper.GetComboRegions(),
+                Regions = _combosHelper.GetComboRegions(),
                 Name = city.Name,
                 Id = city.Id,
+            };
+        }
+
+        public async Task<Project> ToProjectAsync(ProjectViewModel model, Guid imageId, bool isNew)
+        {
+            return new Project
+            {
+                Id = isNew?0 :model.Id,
+                Name = model.Name,
+                ImageId = imageId,
+                Website = model.Website,
+                Address = model.Address,
+                BeginAt = model.BeginAt,
+                Description = model.Description,
+                City = await _context.Cities.FindAsync(model.CityId),
+                ProjectCategory = await _context.ProjectCategories.FindAsync(model.ProjectCategoryId),
+            };
+        }
+
+        public ProjectViewModel ToProjectViewModel(Project project)
+        {
+            return new ProjectViewModel
+            {
+                Id = project.Id,
+                Name = project.Name,
+                ImageId = project.ImageId,
+                Website = project.Website,
+                Address = project.Address,
+                BeginAt = project.BeginAt,
+                Description = project.Description,
+                CityId = project.City.Id,
+                Cities = _combosHelper.GetComboCities(),
+                ProjectCategoryId = project.ProjectCategory.Id,
+                ProjectCategories = _combosHelper.GetComboProyectCategories()
+                
             };
         }
 
@@ -57,7 +92,7 @@ namespace madeupu.API.Helpers
             return new RegionViewModel
             {
                 CountryId = region.Country.Id,
-                Countries = _comboHelper.GetComboCountries(),
+                Countries = _combosHelper.GetComboCountries(),
                 Name = region.Name,
                 Id = region.Id,
             };
@@ -88,7 +123,7 @@ namespace madeupu.API.Helpers
                 Address = user.Address,
                 Document = user.Document,
                 DocumentTypeId = user.DocumentType.Id,
-                DocumentTypes = _comboHelper.GetComboDocumentTypes(),
+                DocumentTypes = _combosHelper.GetComboDocumentTypes(),
                 Email = user.Email,
                 FirstName = user.FirstName,
                 Id = user.Id,

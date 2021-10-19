@@ -187,6 +187,8 @@ namespace madeupu.API.Controllers
                 .Include(x => x.City)
                 .ThenInclude(x => x.Region)
                 .ThenInclude(x => x.Country)
+                .Include(x=> x.Comments)
+                .ThenInclude(x=>x.User)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (project == null)

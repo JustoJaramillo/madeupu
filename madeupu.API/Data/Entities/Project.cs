@@ -52,5 +52,6 @@ namespace madeupu.API.Data.Entities
             ? Constants.NoImage
             : $"{Constants.ProjectImage}{ImageId}";
 
+        public ICollection<Comment> Comments { get; set; }
     }
 }

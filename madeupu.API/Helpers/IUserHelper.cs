@@ -1,4 +1,5 @@
 ﻿using madeupu.API.Data.Entities;
+using madeupu.API.Enums;
 using madeupu.API.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -25,21 +26,14 @@ namespace madeupu.API.Helpers
         Task<IdentityResult> UpdateUserAsync(User user);
         Task<IdentityResult> DeleteUserAsync(User user);
 
-
-        /*
-        
-
         Task<User> AddUserAsync(AddUserViewModel model, Guid imageId, UserType userType);
 
-        
-
-
-        
         Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword);
 
+        Task<string> GenerateEmailConfirmationTokenAsync(User user);
         Task<IdentityResult> ConfirmEmailAsync(User user, string token);
 
-        Task<string> GenerateEmailConfirmationTokenAsync(User user);
+        /*
 
         Task<string> GeneratePasswordResetTokenAsync(User user);
 

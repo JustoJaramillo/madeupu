@@ -1,5 +1,6 @@
 ﻿using madeupu.API.Data;
 using madeupu.API.Data.Entities;
+using madeupu.API.Enums;
 using madeupu.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -93,8 +94,6 @@ namespace madeupu.API.Helpers
             return await _userManager.DeleteAsync(user);
         }
 
-        /*
-
         public async Task<User> AddUserAsync(AddUserViewModel model, Guid imageId, UserType userType)
         {
             User user = new User
@@ -123,11 +122,11 @@ namespace madeupu.API.Helpers
         }
 
 
-
         public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
         {
             return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
         }
+
         public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
         {
             return await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -137,6 +136,7 @@ namespace madeupu.API.Helpers
             return await _userManager.ConfirmEmailAsync(user, token);
         }
 
+        /*
         public async Task<string> GeneratePasswordResetTokenAsync(User user)
         {
             return await _userManager.GeneratePasswordResetTokenAsync(user);

@@ -30,8 +30,8 @@ namespace madeupu.API
             services.AddControllersWithViews();
             services.AddIdentity<User, IdentityRole>(x =>
             {
-                //x.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
-                //x.SignIn.RequireConfirmedEmail = true;
+                x.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+                x.SignIn.RequireConfirmedEmail = true;
                 x.User.RequireUniqueEmail = true;
                 x.Password.RequireDigit = false;
                 x.Password.RequiredUniqueChars = 0;
@@ -39,7 +39,7 @@ namespace madeupu.API
                 x.Password.RequireNonAlphanumeric = false;
                 x.Password.RequireUppercase = false;
             })
-                //.AddDefaultTokenProviders()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataContext>();
 
             services.AddDbContext<DataContext>(x =>
@@ -51,6 +51,7 @@ namespace madeupu.API
             services.AddScoped<ICombosHelper, CombosHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IBlobHelper, BlobHelper>();
+            services.AddScoped<IMailHelper, MailHelper>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

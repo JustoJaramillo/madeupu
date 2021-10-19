@@ -61,8 +61,8 @@ namespace madeupu.API.Data
                 await _iuserHelper.AddUserAsync(user, "123456");
                 await _iuserHelper.AddUserToRoleAsync(user, userType.ToString());
 
-                //string token = await _iuserHelper.GenerateEmailConfirmationTokenAsync(user);
-                //await _iuserHelper.ConfirmEmailAsync(user, token);
+                string token = await _iuserHelper.GenerateEmailConfirmationTokenAsync(user);
+                await _iuserHelper.ConfirmEmailAsync(user, token);
             }
         }
 

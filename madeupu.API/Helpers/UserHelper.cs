@@ -136,7 +136,7 @@ namespace madeupu.API.Helpers
             return await _userManager.ConfirmEmailAsync(user, token);
         }
 
-        /*
+        
         public async Task<string> GeneratePasswordResetTokenAsync(User user)
         {
             return await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -151,7 +151,7 @@ namespace madeupu.API.Helpers
         {
             return await _signInManager.CheckPasswordSignInAsync(user, password, false);
         }
-        */
+        
 
 
 

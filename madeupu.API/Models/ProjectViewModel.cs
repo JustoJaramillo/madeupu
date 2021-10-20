@@ -43,7 +43,7 @@ namespace madeupu.API.Models
         public string Address { get; set; }
 
         [Display(Name = "Fecha inicio")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public DateTime BeginAt { get; set; }
 

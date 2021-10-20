@@ -12,16 +12,16 @@ namespace madeupu.API.Data.Entities
         public int Id { get; set; }
 
         [Display(Name = "Comentario")]
-        [MaxLength(200, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
+        [MaxLength(1000, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Message { get; set; }
 
         [Display(Name = "Fecha")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}")]
         public DateTime Date { get; set; }
 
         [Display(Name = "Fecha")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}")]
         public DateTime DateLocal => Date.ToLocalTime();
 
         [JsonIgnore]

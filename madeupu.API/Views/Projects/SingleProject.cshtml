@@ -49,6 +49,7 @@
 
         <p class="single-project__advertising">----------------Proximamente sección de rating-------------------</p>
         <div class="single-project__comments-section">
+            <a asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-outline-info">¡Quiero publicar un comentario!</a>
             <div class="single-project__comments-list">
                 @if (Model.Comments.Count > 0)
                 {
@@ -56,7 +57,10 @@
                     {
                         <div class="single-project__single-comment">
                             <div class="single-project__comment-content">
-                                <p class="single-project__comment-date">@Html.DisplayFor(modelItem => item.DateLocal) </p>
+                                <div class="single-project__comment-header">
+                                    <h3 class="single-project__comment-user">@Html.DisplayFor(modelItem => item.User.FullName)</h3>
+                                    <p class="single-project__comment-date">@Html.DisplayFor(modelItem => item.DateLocal) </p>
+                                </div>
                                 <div class="single-project__comment-info">
                                     <img src="@Html.DisplayFor(modelItem => item.User.ImageFullPath)" alt="user image" />
                                     <p class="single-project__comment-description"> @Html.DisplayFor(modelItem => item.Message)</p>
@@ -73,4 +77,3 @@
         </div>
     </div>
 </div>
-

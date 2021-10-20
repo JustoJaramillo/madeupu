@@ -48,7 +48,32 @@
         </div>
 
         <p class="single-project__advertising">----------------Proximamente sección de rating-------------------</p>
-        <p class="single-project__advertising">----------------Proximamente sección de commentarios-----------------</p>
+        <div class="single-project__comments-section">
+            <a asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-outline-info">¡Quiero publicar un comentario!</a>
+            <div class="single-project__comments-list">
+                @if (Model.Comments.Count > 0)
+                {
+                    @foreach (var item in Model.Comments)
+                    {
+                        <div class="single-project__single-comment">
+                            <div class="single-project__comment-content">
+                                <div class="single-project__comment-header">
+                                    <h3 class="single-project__comment-user">@Html.DisplayFor(modelItem => item.User.FullName)</h3>
+                                    <p class="single-project__comment-date">@Html.DisplayFor(modelItem => item.DateLocal) </p>
+                                </div>
+                                <div class="single-project__comment-info">
+                                    <img src="@Html.DisplayFor(modelItem => item.User.ImageFullPath)" alt="user image" />
+                                    <p class="single-project__comment-description"> @Html.DisplayFor(modelItem => item.Message)</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="single-project__advertising"> Actualmente este proyecto no tiene comentarios, ¡animate y apoya ya sea con buenas ideas o palabras de aliento! </p>
+                }
+            </div>
+        </div>
     </div>
 </div>
-

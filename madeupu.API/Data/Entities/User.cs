@@ -40,7 +40,7 @@ namespace madeupu.API.Data.Entities
         [Display(Name = "Foto")]
         public string ImageFullPath => ImageId == Guid.Empty
             ? Constants.NoImage
-            : $"{Constants.UserImage}{ImageId}";
+            : $"{Constants.UserImage}/users/{ImageId}";
 
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }

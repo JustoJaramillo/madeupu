@@ -22,6 +22,7 @@ namespace madeupu.API.Data
         public DbSet<ProjectCategory> ProjectCategories { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
 
 
@@ -34,7 +35,7 @@ namespace madeupu.API.Data
             modelBuilder.Entity<ProjectCategory>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<DocumentType>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<Project>().HasIndex(x => x.Name).IsUnique();
-
+            modelBuilder.Entity<Comment>().HasIndex(x => x.Id).IsUnique();
             modelBuilder.Entity<ParticipationType>().HasIndex(x => x.Description).IsUnique();
             
         }

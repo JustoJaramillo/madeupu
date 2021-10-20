@@ -1,4 +1,4 @@
-﻿body .container{
+﻿body .container {
     margin: 0;
     max-width: 100%;
 }
@@ -23,7 +23,7 @@ body {
     padding: 0 4rem;
     font-family: sans-serif;
     font-size: 22px;
-    line-height: 26px
+    line-height: 26px;
 }
 
 .single-project__row {
@@ -34,10 +34,10 @@ body {
     margin: 1rem 0;
 }
 
-.single-project__row img{
-    max-width: 200px;
-    margin: 0 auto;
-}
+    .single-project__row img {
+        max-width: 200px;
+        margin: 0 auto;
+    }
 
 .single-project__paragraph {
     margin: 0 auto 1rem;
@@ -82,7 +82,86 @@ body {
     box-shadow: 0px 5px 15px 5px rgba(0,0,0,0.1);
 }
 
-.single-project__advertising{
+.single-project__advertising {
     width: 100%;
     text-align: center;
+}
+
+.single-project__comments-section {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.single-project__comments-list {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 1rem;
+}
+
+.single-project__single-comment {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin: 1rem 0;
+}
+
+.single-project__comment-content {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.single-project__comment-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.single-project__comment-user {
+    font-family: sans-serif;
+    font-size: 22px;
+    line-height: 26px;
+    margin-bottom: 0;
+}
+
+.single-project__comment-date {
+    font-family: sans-serif;
+    font-size: 22px;
+    line-height: 26px;
+    margin-bottom: 0;
+}
+
+.single-project__comment-info{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.single-project__comment-info img{
+    max-width: 80px;
+    width: 100%;
+    margin-right: 2rem;
+}
+
+.single-project__comment-description {
+    width: auto;
+    font-family: sans-serif;
+    font-size: 22px;
+    line-height: 26px;
+    margin-bottom: 0;
 }

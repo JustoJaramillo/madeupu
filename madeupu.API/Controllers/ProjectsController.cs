@@ -17,13 +17,15 @@ namespace madeupu.API.Controllers
         private readonly ICombosHelper _combosHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly IBlobHelper _blobHelper;
+        private readonly IUserHelper _userHelper;
 
-        public ProjectsController(DataContext context, ICombosHelper combosHelper, IConverterHelper converterHelper, IBlobHelper blobHelper)
+        public ProjectsController(DataContext context, ICombosHelper combosHelper, IConverterHelper converterHelper, IBlobHelper blobHelper, IUserHelper userHelper)
         {
             _context = context;
             _combosHelper = combosHelper;
             _converterHelper = converterHelper;
             _blobHelper = blobHelper;
+            _userHelper = userHelper;
         }
 
         public async Task<IActionResult> Index()
@@ -187,6 +189,8 @@ namespace madeupu.API.Controllers
                 .Include(x => x.City)
                 .ThenInclude(x => x.Region)
                 .ThenInclude(x => x.Country)
+                .Include(x=> x.Comments)
+                .ThenInclude(x=>x.User)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (project == null)
@@ -196,6 +200,64 @@ namespace madeupu.API.Controllers
 
             
             return View(project);
+        }
+
+        public async Task<IActionResult> AddComment(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Project project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            CommentViewModel model = new CommentViewModel
+            {
+                ProjectId = project.Id
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddComment(CommentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Project project = await _context.Projects
+                    .Include(x => x.Comments)
+                    .FirstOrDefaultAsync(x => x.Id == model.ProjectId);
+                if (project == null)
+                {
+                    return NotFound();
+                }
+
+                User user = await _userHelper.GetUserAsync(User.Identity.Name);
+                Comment comment = new Comment
+                {
+                    Project = project,
+                    Date = DateTime.UtcNow,
+                    Message = model.Message,
+                    User = user
+                };
+
+                if (project.Comments == null)
+                {
+                    project.Comments = new List<Comment>();
+                }
+
+                project.Comments.Add(comment);
+                _context.Projects.Update(project);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(SingleProject), new { id = project.Id });
+            }
+
+            return View(model);
         }
     }
 }

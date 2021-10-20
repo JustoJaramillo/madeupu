@@ -10,7 +10,7 @@ namespace madeupu.API.Data.Entities
     {
         public int Id { get; set; }
 
-        [Display(Name = "Regíon")]
+        [Display(Name = "Región")]
         [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Name { get; set; }
@@ -18,7 +18,5 @@ namespace madeupu.API.Data.Entities
         [Display(Name = "País")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public Country Country { get; set; }
-
-        public ICollection<City> Cities { get; set; }
     }
 }

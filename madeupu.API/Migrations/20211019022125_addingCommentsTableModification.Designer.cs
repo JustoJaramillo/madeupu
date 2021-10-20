@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using madeupu.API.Data;
 
 namespace madeupu.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211019022125_addingCommentsTableModification")]
+    partial class addingCommentsTableModification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,7 +192,7 @@ namespace madeupu.API.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("ProjectId")
+                    b.Property<int?>("ProjectId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -546,10 +548,8 @@ namespace madeupu.API.Migrations
             modelBuilder.Entity("madeupu.API.Data.Entities.Comment", b =>
                 {
                     b.HasOne("madeupu.API.Data.Entities.Project", "Project")
-                        .WithMany("Comments")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("ProjectId");
 
                     b.HasOne("madeupu.API.Data.Entities.User", "User")
                         .WithMany()
@@ -614,11 +614,6 @@ namespace madeupu.API.Migrations
             modelBuilder.Entity("madeupu.API.Data.Entities.DocumentType", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("madeupu.API.Data.Entities.Project", b =>
-                {
-                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("madeupu.API.Data.Entities.Region", b =>

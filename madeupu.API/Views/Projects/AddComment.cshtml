@@ -1,0 +1,22 @@
+﻿@model madeupu.API.Models.CommentViewModel
+
+@{
+    ViewData["Title"] = "AddComment";
+}
+
+<link rel="stylesheet" type="text/css" href="~/css/ProjectStyles/ProjectCreateStyles.css" />
+
+<h2>Publicar un comentario</h2>
+
+<form asp-action="AddComment" class="single-project__comment-box">
+    <input type="hidden" asp-for="ProjectId" />
+    <div class="form-group">
+        <div class="single-project__comment-inner">
+            <label asp-for="Message" class="control-label"></label>
+            <textarea asp-for="Message" class="form-control single-project__textarea"></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+
+        <input type="submit" value="Publicar" class="btn btn-primary" />
+    </div>
+</form>

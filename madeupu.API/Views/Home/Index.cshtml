@@ -1,7 +1,46 @@
-﻿@{
+﻿@model IEnumerable<madeupu.API.Data.Entities.Project>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <img src="/images/logo.png" alt="Made Up U logo"/>
+<link rel="stylesheet" href="~/css/SharedStyles/ProjectCardsList.css" />
+<link rel="stylesheet" href="~/css/HomeStyles/HomeIndexStyles.css" />
+
+<div class="home">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="home__content">
+            <div class="project-cards-list">
+                @foreach (var item in Model)
+                {
+                    <a href="Projects/SingleProject/@item.Id" class="project-cards-list__card">
+                        <img src="@item.ImageFullPath" style="height: 100px; max-width: 120px;" />
+                        <div class="project-cards-list__card-info">
+                            <p class="project-cards-list__card-name">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </p>
+                            <div class="project-cards-list__card-description">
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </p>
+                            </div>
+                            <p class="project-cards-list__card-location">
+                                @Html.DisplayFor(modelItem => item.City.Region.Name), 
+                                @Html.DisplayFor(modelItem => item.City.Region.Country.Name)
+                            </p>
+                        </div>
+                    </a>
+                }
+
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <img src="/images/logo.png" alt="Made Up U logo" style="max-height: 500px; max-width: 100%;" />
+        </div>
+    }
+
 </div>

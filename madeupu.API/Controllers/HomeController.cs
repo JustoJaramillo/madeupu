@@ -1,5 +1,8 @@
-﻿using madeupu.API.Models;
+﻿using madeupu.API.Data;
+using madeupu.API.Helpers;
+using madeupu.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,15 +15,24 @@ namespace madeupu.API.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly DataContext _context;
+        private readonly IConverterHelper _converterHelper;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, DataContext context, IConverterHelper converterHelper)
         {
             _logger = logger;
+            _context = context;
+            _converterHelper = converterHelper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.Projects
+                .Include(x => x.ProjectCategory)
+                .Include(x => x.City)
+                .ThenInclude(x => x.Region)
+                .ThenInclude(x => x.Country)
+                .ToListAsync());
         }
 
         public IActionResult Privacy()

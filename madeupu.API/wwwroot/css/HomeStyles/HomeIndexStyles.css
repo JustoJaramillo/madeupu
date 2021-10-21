@@ -1,0 +1,19 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+}
+
+.home{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 2rem;
+}
+
+.home__content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}

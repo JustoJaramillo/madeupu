@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - madeupu.API</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/SharedLayoutStyles/SharedLayoutStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="~/css/SharedLayoutStyles/SharedLayoutStyles.css" />
     <!-- pendinete icono del proyecto-->
 </head>
 <body>
@@ -57,6 +57,12 @@
                                         <a class="nav-link text-dark" asp-area="" asp-controller="DocumentTypes" asp-action="Index">Tipos de documento</a>
                                     </div>
                                 </div>
+                            </li>
+                        }
+                        else if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item d-sm-inline-flex">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Projects" asp-action="Create">Nuevo proyecto</a>
                             </li>
                         }
                     </ul>

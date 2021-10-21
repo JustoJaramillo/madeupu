@@ -83,3 +83,7 @@
     width: 100%;
     margin-bottom: 3rem;
 }
+
+.project-create__textarea{
+    min-height: 300px;
+}

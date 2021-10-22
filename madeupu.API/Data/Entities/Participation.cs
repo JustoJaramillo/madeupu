@@ -18,5 +18,13 @@ namespace madeupu.API.Data.Entities
         [MaxLength(500, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Message { get; set; }
+
+        [Display(Name = "Usuario")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public User User { get; set; }
+
+        [Display(Name = "Proyecto")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public Project Project { get; set; }
     }
 }

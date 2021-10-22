@@ -53,5 +53,7 @@ namespace madeupu.API.Data.Entities
             : $"{Constants.ProjectImage}{ImageId}";
 
         public ICollection<Comment> Comments { get; set; }
+
+        public ICollection<Participation> Participations { get; set; }
     }
 }

@@ -37,6 +37,7 @@ namespace madeupu.API.Data
             modelBuilder.Entity<Project>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<Comment>().HasIndex(x => x.Id).IsUnique();
             modelBuilder.Entity<ParticipationType>().HasIndex(x => x.Description).IsUnique();
+            modelBuilder.Entity<Participation>().HasIndex(x => x.Id).IsUnique();
             
         }
     }

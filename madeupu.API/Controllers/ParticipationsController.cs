@@ -3,8 +3,6 @@ using madeupu.API.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace madeupu.API.Controllers
@@ -21,9 +19,9 @@ namespace madeupu.API.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Participations
-                .Include(x=> x.ParticipationType)
-                .Include(x=> x.Project)
-                .Include(x=> x.User)
+                .Include(x => x.ParticipationType)
+                .Include(x => x.Project)
+                .Include(x => x.User)
                 .ToListAsync());
         }
 

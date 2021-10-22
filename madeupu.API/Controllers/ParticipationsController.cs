@@ -20,7 +20,11 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Participations.ToListAsync());
+            return View(await _context.Participations
+                .Include(x=> x.ParticipationType)
+                .Include(x=> x.Project)
+                .Include(x=> x.User)
+                .ToListAsync());
         }
 
         public IActionResult Create()

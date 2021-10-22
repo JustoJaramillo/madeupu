@@ -106,9 +106,8 @@ namespace madeupu.API.Data
             if (!_context.ParticipationTypes.Any())
             {
                 _context.ParticipationTypes.Add(new ParticipationType { Description = "Colaborador" });
-                _context.ParticipationTypes.Add(new ParticipationType { Description = "Patrocinador" });
+                _context.ParticipationTypes.Add(new ParticipationType { Description = "Creador" });
                 _context.ParticipationTypes.Add(new ParticipationType { Description = "Inversor" });
-                _context.ParticipationTypes.Add(new ParticipationType { Description = "Interesado" });
                 await _context.SaveChangesAsync();
             }
         }

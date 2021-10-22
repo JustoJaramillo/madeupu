@@ -65,6 +65,39 @@ namespace madeupu.API.Controllers
                     }
 
                     Project project = await _converterHelper.ToProjectAsync(model, imageId, true);
+
+                    User user = await _userHelper.GetUserAsync(User.Identity.Name);
+                    ParticipationType participationType = await _context.ParticipationTypes
+                        .FirstOrDefaultAsync(x => x.Description == "Creador");
+
+                    if ((project == null) ^ (user == null) ^ (participationType == null))
+                    {
+                        return NotFound();
+                    }
+
+                    Participation participation = new Participation
+                    {
+                        User = user,
+                        ParticipationType = participationType,
+                        Project = project,
+                        Message = "Creacion del proyecto"
+                    };
+
+
+                    if (project.Participations == null)
+                    {
+                        project.Participations = new List<Participation>();
+                    }
+
+                    if (user.Participations == null)
+                    {
+                        user.Participations = new List<Participation>();
+                    }
+
+                    user.Participations.Add(participation);
+                    project.Participations.Add(participation);
+
+                    _context.Participations.Add(participation);
                     _context.Projects.Add(project);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -189,8 +222,8 @@ namespace madeupu.API.Controllers
                 .Include(x => x.City)
                 .ThenInclude(x => x.Region)
                 .ThenInclude(x => x.Country)
-                .Include(x=> x.Comments)
-                .ThenInclude(x=>x.User)
+                .Include(x => x.Comments)
+                .ThenInclude(x => x.User)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (project == null)
@@ -198,7 +231,7 @@ namespace madeupu.API.Controllers
                 return NotFound();
             }
 
-            
+
             return View(project);
         }
 
@@ -253,6 +286,7 @@ namespace madeupu.API.Controllers
 
                 project.Comments.Add(comment);
                 _context.Projects.Update(project);
+                _context.Comments.Add(comment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(SingleProject), new { id = project.Id });
             }

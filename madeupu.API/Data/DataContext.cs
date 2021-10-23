@@ -23,6 +23,7 @@ namespace madeupu.API.Data
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
 
 
@@ -38,7 +39,8 @@ namespace madeupu.API.Data
             modelBuilder.Entity<Comment>().HasIndex(x => x.Id).IsUnique();
             modelBuilder.Entity<ParticipationType>().HasIndex(x => x.Description).IsUnique();
             modelBuilder.Entity<Participation>().HasIndex(x => x.Id).IsUnique();
-            
+            modelBuilder.Entity<Rating>().HasIndex(x => x.Id).IsUnique();
+
         }
     }
 }

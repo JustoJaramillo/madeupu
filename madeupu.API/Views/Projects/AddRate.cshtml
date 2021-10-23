@@ -1,0 +1,33 @@
+﻿@model madeupu.API.Models.RatingViewModel
+
+@{
+    ViewData["Title"] = "AddRate";
+}
+
+<link rel="stylesheet" type="text/css" href="~/css/ProjectStyles/ProjectCreateStyles.css" />
+
+<h2>Calificar un proyecto</h2>
+
+<form asp-action="AddRate" class="single-project__comment-box">
+    <input type="hidden" asp-for="ProjectId" />
+    <div class="form-group">
+        <div class="single-project__rate-list">
+            <div class="single-project__rate-item">
+                <input asp-for="Rate" class="form-control single-project__rate-input" type="submit" value="1" />
+            </div>
+            <div class="single-project__rate-item">
+                <input asp-for="Rate" class="form-control single-project__rate-input" type="submit" value="2" />
+            </div>
+            <div class="single-project__rate-item">
+                <input asp-for="Rate" class="form-control single-project__rate-input" type="submit" value="3" />
+            </div>
+            <div class="single-project__rate-item">
+                <input asp-for="Rate" class="form-control single-project__rate-input" type="submit" value="4" />
+            </div>
+            <div class="single-project__rate-item">
+                <input asp-for="Rate" class="form-control single-project__rate-input" type="submit" value="5" />
+            </div>
+        </div>
+    </div>
+</form>
+

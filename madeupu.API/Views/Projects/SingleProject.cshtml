@@ -47,7 +47,19 @@
             </p>
         </div>
 
-        <p class="single-project__advertising">----------------Proximamente sección de rating-------------------</p>
+        <div class="single-project__rating-section">
+            <div class="single-project__rating-obtained">
+                <p> Calificación promedio: @Html.DisplayFor(model => model.AverageRating) </p>
+                <p> Con @Html.DisplayFor(model => model.RatingsNumber) calificaciones</p>
+                @if (Model.Ratings.Count <= 0)
+                {
+                    <p class="single-project__advertising"> Este proyecto aun no ha sido calificado, ¡Evalúalo y regálale un feedback! </p>
+                }
+            </div>
+            <div class="single-project__rate-bar">
+                <a asp-action="AddRate" asp-route-id="@Model.Id" class="btn btn-info">Calificar</a>
+            </div>
+        </div>
         <div class="single-project__comments-section">
             <a asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-outline-info">¡Quiero publicar un comentario!</a>
             <div class="single-project__comments-list">
@@ -77,3 +89,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

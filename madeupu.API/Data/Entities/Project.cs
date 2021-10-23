@@ -55,5 +55,15 @@ namespace madeupu.API.Data.Entities
         public ICollection<Comment> Comments { get; set; }
 
         public ICollection<Participation> Participations { get; set; }
+
+        public ICollection<Rating> Ratings { get; set; }
+
+        [Display(Name = "Número de calificaciones")]
+        public int RatingsNumber => Ratings == null ? 0 : Ratings.Count;
+
+        [Display(Name = "Calificación promedio")]
+        //[DisplayFormat(DataFormatString = "{0:N}")]
+        public int AverageRating => Ratings == null ? 0 : (Ratings.Count > 0 ? (Decimal.ToInt32(Ratings.Sum(x => x.Rate) / Ratings.Count)) : 0);
+         
     }
 }

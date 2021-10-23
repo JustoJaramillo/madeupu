@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using madeupu.API.Data;
 
 namespace madeupu.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211022035945_addingCommentsToUser")]
+    partial class addingCommentsToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -376,38 +378,6 @@ namespace madeupu.API.Migrations
                     b.ToTable("ProjectCategories");
                 });
 
-            modelBuilder.Entity("madeupu.API.Data.Entities.Rating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rate")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("ProjectId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Ratings");
-                });
-
             modelBuilder.Entity("madeupu.API.Data.Entities.Region", b =>
                 {
                     b.Property<int>("Id")
@@ -647,25 +617,6 @@ namespace madeupu.API.Migrations
                     b.Navigation("ProjectCategory");
                 });
 
-            modelBuilder.Entity("madeupu.API.Data.Entities.Rating", b =>
-                {
-                    b.HasOne("madeupu.API.Data.Entities.Project", "Project")
-                        .WithMany("Ratings")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("madeupu.API.Data.Entities.User", "User")
-                        .WithMany("Ratings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("madeupu.API.Data.Entities.Region", b =>
                 {
                     b.HasOne("madeupu.API.Data.Entities.Country", "Country")
@@ -703,8 +654,6 @@ namespace madeupu.API.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Participations");
-
-                    b.Navigation("Ratings");
                 });
 
             modelBuilder.Entity("madeupu.API.Data.Entities.User", b =>
@@ -712,8 +661,6 @@ namespace madeupu.API.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Participations");
-
-                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

@@ -224,6 +224,8 @@ namespace madeupu.API.Controllers
                 .ThenInclude(x => x.Country)
                 .Include(x => x.Comments)
                 .ThenInclude(x => x.User)
+                .Include(x=>x.Comments)
+                .Include(x=>x.Ratings)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (project == null)
@@ -264,6 +266,7 @@ namespace madeupu.API.Controllers
             {
                 Project project = await _context.Projects
                     .Include(x => x.Comments)
+                    .ThenInclude(x=> x.User)
                     .FirstOrDefaultAsync(x => x.Id == model.ProjectId);
                 if (project == null)
                 {
@@ -284,14 +287,90 @@ namespace madeupu.API.Controllers
                     project.Comments = new List<Comment>();
                 }
 
+                if (user.Comments == null)
+                {
+                    user.Comments = new List<Comment>();
+                }
+
                 project.Comments.Add(comment);
-                _context.Projects.Update(project);
+                user.Comments.Add(comment);
                 _context.Comments.Add(comment);
+                _context.Projects.Update(project);
+                _context.Users.Update(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(SingleProject), new { id = project.Id });
             }
 
             return View(model);
         }
+
+
+        public async Task<IActionResult> AddRate(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Project project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            RatingViewModel model = new RatingViewModel
+            {
+                ProjectId = project.Id
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddRate(RatingViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Project project = await _context.Projects
+                    .Include(x => x.Ratings)
+                    .ThenInclude(x => x.User)
+                    .FirstOrDefaultAsync(x => x.Id == model.ProjectId);
+                if (project == null)
+                {
+                    return NotFound();
+                }
+
+                User user = await _userHelper.GetUserAsync(User.Identity.Name);
+                Rating rating = new Rating
+                {
+                    Project = project,
+                    Date = DateTime.UtcNow,
+                    Rate = model.Rate,
+                    User = user
+                };
+
+                if (project.Ratings == null)
+                {
+                    project.Ratings = new List<Rating>();
+                }
+
+                if (user.Ratings == null)
+                {
+                    user.Ratings = new List<Rating>();
+                }
+
+                project.Ratings.Add(rating);
+                user.Ratings.Add(rating);
+                _context.Ratings.Add(rating);
+                _context.Projects.Update(project);
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(SingleProject), new { id = project.Id });
+            }
+
+            return View(model);
+        }
+
     }
 }

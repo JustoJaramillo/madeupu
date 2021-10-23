@@ -9,9 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace madeupu.API
@@ -42,7 +44,7 @@ namespace madeupu.API
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataContext>();
 
-            /*services.AddAuthentication()
+            services.AddAuthentication()
                 .AddCookie()
                 .AddJwtBearer(cfg =>
                 {
@@ -52,7 +54,7 @@ namespace madeupu.API
                         ValidAudience = Configuration["Tokens:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
                     };
-                });*/
+                });
 
             services.ConfigureApplicationCookie(options =>
             {

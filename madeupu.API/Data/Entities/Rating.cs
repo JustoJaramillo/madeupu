@@ -32,5 +32,6 @@ namespace madeupu.API.Data.Entities
         [Display(Name = "Proyecto")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public Project Project { get; set; }
+
     }
 }

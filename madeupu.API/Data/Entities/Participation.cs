@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace madeupu.API.Data.Entities
@@ -19,6 +20,7 @@ namespace madeupu.API.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Message { get; set; }
 
+        [JsonIgnore]
         [Display(Name = "Usuario")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public User User { get; set; }
@@ -26,5 +28,7 @@ namespace madeupu.API.Data.Entities
         [Display(Name = "Proyecto")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public Project Project { get; set; }
+
+
     }
 }

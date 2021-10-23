@@ -74,7 +74,7 @@
                                     <p class="single-project__comment-date">@Html.DisplayFor(modelItem => item.DateLocal) </p>
                                 </div>
                                 <div class="single-project__comment-info">
-                                    <img src="@Html.DisplayFor(modelItem => item.User.ImageFullPath)" alt="user image" />
+                                    <img src="@item.User.ImageFullPath" style="height: 100px; max-width: 120px;" />
                                     <p class="single-project__comment-description"> @Html.DisplayFor(modelItem => item.Message)</p>
                                 </div>
                             </div>

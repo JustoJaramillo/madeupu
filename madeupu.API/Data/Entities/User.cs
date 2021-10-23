@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using madeupu.API.Helpers;
 using madeupu.API.Enums;
+using System.Text.Json.Serialization;
 
 namespace madeupu.API.Data.Entities
 {
@@ -40,7 +41,7 @@ namespace madeupu.API.Data.Entities
         [Display(Name = "Foto")]
         public string ImageFullPath => ImageId == Guid.Empty
             ? Constants.NoImage
-            : $"{Constants.UserImage}/users/{ImageId}";
+            : $"{Constants.UserImage}{ImageId}";
 
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
@@ -48,10 +49,13 @@ namespace madeupu.API.Data.Entities
         [Display(Name = "Usuario")]
         public string FullName => $"{FirstName} {LastName}";
 
+        [JsonIgnore]
         public ICollection<Participation> Participations { get; set; }
 
+        [JsonIgnore]
         public ICollection<Comment> Comments { get; set; }
 
+        [JsonIgnore]
         public ICollection<Rating> Ratings { get; set; }
 
     }

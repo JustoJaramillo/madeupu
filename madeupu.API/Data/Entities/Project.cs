@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace madeupu.API.Data.Entities
@@ -52,10 +53,13 @@ namespace madeupu.API.Data.Entities
             ? Constants.NoImage
             : $"{Constants.ProjectImage}{ImageId}";
 
+        [JsonIgnore]
         public ICollection<Comment> Comments { get; set; }
 
+        [JsonIgnore]
         public ICollection<Participation> Participations { get; set; }
 
+        [JsonIgnore]
         public ICollection<Rating> Ratings { get; set; }
 
         [Display(Name = "Número de calificaciones")]

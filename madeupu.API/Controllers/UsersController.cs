@@ -137,7 +137,10 @@ namespace madeupu.API.Controllers
                 return NotFound();
             }
 
-            await _blobHelper.DeleteBlobAsync(user.ImageId, "users");
+            if (user.ImageId != Guid.Empty)
+            {
+                await _blobHelper.DeleteBlobAsync(user.ImageId, "users");
+            }
             await _userHelper.DeleteUserAsync(user);
             return RedirectToAction(nameof(Index));
         }

@@ -32,7 +32,15 @@ namespace madeupu.API.Helpers
             return await _context.Users
                 .Include(x => x.DocumentType)
                 .Include(x => x.Participations)
+                .ThenInclude(x=> x.ParticipationType)
+                .Include(x => x.Participations)
                 .ThenInclude(x => x.Project)
+                .ThenInclude(x => x.ProjectCategory)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.Project)
+                .ThenInclude(x => x.City)
+                .ThenInclude(x => x.Region)
+                .ThenInclude(x => x.Country)
                 .Include(x => x.Comments)
                 .Include(x => x.Ratings)
                 .FirstOrDefaultAsync(x => x.Email == email);
@@ -43,7 +51,15 @@ namespace madeupu.API.Helpers
             return await _context.Users
                 .Include(x => x.DocumentType)
                 .Include(x => x.Participations)
+                .ThenInclude(x => x.ParticipationType)
+                .Include(x => x.Participations)
                 .ThenInclude(x => x.Project)
+                .ThenInclude(x => x.ProjectCategory)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.Project)
+                .ThenInclude(x => x.City)
+                .ThenInclude(x => x.Region)
+                .ThenInclude(x => x.Country)
                 .Include(x => x.Comments)
                 .Include(x => x.Ratings)
                 .FirstOrDefaultAsync(x => x.Id == id.ToString());

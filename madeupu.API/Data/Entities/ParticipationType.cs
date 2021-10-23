@@ -16,5 +16,7 @@ namespace madeupu.API.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Description { get; set; }
 
+        [JsonIgnore]
+        public ICollection<Participation> Participation { get; set; }
     }
 }

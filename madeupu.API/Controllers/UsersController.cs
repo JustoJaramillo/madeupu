@@ -34,9 +34,9 @@ namespace madeupu.API.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //TODO: is pending to add includes for the rest of tables related with user, this is comment, rating, project, participation
             return View(await _context.Users
                 .Include(x => x.DocumentType)
+                .Include(x => x.Participations)
                 .Where(x => x.UserType == UserType.User)
                 .ToListAsync());
         }

@@ -31,14 +31,21 @@ namespace madeupu.API.Helpers
         {
             return await _context.Users
                 .Include(x => x.DocumentType)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.Project)
+                .Include(x => x.Comments)
+                .Include(x => x.Ratings)
                 .FirstOrDefaultAsync(x => x.Email == email);
         }
 
         public async Task<User> GetUserAsync(Guid id)
         {
-            //TODO: is pending to add includes for the rest of tables related with user, this is comment, rating, project, participation
             return await _context.Users
                 .Include(x => x.DocumentType)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.Project)
+                .Include(x => x.Comments)
+                .Include(x => x.Ratings)
                 .FirstOrDefaultAsync(x => x.Id == id.ToString());
         }
 
@@ -136,7 +143,7 @@ namespace madeupu.API.Helpers
             return await _userManager.ConfirmEmailAsync(user, token);
         }
 
-        
+
         public async Task<string> GeneratePasswordResetTokenAsync(User user)
         {
             return await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -151,7 +158,7 @@ namespace madeupu.API.Helpers
         {
             return await _signInManager.CheckPasswordSignInAsync(user, password, false);
         }
-        
+
 
 
 

@@ -34,9 +34,9 @@ namespace madeupu.API.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //TODO: is pending to add includes for the rest of tables related with user, these are comment, rating, project, participation
             return View(await _context.Users
                 .Include(x => x.DocumentType)
+                .Include(x => x.Participations)
                 .Where(x => x.UserType == UserType.User)
                 .ToListAsync());
         }
@@ -136,6 +136,7 @@ namespace madeupu.API.Controllers
             {
                 return NotFound();
             }
+
             if (user.ImageId != Guid.Empty)
             {
                 await _blobHelper.DeleteBlobAsync(user.ImageId, "users");

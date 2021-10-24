@@ -87,3 +87,11 @@
 .project-create__textarea{
     min-height: 300px;
 }
+
+.comment-intern__box{
+    margin: 2rem 0;
+}
+
+    .comment-intern__box .single-project__comment-inner {
+        margin: 2rem 0;
+    }

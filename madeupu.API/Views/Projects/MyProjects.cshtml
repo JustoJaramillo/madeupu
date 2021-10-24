@@ -28,8 +28,8 @@
                     </div>
                     <div class="my-projects__buttons">
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
-                        @*<a href="Participations/Create/@item.Id" class="btn btn-warning">Agregar una participacion</a>*@
-                        <a class="btn btn-warning" asp-route-id="@item.Id" asp-area="" asp-controller="Participations" asp-action="Create">Agregar una participacion</a>
+                        <br/>
+                        <a class="btn btn-info" asp-route-id="@item.Id" asp-area="" asp-controller="Participations" asp-action="Create">Agregar una participación</a>
                     </div>
                 </div>
             }

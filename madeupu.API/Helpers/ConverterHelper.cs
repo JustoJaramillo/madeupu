@@ -41,11 +41,35 @@ namespace madeupu.API.Helpers
             };
         }
 
+        public async Task<Participation> ToParticipationAsync(ParticipationViewModel model, bool isNew)
+        {
+            return new Participation
+            {
+                Id = isNew ? 0 : model.Id,
+                ParticipationType = await _context.ParticipationTypes.FindAsync(model.ParticipationTypeId),
+                Message = model.Message,
+                Project = await _context.Projects.FindAsync(model.ProjectId)
+            };
+        }
+
+        public ParticipationViewModel ToParticipationViewModel(Participation participation)
+        {
+            return new ParticipationViewModel
+            {
+                Id = participation.Id,
+                Message = participation.Message,
+                ParticipationTypeId = participation.ParticipationType.Id,
+                ParticipationTypes = _combosHelper.GetComboParticipationTypes(),
+                ProjectId = participation.Project.Id
+
+            };
+        }
+
         public async Task<Project> ToProjectAsync(ProjectViewModel model, Guid imageId, bool isNew)
         {
             return new Project
             {
-                Id = isNew?0 :model.Id,
+                Id = isNew ? 0 : model.Id,
                 Name = model.Name,
                 ImageId = imageId,
                 Website = model.Website,
@@ -72,7 +96,7 @@ namespace madeupu.API.Helpers
                 Cities = _combosHelper.GetComboCities(),
                 ProjectCategoryId = project.ProjectCategory.Id,
                 ProjectCategories = _combosHelper.GetComboProyectCategories()
-                
+
             };
         }
 

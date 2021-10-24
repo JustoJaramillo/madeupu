@@ -4,13 +4,13 @@
     ViewData["Title"] = "AddRate";
 }
 
-<link rel="stylesheet" type="text/css" href="~/css/ProjectStyles/ProjectCreateStyles.css" />
+<link rel="stylesheet" type="text/css" href="~/css/ProjectStyles/AddRateStyles.css" />
 
 <h2>Calificar un proyecto</h2>
 
-<form asp-action="AddRate" class="single-project__comment-box">
+<form asp-action="AddRate" class="single-project__rate-box">
     <input type="hidden" asp-for="ProjectId" />
-    <div class="form-group">
+    <div class="single-project__rate-list-container">
         <div class="single-project__rate-list">
             <div class="single-project__rate-item">
                 <input asp-for="Rate" class="form-control single-project__rate-input" type="submit" value="1" />

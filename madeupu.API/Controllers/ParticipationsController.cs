@@ -1,8 +1,11 @@
 ﻿using madeupu.API.Data;
 using madeupu.API.Data.Entities;
+using madeupu.API.Helpers;
+using madeupu.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace madeupu.API.Controllers
@@ -10,10 +13,16 @@ namespace madeupu.API.Controllers
     public class ParticipationsController : Controller
     {
         private readonly DataContext _context;
+        private readonly ICombosHelper _comboHelper;
+        private readonly IConverterHelper _converterHelper;
+        private readonly IUserHelper _userHelper;
 
-        public ParticipationsController(DataContext context)
+        public ParticipationsController(DataContext context, ICombosHelper comboHelper, IConverterHelper converterHelper, IUserHelper userHelper)
         {
             _context = context;
+            _comboHelper = comboHelper;
+            _converterHelper = converterHelper;
+            _userHelper = userHelper;
         }
 
         public async Task<IActionResult> Index()
@@ -25,41 +34,80 @@ namespace madeupu.API.Controllers
                 .ToListAsync());
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Project project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            ParticipationViewModel model = new ParticipationViewModel
+            {
+                ParticipationTypes = _comboHelper.GetComboParticipationTypes(),
+                ProjectId = project.Id
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Participation participation)
+        public async Task<IActionResult> Create(int id, ParticipationViewModel model)
         {
             if (ModelState.IsValid)
             {
+                Project project = await _context.Projects
+                    .Include(x => x.Participations)
+                    .ThenInclude(x => x.User)
+                    .FirstOrDefaultAsync(x => x.Id == id);
 
-                try
+                if (project == null)
                 {
-                    _context.Add(participation);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return NotFound();
                 }
-                catch (DbUpdateException dbUpdateException)
+
+                User user = await _userHelper.GetUserAsync(model.Email);
+
+                if (user == null)
                 {
-                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-                    {
-                        ModelState.AddModelError(string.Empty, "Ya existe este tipo de participación.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-                    }
+                    return NotFound();
                 }
-                catch (Exception exception)
+
+                Participation participation = await _converterHelper.ToParticipationAsync(model, true);
+
+                participation.User = user;
+                participation.Project = project;
+
+                if (project.Participations == null)
                 {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    project.Participations = new List<Participation>();
                 }
+
+                if (user.Participations == null)
+                {
+                    user.Participations = new List<Participation>();
+                }
+
+
+                _context.Participations.Add(participation);
+                project.Participations.Add(participation);
+                user.Participations.Add(participation);
+                _context.Projects.Update(project);
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                //return RedirectToAction("SingleProject", "Projects");
+                return RedirectToAction(nameof(Index));
+
+
             }
-            return View(participation);
+            model.ParticipationTypes = _comboHelper.GetComboParticipationTypes();
+            return View(model);
         }
 
         // GET: ParticipationTypes/Edit/5

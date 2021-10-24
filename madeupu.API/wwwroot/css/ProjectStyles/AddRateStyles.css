@@ -1,0 +1,36 @@
+﻿body {
+}
+
+.single-project__rate-box {
+}
+
+.single-project__rate-list-container {
+}
+
+.single-project__rate-list {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.single-project__rate-item {
+    width: 100px;
+    min-height: 70px;
+    margin: 1rem;
+    clip-path: polygon(50% 5%, 60% 35%, 80% 40%, 65% 60%, 70% 90%, 52% 74%, 30% 90%, 35% 60%, 20% 40%, 40% 36%);
+}
+
+.single-project__rate-input {
+    min-height: 100%;
+    width: 100%;
+    font-size: 2rem;
+    background-color: lightblue;
+    color: transparent;
+    line-height: 1.7;
+}
+
+    .single-project__rate-input:hover {
+        color: black;
+        background-color: yellow;
+    }

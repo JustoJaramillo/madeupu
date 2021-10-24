@@ -8,9 +8,9 @@
 
 <h2>Publicar un comentario</h2>
 
-<form asp-action="AddComment" class="single-project__comment-box">
+<form asp-action="AddComment" class="comment-intern">
     <input type="hidden" asp-for="ProjectId" />
-    <div class="form-group">
+    <div class="form-group comment-intern__box">
         <div class="single-project__comment-inner">
             <label asp-for="Message" class="control-label"></label>
             <textarea asp-for="Message" class="form-control single-project__textarea"></textarea>

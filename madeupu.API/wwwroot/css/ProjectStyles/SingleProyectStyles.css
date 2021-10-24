@@ -94,6 +94,7 @@ body {
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+    margin-top: 3rem;
 }
 
 .single-project__comments-list {
@@ -164,4 +165,29 @@ body {
     font-size: 22px;
     line-height: 26px;
     margin-bottom: 0;
+}
+
+.single-project__rating-section{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+
+    background-color: white;
+    padding: 20px;
+}
+
+.single-project__rating-obtained {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.single-project__rate-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }

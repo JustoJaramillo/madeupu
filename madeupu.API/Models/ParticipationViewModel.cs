@@ -9,6 +9,7 @@ namespace madeupu.API.Models
 {
     public class ParticipationViewModel
     {
+        public int Id { get; set; }
         public int ProjectId { get; set; }
 
         [Display(Name = "Email")]

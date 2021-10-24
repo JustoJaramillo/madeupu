@@ -99,13 +99,14 @@ namespace madeupu.API.Helpers
 
         public IEnumerable<SelectListItem> GetComboParticipationTypes()
         {
-            List<SelectListItem> list = _context.ParticipationTypes.Select(x => new SelectListItem
+            List<SelectListItem> list = _context.ParticipationTypes.Where(x => x.Description != "Creador").Select(x => new SelectListItem
             {
                 Text = x.Description,
                 Value = $"{x.Id}"
             })
                 .OrderBy(x => x.Text)
                 .ToList();
+            //list.Remove(new SelectListItem() { Text = "Creador" });
 
             list.Insert(0, new SelectListItem
             {

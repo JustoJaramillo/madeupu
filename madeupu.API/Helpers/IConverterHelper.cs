@@ -23,5 +23,9 @@ namespace madeupu.API.Helpers
         Task<Project> ToProjectAsync(ProjectViewModel model, Guid imageId, bool isNew);
 
         ProjectViewModel ToProjectViewModel(Project project);
+
+        Task<Participation> ToParticipationAsync(ParticipationViewModel model, bool isNew);
+
+        ParticipationViewModel ToParticipationViewModel(Participation participation);
     }
 }

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<madeupu.API.Data.Entities.Participation>
+
+@{
+    ViewData["Title"] = "MyProjects";
+}
+
+<link rel="stylesheet" href="~/css/ProjectStyles/MyProjectsStyles.css" />
+
+<h1>Mis proyectos</h1>
+
+<div class="my-projects__content">
+    <div class="my-projects__list">
+        @if (Model.Count() > 0)
+        {
+            @foreach (var item in Model)
+            {
+                <div class="my-projects__item">
+                    <a href="SingleProject/@item.Project.Id"><img src="@item.Project.ImageFullPath" style="height: 100px; max-width: 120px;" /></a>
+                    <div class="my-projects__item-info">
+                        <a href="SingleProject/@item.Project.Id" class="my-projects__item-name">
+                            @Html.DisplayFor(modelItem => item.Project.Name)
+                        </a>
+                        <a href="SingleProject/@item.Project.Id" class="my-projects__item-description">
+                            <p>
+                                @Html.DisplayFor(modelItem => item.Project.Description)
+                            </p>
+                        </a>
+                    </div>
+                    <div class="my-projects__buttons">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
+                        @*<a href="Participations/Create/@item.Id" class="btn btn-warning">Agregar una participacion</a>*@
+                        <a class="btn btn-warning" asp-route-id="@item.Id" asp-area="" asp-controller="Participations" asp-action="Create">Agregar una participacion</a>
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <div class="my-projects__empty">
+                <p> Actualmente no tienes ningún proyecto, ¡animate a crear uno!</p>
+            </div>
+        }
+    </div>
+</div>

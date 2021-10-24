@@ -1,0 +1,38 @@
+﻿@model madeupu.API.Models.ParticipationViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Agregar una nueva Participacion para el proyecto</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Message"></label>
+                <input asp-for="Message" class="form-control" />
+                <span asp-validation-for="Message" class="text-warning"></span>
+            </div>
+
+
+            <partial name="_Participation" />
+
+            <div class="form-group">
+                <input type="submit" value="Agregar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

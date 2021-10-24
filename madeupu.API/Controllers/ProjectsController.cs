@@ -373,5 +373,17 @@ namespace madeupu.API.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> MyProjects()
+        {
+            return View(await _context.Participations
+                .Include(x=>x.Project)
+                .ThenInclude(x=>x.City)
+                .ThenInclude(x=>x.Region)
+                .ThenInclude(x => x.Country)
+                .Include(x=>x.User)
+                .Where(x=>x.User.Email == User.Identity.Name)
+                .ToListAsync());
+        }
+
     }
 }

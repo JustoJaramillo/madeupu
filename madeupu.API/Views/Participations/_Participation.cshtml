@@ -1,0 +1,11 @@
+﻿@model madeupu.API.Models.ParticipationViewModel
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="ParticipationTypeId" class="control-label"></label>
+            <select asp-for="ParticipationTypeId" asp-items="Model.ParticipationTypes" class="form-control"></select>
+            <span asp-validation-for="ParticipationTypeId" class="text-danger"></span>
+        </div>
+    </div>
+</div>

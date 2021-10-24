@@ -2,6 +2,7 @@
 using madeupu.API.Data.Entities;
 using madeupu.API.Helpers;
 using madeupu.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace madeupu.API.Controllers
 {
+
     public class ProjectsController : Controller
     {
         private readonly DataContext _context;
@@ -28,6 +30,7 @@ namespace madeupu.API.Controllers
             _userHelper = userHelper;
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Projects
@@ -100,7 +103,8 @@ namespace madeupu.API.Controllers
                     _context.Participations.Add(participation);
                     _context.Projects.Add(project);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+
+                    return RedirectToAction(user.UserType != Enums.UserType.User? nameof(Index) : nameof(MyProjects));
                 }
                 catch (DbUpdateException dbUpdateException)
                 {

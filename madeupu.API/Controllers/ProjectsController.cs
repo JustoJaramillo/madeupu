@@ -38,6 +38,17 @@ namespace madeupu.API.Controllers
                 .Include(x => x.City)
                 .ThenInclude(x => x.Region)
                 .ThenInclude(x => x.Country)
+                .Include(x => x.City)
+                .Include(x => x.Comments)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Comments)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Ratings)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.ParticipationType)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.User)
                 .ToListAsync());
         }
 
@@ -230,7 +241,13 @@ namespace madeupu.API.Controllers
                 .Include(x => x.Comments)
                 .ThenInclude(x => x.User)
                 .Include(x=>x.Comments)
+                .ThenInclude(x => x.User)
                 .Include(x=>x.Ratings)
+                .ThenInclude(x => x.User)
+                .Include(x=>x.Participations)
+                .ThenInclude(x=>x.ParticipationType)
+                .Include(x=>x.Participations)
+                .ThenInclude(x => x.User)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (project == null)

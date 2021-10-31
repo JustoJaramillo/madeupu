@@ -7,52 +7,51 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using madeupu.API.Data;
 using madeupu.API.Data.Entities;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace madeupu.API.Controllers.API
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
-    public class DocumentTypesController : ControllerBase
+    public class CountriesController : ControllerBase
     {
-         private readonly DataContext _context;
+        private readonly DataContext _context;
 
-        public DocumentTypesController(DataContext context)
+        public CountriesController(DataContext context)
         {
             _context = context;
         }
 
-        [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DocumentType>>> GetDocumentTypes()
+        public async Task<ActionResult<IEnumerable<Country>>> GetCountries()
         {
-            return await _context.DocumentTypes.OrderBy(x => x.Description).ToListAsync();
+            return await _context.Countries.OrderBy(x=> x.Name).ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DocumentType>> GetDocumentType(int id)
+        public async Task<ActionResult<Country>> GetCountry(int id)
         {
-            DocumentType documentType = await _context.DocumentTypes.FindAsync(id);
+            var country = await _context.Countries.FindAsync(id);
 
-            if (documentType == null)
+            if (country == null)
             {
                 return NotFound();
             }
 
-            return documentType;
+            return country;
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDocumentType(int id, DocumentType documentType)
+        public async Task<IActionResult> PutCountry(int id, Country country)
         {
-            if (id != documentType.Id)
+            if (id != country.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(documentType).State = EntityState.Modified;
+            _context.Entry(country).State = EntityState.Modified;
 
             try
             {
@@ -63,7 +62,7 @@ namespace madeupu.API.Controllers.API
             {
                 if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                 {
-                    return BadRequest("Ya existe tipo de documento.");
+                    return BadRequest("Ya existe este país.");
                 }
                 else
                 {
@@ -77,20 +76,20 @@ namespace madeupu.API.Controllers.API
         }
 
         [HttpPost]
-        public async Task<ActionResult<DocumentType>> PostDocumentType(DocumentType documentType)
+        public async Task<ActionResult<Country>> PostCountry(Country country)
         {
-            _context.DocumentTypes.Add(documentType);
+            _context.Countries.Add(country);
 
             try
             {
                 await _context.SaveChangesAsync();
-                return CreatedAtAction("GetDocumentType", new { id = documentType.Id }, documentType);
+                return CreatedAtAction("GetCountry", new { id = country.Id }, country);
             }
             catch (DbUpdateException dbUpdateException)
             {
                 if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                 {
-                    return BadRequest("Ya existe tipo de documento.");
+                    return BadRequest("Ya existe este país.");
                 }
                 else
                 {
@@ -104,15 +103,15 @@ namespace madeupu.API.Controllers.API
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDocumentType(int id)
+        public async Task<IActionResult> DeleteCountry(int id)
         {
-            DocumentType documentType = await _context.DocumentTypes.FindAsync(id);
-            if (documentType == null)
+            Country country = await _context.Countries.FindAsync(id);
+            if (country == null)
             {
                 return NotFound();
             }
 
-            _context.DocumentTypes.Remove(documentType);
+            _context.Countries.Remove(country);
             await _context.SaveChangesAsync();
 
             return NoContent();

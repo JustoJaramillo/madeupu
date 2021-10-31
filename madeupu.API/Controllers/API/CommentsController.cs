@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using madeupu.API.Data;
 using madeupu.API.Data.Entities;
+using madeupu.API.Models.Request;
 
 namespace madeupu.API.Controllers.API
 {
@@ -21,88 +22,59 @@ namespace madeupu.API.Controllers.API
             _context = context;
         }
 
-        //// GET: api/Comments
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Comment>>> GetComments()
-        //{
-        //    return await _context.Comments.ToListAsync();
-        //}
-
-        //// GET: api/Comments/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Comment>> GetComment(int id)
-        //{
-        //    var comment = await _context.Comments.FindAsync(id);
-
-        //    if (comment == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return comment;
-        //}
-
-        //// PUT: api/Comments/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutComment(int id, Comment comment)
-        //{
-        //    if (id != comment.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(comment).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!CommentExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        // POST: api/Comments
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Comment>> PostComment(Comment comment)
+        public async Task<IActionResult> PostComment(CommentRequest commentRequest)
         {
-            _context.Comments.Add(comment);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
+            Project project = await _context.Projects.FindAsync(commentRequest.ProjectId);
+            if (project == null)
+            {
+                return BadRequest("El proyecto no existe.");
+            }
+
+            User user = await _context.Users.FirstOrDefaultAsync(x=> x.UserName == commentRequest.UserName);
+            if (user == null)
+            {
+                return BadRequest("El usuario no existe.");
+            }
+
+            Comment comment = new()
+            {
+                Message = commentRequest.Message,
+                Date = DateTime.UtcNow,
+                Project = project,
+                User = user
+            };
+
+            _context.Comments.Add(comment);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(comment);
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                {
+                    return BadRequest("Ya existe este comentario.");
+                }
+                else
+                {
+                    return BadRequest(dbUpdateException.InnerException.Message);
+                }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
-        //// DELETE: api/Comments/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteComment(int id)
-        //{
-        //    var comment = await _context.Comments.FindAsync(id);
-        //    if (comment == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Comments.Remove(comment);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool CommentExists(int id)
-        //{
-        //    return _context.Comments.Any(e => e.Id == id);
+       
         //}
     }
 }

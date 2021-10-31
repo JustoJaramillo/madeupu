@@ -13,66 +13,56 @@ namespace madeupu.API.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CommentsController : ControllerBase
+    public class RatingsController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public CommentsController(DataContext context)
+        public RatingsController(DataContext context)
         {
             _context = context;
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostComment(CommentRequest commentRequest)
+        public async Task<IActionResult> PostRating(RatingRequest ratingRequest)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Project project = await _context.Projects.FindAsync(commentRequest.ProjectId);
+            Project project = await _context.Projects.FindAsync(ratingRequest.ProjectId);
             if (project == null)
             {
                 return BadRequest("El proyecto no existe.");
             }
 
-            User user = await _context.Users.Include(x => x.DocumentType).FirstOrDefaultAsync(x=> x.UserName == commentRequest.UserName);
+            User user = await _context.Users.Include(x => x.DocumentType).FirstOrDefaultAsync(x => x.UserName == ratingRequest.UserName);
             if (user == null)
             {
                 return BadRequest("El usuario no existe.");
             }
 
-            Comment comment = new()
+            Rating rating= new()
             {
-                Message = commentRequest.Message,
+                Rate = ratingRequest.Rate,
                 Date = DateTime.UtcNow,
                 Project = project,
                 User = user
             };
 
-            _context.Comments.Add(comment);
+            _context.Ratings.Add(rating);
 
             try
             {
                 await _context.SaveChangesAsync();
-                return Ok(comment);
-            }
-            catch (DbUpdateException dbUpdateException)
-            {
-                if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-                {
-                    return BadRequest("Ya existe este comentario.");
-                }
-                else
-                {
-                    return BadRequest(dbUpdateException.InnerException.Message);
-                }
+                return Ok(rating);
             }
             catch (Exception exception)
             {
                 return BadRequest(exception.Message);
             }
         }
+
 
     }
 }

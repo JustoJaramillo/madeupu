@@ -36,7 +36,7 @@ namespace madeupu.API.Controllers
         {
             return View(await _context.Users
                 .Include(x => x.DocumentType)
-                .Include(x => x.Participations)
+                //.Include(x => x.Participations)
                 .Where(x => x.UserType == UserType.User)
                 .ToListAsync());
         }

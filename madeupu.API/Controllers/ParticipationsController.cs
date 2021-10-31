@@ -89,15 +89,15 @@ namespace madeupu.API.Controllers
                     project.Participations = new List<Participation>();
                 }
 
-                if (user.Participations == null)
-                {
-                    user.Participations = new List<Participation>();
-                }
+                //if (user.Participations == null)
+                //{
+                //    user.Participations = new List<Participation>();
+                //}
 
 
                 _context.Participations.Add(participation);
                 project.Participations.Add(participation);
-                user.Participations.Add(participation);
+                //user.Participations.Add(participation);
                 _context.Projects.Update(project);
                 _context.Users.Update(user);
                 await _context.SaveChangesAsync();

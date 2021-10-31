@@ -103,12 +103,12 @@ namespace madeupu.API.Controllers
                         project.Participations = new List<Participation>();
                     }
 
-                    if (user.Participations == null)
-                    {
-                        user.Participations = new List<Participation>();
-                    }
+                    //if (user.Participations == null)
+                    //{
+                    //    user.Participations = new List<Participation>();
+                    //}
 
-                    user.Participations.Add(participation);
+                    //user.Participations.Add(participation);
                     project.Participations.Add(participation);
 
                     _context.Participations.Add(participation);
@@ -309,13 +309,13 @@ namespace madeupu.API.Controllers
                     project.Comments = new List<Comment>();
                 }
 
-                if (user.Comments == null)
-                {
-                    user.Comments = new List<Comment>();
-                }
+                //if (user.Comments == null)
+                //{
+                //    user.Comments = new List<Comment>();
+                //}
 
                 project.Comments.Add(comment);
-                user.Comments.Add(comment);
+                //user.Comments.Add(comment);
                 _context.Comments.Add(comment);
                 _context.Projects.Update(project);
                 _context.Users.Update(user);
@@ -377,13 +377,13 @@ namespace madeupu.API.Controllers
                     project.Ratings = new List<Rating>();
                 }
 
-                if (user.Ratings == null)
-                {
-                    user.Ratings = new List<Rating>();
-                }
+                //if (user.Ratings == null)
+                //{
+                //    user.Ratings = new List<Rating>();
+                //}
 
                 project.Ratings.Add(rating);
-                user.Ratings.Add(rating);
+                //user.Ratings.Add(rating);
                 _context.Ratings.Add(rating);
                 _context.Projects.Update(project);
                 _context.Users.Update(user);

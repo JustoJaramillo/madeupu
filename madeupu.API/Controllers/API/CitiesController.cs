@@ -7,46 +7,44 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using madeupu.API.Data;
 using madeupu.API.Data.Entities;
-using madeupu.API.Helpers;
-using madeupu.API.Models;
 using madeupu.API.Models.Request;
 
 namespace madeupu.API.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RegionsController : ControllerBase
+    public class CitiesController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public RegionsController(DataContext context)
+        public CitiesController(DataContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Region>>> GetRegions()
+        public async Task<ActionResult<IEnumerable<City>>> GetCities()
         {
-            return await _context.Regions.Include(x => x.Country).OrderBy(x => x.Name).ToListAsync();
+            return await _context.Cities.Include(x => x.Region).ThenInclude(x => x.Country).OrderBy(x => x.Name).ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Region>> GetRegion(int id)
+        public async Task<ActionResult<City>> GetCity(int id)
         {
-            var region = await _context.Regions.Include(x => x.Country).FirstOrDefaultAsync(x => x.Id == id);
+            var city = await _context.Cities.Include(x => x.Region).ThenInclude(x => x.Country).FirstOrDefaultAsync(x=> x.Id == id);
 
-            if (region == null)
+            if (city == null)
             {
                 return NotFound();
             }
 
-            return region;
+            return city;
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRegion(int id, RegionRequest regionRequest)
+        public async Task<IActionResult> PutCity(int id, CityRequest cityRequest)
         {
-            if (id != regionRequest.Id)
+            if (id != cityRequest.Id)
             {
                 return BadRequest();
             }
@@ -56,23 +54,23 @@ namespace madeupu.API.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            Country country = await _context.Countries.FindAsync(regionRequest.CountryId);
-            if (country == null)
+            Region region = await _context.Regions.Include(x => x.Country).FirstOrDefaultAsync(x=> x.Id == cityRequest.RegionId);
+            if (region == null)
             {
-                return BadRequest("El país no existe.");
+                return BadRequest("La región no existe.");
             }
 
-            Region region = await _context.Regions.FindAsync(regionRequest.Id);
-            if (country == null)
+            City city = await _context.Cities.FindAsync(cityRequest.Id);
+            if (city == null)
             {
-                return BadRequest("El país no existe.");
+                return BadRequest("La ciudad no existe.");
             }
 
 
-            region.Country = country;
-            region.Name = regionRequest.Name;
+            city.Region = region;
+            city.Name = cityRequest.Name;
 
-            _context.Entry(region).State = EntityState.Modified;
+            _context.Entry(city).State = EntityState.Modified;
 
             try
             {
@@ -83,7 +81,7 @@ namespace madeupu.API.Controllers.API
             {
                 if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                 {
-                    return BadRequest("Ya existe esta región.");
+                    return BadRequest("Ya existe esta ciudad.");
                 }
                 else
                 {
@@ -97,37 +95,39 @@ namespace madeupu.API.Controllers.API
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(RegionRequest regionRequest)
+        public async Task<ActionResult<City>> PostCity(CityRequest cityRequest)
         {
+           
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Country country = await _context.Countries.FindAsync(regionRequest.CountryId);
-            if (country == null)
+            Region region = await _context.Regions.Include(x => x.Country).FirstOrDefaultAsync(x => x.Id == cityRequest.RegionId);
+            if (region == null)
             {
-                return BadRequest("El país no existe.");
+                return BadRequest("La región no existe.");
             }
 
-            Region region = new()
+            City city = new()
             {
-                Name = regionRequest.Name,
-                Country = country
+                Name = cityRequest.Name,
+                Region = region
             };
 
-            _context.Regions.Add(region);
+            _context.Cities.Add(city);
 
             try
             {
                 await _context.SaveChangesAsync();
-                return Ok(region);
+                return Ok(city);
             }
             catch (DbUpdateException dbUpdateException)
             {
                 if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                 {
-                    return BadRequest("Ya existe esta región.");
+                    return BadRequest("Ya existe esta ciudad.");
                 }
                 else
                 {
@@ -140,26 +140,24 @@ namespace madeupu.API.Controllers.API
             }
         }
 
-
-
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRegion(int id)
+        public async Task<IActionResult> DeleteCity(int id)
         {
-            var region = await _context.Regions.FindAsync(id);
-            if (region == null)
+            var city = await _context.Cities.FindAsync(id);
+            if (city == null)
             {
                 return NotFound();
             }
 
-            _context.Regions.Remove(region);
+            _context.Cities.Remove(city);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RegionExists(int id)
+        private bool CityExists(int id)
         {
-            return _context.Regions.Any(e => e.Id == id);
+            return _context.Cities.Any(e => e.Id == id);
         }
     }
 }

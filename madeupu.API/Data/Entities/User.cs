@@ -49,10 +49,13 @@ namespace madeupu.API.Data.Entities
         [Display(Name = "Usuario")]
         public string FullName => $"{FirstName} {LastName}";
 
+        [JsonIgnore]
         public ICollection<Participation> Participations { get; set; }
 
+        [JsonIgnore]
         public ICollection<Comment> Comments { get; set; }
 
+        [JsonIgnore]
         public ICollection<Rating> Ratings { get; set; }
 
     }

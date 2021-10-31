@@ -20,11 +20,11 @@ namespace madeupu.API.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Message { get; set; }
 
-        [JsonIgnore]
         [Display(Name = "Usuario")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public User User { get; set; }
 
+        [JsonIgnore]
         [Display(Name = "Proyecto")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public Project Project { get; set; }

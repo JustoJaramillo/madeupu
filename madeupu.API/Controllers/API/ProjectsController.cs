@@ -24,13 +24,40 @@ namespace madeupu.API.Controllers.API
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
         {
-            return await _context.Projects.ToListAsync();
+
+            return await _context.Projects
+                .Include(x => x.ProjectCategory)
+                .Include(x => x.City)
+                .ThenInclude(x => x.Region)
+                .ThenInclude(x => x.Country)
+                .Include(x => x.Comments)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Ratings)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.ParticipationType)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.User)
+                .ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> GetProject(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
+            var project = await _context.Projects
+                .Include(x => x.ProjectCategory)
+                .Include(x => x.City)
+                .ThenInclude(x => x.Region)
+                .ThenInclude(x => x.Country)
+                .Include(x => x.Comments)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Ratings)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.ParticipationType)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.User)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (project == null)
             {

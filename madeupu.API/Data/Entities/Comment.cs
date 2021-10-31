@@ -24,11 +24,11 @@ namespace madeupu.API.Data.Entities
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}")]
         public DateTime DateLocal => Date.ToLocalTime();
 
-        [JsonIgnore]
         [Display(Name = "Usuario")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public User User { get; set; }
 
+        [JsonIgnore]
         [Display(Name = "Proyecto")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public Project Project { get; set; }

@@ -53,13 +53,13 @@ namespace madeupu.API.Data.Entities
             ? Constants.NoImage
             : $"{Constants.ProjectImage}{ImageId}";
 
-        [JsonIgnore]
+
         public ICollection<Comment> Comments { get; set; }
 
-        [JsonIgnore]
+
         public ICollection<Participation> Participations { get; set; }
 
-        [JsonIgnore]
+
         public ICollection<Rating> Ratings { get; set; }
 
         [Display(Name = "Número de calificaciones")]

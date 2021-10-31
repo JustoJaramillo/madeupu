@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using madeupu.API.Data;
 using madeupu.API.Data.Entities;
 using madeupu.API.Models.Request;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace madeupu.API.Controllers.API
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase

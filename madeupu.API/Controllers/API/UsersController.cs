@@ -110,7 +110,7 @@ namespace Vehicles.API.Controllers.API
                 token = myToken
             }, protocol: HttpContext.Request.Scheme);
 
-            _mailHelper.SendMail(request.Email, "Vehicles - Confirmación de cuenta", $"<h1>Vehicles - Confirmación de cuenta</h1>" +
+            _mailHelper.SendMail(request.Email, "Made Up U - Confirmación de cuenta", $"<h1>Made Up U - Confirmación de cuenta</h1>" +
                 $"Para habilitar el usuario, " +
                 $"por favor hacer clic en el siguiente enlace: </br></br><a href = \"{tokenLink}\">Confirmar Email</a>");
 

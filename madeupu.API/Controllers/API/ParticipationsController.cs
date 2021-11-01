@@ -9,6 +9,7 @@ using madeupu.API.Data;
 using madeupu.API.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using madeupu.API.Models.Request;
 
 namespace madeupu.API.Controllers.API
 {
@@ -90,12 +91,45 @@ namespace madeupu.API.Controllers.API
         // PUT: api/Participations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutParticipation(int id, Participation participation)
+        public async Task<IActionResult> PutParticipation(int id, ParticipationRequest request)
         {
-            if (id != participation.Id)
+
+            if (id != request.Id)
             {
                 return BadRequest();
             }
+
+            Participation participation = await _context.Participations.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            User user = await _context.Users.Include(x => x.DocumentType).FirstOrDefaultAsync(x => x.UserName == request.UserName);
+            if (user == null)
+            {
+                return BadRequest("El usuario no existe.");
+            }
+
+            Project project = await _context.Projects.FindAsync(request.ProjectId);
+
+            if (project == null)
+            {
+                return BadRequest("El proyecto no existe.");
+            }
+
+            ParticipationType participationType = await _context.ParticipationTypes.FindAsync(request.ParticipationTypeId);
+
+            if (participationType == null)
+            {
+                return BadRequest("No existe el tipo de participación.");
+            }
+
+            if (participationType.Description == "Creador")
+            {
+                return BadRequest("Ya existe un creador para este proyecto");
+            }
+
+            participation.User = user;
+            participation.ParticipationType = participationType;
+            participation.Project = project;
+            participation.Message = request.Message;
 
             _context.Entry(participation).State = EntityState.Modified;
 
@@ -115,21 +149,51 @@ namespace madeupu.API.Controllers.API
                 }
             }
 
-            return NoContent();
+            return Ok("Participación actualizada con exito");
         }
 
-        // POST: api/Participations
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Participation>> PostParticipation(Participation participation)
+        public async Task<ActionResult<Participation>> PostParticipation(ParticipationRequest request)
         {
+            User user = await _context.Users.Include(x => x.DocumentType).FirstOrDefaultAsync(x => x.UserName == request.UserName);
+            if (user == null)
+            {
+                return BadRequest("El usuario no existe.");
+            }
+
+            Project project = await _context.Projects.FindAsync(request.ProjectId);
+
+            if (project == null)
+            {
+                return BadRequest("El proyecto no existe.");
+            }
+
+            ParticipationType participationType = await _context.ParticipationTypes.FindAsync(request.ParticipationTypeId);
+
+            if (participationType == null)
+            {
+                return BadRequest("No existe el tipo de participación.");
+            }
+
+            if (participationType.Description == "Creador")
+            {
+                return BadRequest("Ya esxiste un creador para este proyecto");
+            }
+
+            Participation participation = new Participation
+            {
+                User = user,
+                ParticipationType = participationType,
+                Project = project,
+                Message = request.Message
+            };
+
             _context.Participations.Add(participation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetParticipation", new { id = participation.Id }, participation);
+            return Ok(participation);
         }
 
-        // DELETE: api/Participations/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteParticipation(int id)
         {
@@ -142,7 +206,7 @@ namespace madeupu.API.Controllers.API
             _context.Participations.Remove(participation);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok("Participación eliminada con exito");
         }
 
         private bool ParticipationExists(int id)

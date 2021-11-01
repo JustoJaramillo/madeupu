@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace madeupu.API.Controllers.API
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase
@@ -50,6 +50,7 @@ namespace madeupu.API.Controllers.API
                 .ToListAsync();
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> GetProject(int id)
         {
@@ -76,39 +77,82 @@ namespace madeupu.API.Controllers.API
             return project;
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProject(int id, Project project)
+        public async Task<IActionResult> PutProject(int id, ProjectRequest request)
         {
-            if (id != project.Id)
+
+            if (id != request.Id)
             {
-                return BadRequest();
+                return BadRequest("diferentes id");
             }
+
+            Project project = await _context.Projects.FindAsync(request.Id);
+
+            if (project == null)
+            {
+                return BadRequest("El proyecto no existe.");
+            }
+
+            City city = await _context.Cities.Include(x => x.Region).ThenInclude(x => x.Country).FirstOrDefaultAsync(x => x.Id == request.CityId);
+
+            if (city == null)
+            {
+                return BadRequest("La ciudad no existe.");
+            }
+
+            ProjectCategory projectCategory = await _context.ProjectCategories.FindAsync(request.ProjectCategoryId);
+
+            if (projectCategory == null)
+            {
+                return BadRequest("La categoria selecionada para el proyecto no existe.");
+            }
+
+            Guid imageId = project.ImageId;
+            if (request.Image != null && request.Image.Length > 0)
+            {
+                imageId = await _blobHelper.UploadBlobAsync(request.Image, "projects");
+            }
+
+            project.Address = request.Address;
+            project.BeginAt = request.BeginAt;
+            project.City = city;
+            project.Description = request.Description;
+            project.Name = request.Name;
+            project.Website = request.Website;
+            project.ProjectCategory = projectCategory;
+            project.ImageId = imageId;
+
 
             _context.Entry(project).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
+                return Ok("Proyecto editado con exito");
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateException dbUpdateException)
             {
-                if (!ProjectExists(id))
+                if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                 {
-                    return NotFound();
+                    return BadRequest("Ya existe este proyecto.");
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(dbUpdateException.InnerException.Message);
                 }
             }
-
-            return NoContent();
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         public async Task<ActionResult<Project>> PostProject(ProjectRequest request)
         {
-            City city = await _context.Cities.Include(x=> x.Region).ThenInclude(x=> x.Country).FirstOrDefaultAsync(x=>x.Id ==request.CityId);
+            City city = await _context.Cities.Include(x => x.Region).ThenInclude(x => x.Country).FirstOrDefaultAsync(x => x.Id == request.CityId);
 
             if (city == null)
             {
@@ -140,7 +184,7 @@ namespace madeupu.API.Controllers.API
                 BeginAt = request.BeginAt,
                 City = city,
                 Description = request.Description,
-                Name= request.Name,
+                Name = request.Name,
                 Website = request.Website,
                 ProjectCategory = projectCategory,
                 ImageId = imageId
@@ -186,6 +230,7 @@ namespace madeupu.API.Controllers.API
             }
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(int id)
         {

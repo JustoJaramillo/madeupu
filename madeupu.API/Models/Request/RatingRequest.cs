@@ -8,8 +8,6 @@ namespace madeupu.API.Models.Request
 {
     public class RatingRequest
     {
-        public int Id { get; set; }
-
 
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [Range(1, 5, ErrorMessage = "Valor de módelo no válido.")]

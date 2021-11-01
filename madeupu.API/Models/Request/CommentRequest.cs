@@ -8,8 +8,6 @@ namespace madeupu.API.Models.Request
 {
     public class CommentRequest
     {
-        public int Id { get; set; }
-
 
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Message { get; set; }

@@ -10,6 +10,7 @@ using madeupu.API.Data.Entities;
 
 namespace madeupu.API.Controllers.API
 {
+    //TODO: agregar el token bearer
     [ApiController]
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase

@@ -296,6 +296,12 @@ namespace madeupu.API.Controllers
                 }
 
                 User user = await _userHelper.GetUserAsync(User.Identity.Name);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
                 Comment comment = new Comment
                 {
                     Project = project,

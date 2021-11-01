@@ -19,7 +19,7 @@ namespace madeupu.API.Models.Request
         public string Message { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public int UserName { get; set; }
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public int ProjectId { get; set; }

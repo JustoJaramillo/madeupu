@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace madeupu.API.Controllers.API
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase
@@ -75,6 +74,41 @@ namespace madeupu.API.Controllers.API
             }
 
             return project;
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet]
+        [Route("GetProjectsByUserName/{userName}")]
+        public IEnumerable<Project> GetProjectByUserName(string userName)
+        {
+            List<Project> projects = new List<Project>();
+
+            List<Participation> participations = _context.Participations.Include(x => x.Project)
+                .ThenInclude(x => x.ProjectCategory)
+                .Include(x => x.Project)
+                .ThenInclude(x => x.City)
+                .ThenInclude(x => x.Region)
+                .ThenInclude(x => x.Country)
+                .Include(x => x.Project)
+                .ThenInclude(x => x.Comments)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Project)
+                .ThenInclude(x => x.Ratings)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Project)
+                .ThenInclude(x => x.Participations)
+                .ThenInclude(x => x.ParticipationType)
+                .Include(x => x.Project)
+                .ThenInclude(x => x.Participations)
+                .ThenInclude(x => x.User)
+                .Where(x => x.User.UserName == userName).ToList();
+
+            foreach (var item in participations)
+            {
+                projects.Add(item.Project);
+            }
+
+            return projects;
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

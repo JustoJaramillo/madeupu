@@ -51,13 +51,13 @@ namespace madeupu.API.Controllers.API
             DocumentType documentType = await _context.DocumentTypes.FindAsync(request.DocumentTypeId);
             if (documentType == null)
             {
-                return BadRequest("El tipo de documento no existe.");
+                return BadRequest("Document type does not exist.");
             }
 
             User user = await _userHelper.GetUserAsync(request.Email);
             if (user != null)
             {
-                return BadRequest("Ya existe un usuario registrado con  ese email.");
+                return BadRequest("There is already a registered user with that email.");
             }
 
             Guid imageId = Guid.Empty;
@@ -90,9 +90,9 @@ namespace madeupu.API.Controllers.API
                 token = myToken
             }, protocol: HttpContext.Request.Scheme);
 
-            _mailHelper.SendMail(user.Email, "Vehicles - Confirmación de cuenta", $"<h1>Vehicles - Confirmación de cuenta</h1>" +
-                $"Para habilitar el usuario, " +
-                $"por favor hacer clic en el siguiente enlace: </br></br><a href = \"{tokenLink}\">Confirmar Email</a>");
+            _mailHelper.SendMail(user.Email, "Made Up U - Account confirmation ", $"<h1>Made Up U - Account confirmation</h1>" +
+                $"To enable the user, " +
+                $"Please click the following link : </br></br><a href = \"{tokenLink}\">Confirm Email</a>");
 
             return Ok(user);
         }
@@ -163,7 +163,7 @@ namespace madeupu.API.Controllers.API
                 }
                 else
                 {
-                    return BadRequest("Usuario no encontrado.");
+                    return BadRequest("User not found.");
                 }
             }
 
@@ -179,7 +179,7 @@ namespace madeupu.API.Controllers.API
                 User user = await _userHelper.GetUserAsync(model.Email);
                 if (user == null)
                 {
-                    return BadRequest("El correo ingresado no corresponde a ningún usuario.");
+                    return BadRequest("The email entered does not correspond to any user.");
                 }
 
                 string myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
@@ -187,10 +187,10 @@ namespace madeupu.API.Controllers.API
                     "ResetPassword",
                     "Account",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
-                _mailHelper.SendMail(model.Email, "Vehicles - Reseteo de contraseña", $"<h1>Vehicles - Reseteo de contraseña</h1>" +
-                    $"Para establecer una nueva contraseña haga clic en el siguiente enlace:</br></br>" +
-                    $"<a href = \"{link}\">Cambio de Contraseña</a>");
-                return Ok("Las instrucciones para el cambio de contraseña han sido enviadas a su email.");
+                _mailHelper.SendMail(model.Email, "Made Up U - Password reset", $"<h1>Made Up U - Password reset</h1>" +
+                    $"To set a new password click on the following link :</br></br>" +
+                    $"<a href = \"{link}\">Change of passwor</a>");
+                return Ok("The instructions for changing your password have been sent to your emal.");
             }
 
             return BadRequest(model);

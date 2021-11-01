@@ -83,7 +83,8 @@ namespace madeupu.API.Controllers.API
         {
             List<Project> projects = new List<Project>();
 
-            List<Participation> participations = _context.Participations.Include(x => x.Project)
+            List<Participation> participations = _context.Participations
+                .Include(x => x.Project)
                 .ThenInclude(x => x.ProjectCategory)
                 .Include(x => x.Project)
                 .ThenInclude(x => x.City)

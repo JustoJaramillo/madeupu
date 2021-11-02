@@ -60,7 +60,8 @@ namespace madeupu.API.Helpers
                 Message = participation.Message,
                 ParticipationTypeId = participation.ParticipationType.Id,
                 ParticipationTypes = _combosHelper.GetComboParticipationTypes(),
-                ProjectId = participation.Project.Id
+                ProjectId = participation.Project.Id,
+                Email = participation.User.Email
 
             };
         }

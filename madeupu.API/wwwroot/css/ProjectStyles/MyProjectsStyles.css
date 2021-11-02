@@ -61,6 +61,7 @@
 
 .my-projects__item-description {
     max-height: 100%;
+    vertical-align: central;
     font-family: sans-serif;
     font-size: 18px;
     line-height: 26px;
@@ -72,19 +73,26 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-decoration: none;
-    margin-bottom: 1rem;
+    /*margin-bottom: 1rem;*/
+    display: flex;
+    justify-content:flex-start;
+    align-items:center;
 }
 
-.my-projects__item-location {
-    font-family: sans-serif;
-    font-size: 22px;
-    line-height: 26px;
-    color: #0C708C;
-    text-align: center;
-    /*width: 100%;*/
-    /*max-width: 100%;*/
-    text-decoration: none;
-}
+    .my-projects__item-description p{
+        margin: 0;
+    }
+
+    .my-projects__item-location {
+        font-family: sans-serif;
+        font-size: 22px;
+        line-height: 26px;
+        color: #0C708C;
+        text-align: center;
+        /*width: 100%;*/
+        /*max-width: 100%;*/
+        text-decoration: none;
+    }
 
 a:hover {
     text-decoration: none;

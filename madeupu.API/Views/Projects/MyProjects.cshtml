@@ -26,11 +26,14 @@
                             </p>
                         </a>
                     </div>
-                    <div class="my-projects__buttons">
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
-                        <br/>
-                        <a class="btn btn-info" asp-route-id="@item.Id" asp-area="" asp-controller="Participations" asp-action="Create">Agregar una participación</a>
-                    </div>
+                    @if (item.ParticipationType.Description == "Creador" || item.ParticipationType.Description == "Colaborador")
+                    {
+                        <div class="my-projects__buttons">
+                            <a asp-action="Edit" asp-route-id="@item.Project.Id" class="btn btn-warning">Editar</a>
+                            <br />
+                            <a class="btn btn-info" asp-route-id="@item.Project.Id" asp-area="" asp-controller="Participations" asp-action="Create">Agregar una participación</a>
+                        </div>
+                    }
                 </div>
             }
 

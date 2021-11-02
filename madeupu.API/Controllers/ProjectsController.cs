@@ -403,6 +403,7 @@ namespace madeupu.API.Controllers
         public async Task<IActionResult> MyProjects()
         {
             return View(await _context.Participations
+                .Include(x=>x.ParticipationType)
                 .Include(x=>x.Project)
                 .ThenInclude(x=>x.City)
                 .ThenInclude(x=>x.Region)

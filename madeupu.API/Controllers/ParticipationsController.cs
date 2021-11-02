@@ -65,6 +65,8 @@ namespace madeupu.API.Controllers
                 Project project = await _context.Projects
                     .Include(x => x.Participations)
                     .ThenInclude(x => x.User)
+                    .Include(x => x.Participations)
+                    .ThenInclude(x => x.ParticipationType)
                     .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (project == null)
@@ -89,28 +91,25 @@ namespace madeupu.API.Controllers
                     project.Participations = new List<Participation>();
                 }
 
-                //if (user.Participations == null)
-                //{
-                //    user.Participations = new List<Participation>();
-                //}
-
 
                 _context.Participations.Add(participation);
                 project.Participations.Add(participation);
-                //user.Participations.Add(participation);
                 _context.Projects.Update(project);
-                _context.Users.Update(user);
                 await _context.SaveChangesAsync();
-                //return RedirectToAction("SingleProject", "Projects");
-                return RedirectToAction(nameof(Index));
 
-
+                if (user.UserType != Enums.UserType.User)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction("MyProjects", "Projects");
+                }
             }
             model.ParticipationTypes = _comboHelper.GetComboParticipationTypes();
             return View(model);
         }
 
-        // GET: ParticipationTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -118,33 +117,40 @@ namespace madeupu.API.Controllers
                 return NotFound();
             }
 
-            var participations = await _context.Participations.FindAsync(id);
+            var participations = await _context.Participations.Include(x => x.ParticipationType).Include(x => x.Project).Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
             if (participations == null)
             {
                 return NotFound();
             }
-            return View(participations);
+
+            ParticipationViewModel participationView = _converterHelper.ToParticipationViewModel(participations);
+            return View(participationView);
         }
 
-        // POST: ParticipationTypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Participation participation)
+        public async Task<IActionResult> Edit(int id, ParticipationViewModel participationViewModel)
         {
-            if (id != participation.Id)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    User user = await _userHelper.GetUserAsync(User.Identity.Name);
+
+                    Participation participation = await _converterHelper.ToParticipationAsync(participationViewModel, false);
+
                     _context.Update(participation);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+
+                    if (user.UserType != Enums.UserType.User)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        return RedirectToAction("MyProjects", "Projects");
+                    }
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -162,10 +168,10 @@ namespace madeupu.API.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(participation);
+            participationViewModel.ParticipationTypes = _comboHelper.GetComboParticipationTypes();
+            return View(participationViewModel);
         }
 
-        // GET: ParticipationTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

@@ -143,11 +143,11 @@ namespace madeupu.API.Controllers.API
                 return BadRequest("La categoria selecionada para el proyecto no existe.");
             }
 
-            Guid imageId = project.ImageId;
-            if (request.Image != null && request.Image.Length > 0)
-            {
-                imageId = await _blobHelper.UploadBlobAsync(request.Image, "projects");
-            }
+            //Guid imageId = project.ImageId;
+            //if (request.Image != null && request.Image.Length > 0)
+            //{
+            //    imageId = await _blobHelper.UploadBlobAsync(request.Image, "projects");
+            //}
 
             project.Address = request.Address;
             project.BeginAt = request.BeginAt;
@@ -156,7 +156,7 @@ namespace madeupu.API.Controllers.API
             project.Name = request.Name;
             project.Website = request.Website;
             project.ProjectCategory = projectCategory;
-            project.ImageId = imageId;
+            //project.ImageId = imageId;
 
 
             _context.Entry(project).State = EntityState.Modified;
@@ -208,9 +208,14 @@ namespace madeupu.API.Controllers.API
             }
 
             Guid imageId = Guid.Empty;
+            List<ProjectPhoto> projectPhotos = new();
             if (request.Image != null && request.Image.Length > 0)
             {
                 imageId = await _blobHelper.UploadBlobAsync(request.Image, "projects");
+                projectPhotos.Add(new ProjectPhoto
+                {
+                    ImageId = imageId
+                });
             }
 
             Project project = new Project
@@ -222,7 +227,7 @@ namespace madeupu.API.Controllers.API
                 Name = request.Name,
                 Website = request.Website,
                 ProjectCategory = projectCategory,
-                ImageId = imageId
+                //ImageId = imageId
             };
 
             ParticipationType participationType = await _context.ParticipationTypes

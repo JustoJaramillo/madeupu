@@ -1,4 +1,5 @@
-﻿using madeupu.API.Helpers;
+﻿using madeupu.API.Data.Entities;
+using madeupu.API.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -52,15 +53,17 @@ namespace madeupu.API.Models
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Description { get; set; }
 
-        [Display(Name = "Logo")]
-        public Guid ImageId { get; set; }
+        //[Display(Name = "Logo")]
+        //public Guid ImageId { get; set; }
 
         [Display(Name = "Logo")]
         public IFormFile ImageFile { get; set; }
 
-        [Display(Name = "Logo")]
-        public string ImageFullPath => ImageId == Guid.Empty
-            ? Constants.NoImage
-            : $"{Constants.ProjectImage}{ImageId}";
+        public ICollection<ProjectPhoto> ProjectPhotos { get; set; }
+
+        //[Display(Name = "Logo")]
+        //public string ImageFullPath => ImageId == Guid.Empty
+        //    ? Constants.NoImage
+        //    : $"{Constants.ProjectImage}{ImageId}";
     }
 }

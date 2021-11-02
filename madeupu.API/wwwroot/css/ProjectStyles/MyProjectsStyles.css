@@ -23,6 +23,7 @@
     position: relative;
     width: 100%;
     /*max-width: 90%;*/
+    max-height: 200px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -79,8 +80,14 @@
     align-items:center;
 }
 
-    .my-projects__item-description p{
+    .my-projects__item-description p {
         margin: 0;
+        max-height: 100%;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .my-projects__item-location {

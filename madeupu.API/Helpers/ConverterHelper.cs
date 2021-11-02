@@ -66,13 +66,12 @@ namespace madeupu.API.Helpers
             };
         }
 
-        public async Task<Project> ToProjectAsync(ProjectViewModel model, Guid imageId, bool isNew)
+        public async Task<Project> ToProjectAsync(ProjectViewModel model, bool isNew)
         {
             return new Project
             {
                 Id = isNew ? 0 : model.Id,
                 Name = model.Name,
-                ImageId = imageId,
                 Website = model.Website,
                 Address = model.Address,
                 BeginAt = model.BeginAt,
@@ -88,7 +87,7 @@ namespace madeupu.API.Helpers
             {
                 Id = project.Id,
                 Name = project.Name,
-                ImageId = project.ImageId,
+                //ImageId = project.ImageId,
                 Website = project.Website,
                 Address = project.Address,
                 BeginAt = project.BeginAt,
@@ -96,7 +95,8 @@ namespace madeupu.API.Helpers
                 CityId = project.City.Id,
                 Cities = _combosHelper.GetComboCities(),
                 ProjectCategoryId = project.ProjectCategory.Id,
-                ProjectCategories = _combosHelper.GetComboProyectCategories()
+                ProjectCategories = _combosHelper.GetComboProyectCategories(),
+                ProjectPhotos = project.ProjectPhotos
 
             };
         }

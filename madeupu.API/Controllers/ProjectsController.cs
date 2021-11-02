@@ -49,6 +49,7 @@ namespace madeupu.API.Controllers
                 .ThenInclude(x => x.ParticipationType)
                 .Include(x => x.Participations)
                 .ThenInclude(x => x.User)
+                .Include(x => x.ProjectPhotos)
                 .ToListAsync());
         }
 
@@ -78,7 +79,7 @@ namespace madeupu.API.Controllers
                         imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "projects");
                     }
 
-                    Project project = await _converterHelper.ToProjectAsync(model, imageId, true);
+                    Project project = await _converterHelper.ToProjectAsync(model, true);
 
                     User user = await _userHelper.GetUserAsync(User.Identity.Name);
                     ParticipationType participationType = await _context.ParticipationTypes
@@ -103,19 +104,23 @@ namespace madeupu.API.Controllers
                         project.Participations = new List<Participation>();
                     }
 
-                    //if (user.Participations == null)
-                    //{
-                    //    user.Participations = new List<Participation>();
-                    //}
+                    if (project.ProjectPhotos == null)
+                    {
+                        project.ProjectPhotos = new List<ProjectPhoto>();
+                    }
 
-                    //user.Participations.Add(participation);
+                    project.ProjectPhotos.Add(new ProjectPhoto
+                    {
+                        ImageId = imageId
+                    });
+
                     project.Participations.Add(participation);
 
                     _context.Participations.Add(participation);
                     _context.Projects.Add(project);
                     await _context.SaveChangesAsync();
 
-                    return RedirectToAction(user.UserType != Enums.UserType.User? nameof(Index) : nameof(MyProjects));
+                    return RedirectToAction(user.UserType != Enums.UserType.User ? nameof(Index) : nameof(MyProjects));
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -150,6 +155,7 @@ namespace madeupu.API.Controllers
             Project project = await _context.Projects
                 .Include(x => x.City)
                 .Include(x => x.ProjectCategory)
+                .Include(x => x.ProjectPhotos)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
 
@@ -173,12 +179,7 @@ namespace madeupu.API.Controllers
                 try
                 {
 
-                    Guid imageId = projectViewModel.ImageId;
-                    if (projectViewModel.ImageFile != null)
-                    {
-                        imageId = await _blobHelper.UploadBlobAsync(projectViewModel.ImageFile, "projects");
-                    }
-                    Project project = await _converterHelper.ToProjectAsync(projectViewModel, imageId, false);
+                    Project project = await _converterHelper.ToProjectAsync(projectViewModel, false);
                     _context.Projects.Update(project);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index), new { id = projectViewModel.CityId });
@@ -237,17 +238,18 @@ namespace madeupu.API.Controllers
                 .Include(x => x.City)
                 .ThenInclude(x => x.Region)
                 .ThenInclude(x => x.Country)
-                .Include(x=> x.City)
+                .Include(x => x.City)
                 .Include(x => x.Comments)
                 .ThenInclude(x => x.User)
-                .Include(x=>x.Comments)
+                .Include(x => x.Comments)
                 .ThenInclude(x => x.User)
-                .Include(x=>x.Ratings)
+                .Include(x => x.Ratings)
                 .ThenInclude(x => x.User)
-                .Include(x=>x.Participations)
-                .ThenInclude(x=>x.ParticipationType)
-                .Include(x=>x.Participations)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.ParticipationType)
+                .Include(x => x.Participations)
                 .ThenInclude(x => x.User)
+                .Include(x => x.ProjectPhotos)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (project == null)
@@ -288,7 +290,7 @@ namespace madeupu.API.Controllers
             {
                 Project project = await _context.Projects
                     .Include(x => x.Comments)
-                    .ThenInclude(x=> x.User)
+                    .ThenInclude(x => x.User)
                     .FirstOrDefaultAsync(x => x.Id == model.ProjectId);
                 if (project == null)
                 {
@@ -403,14 +405,93 @@ namespace madeupu.API.Controllers
         public async Task<IActionResult> MyProjects()
         {
             return View(await _context.Participations
-                .Include(x=>x.ParticipationType)
-                .Include(x=>x.Project)
-                .ThenInclude(x=>x.City)
-                .ThenInclude(x=>x.Region)
+                .Include(x => x.ParticipationType)
+                .Include(x => x.Project)
+                .ThenInclude(x => x.City)
+                .ThenInclude(x => x.Region)
                 .ThenInclude(x => x.Country)
-                .Include(x=>x.User)
-                .Where(x=>x.User.Email == User.Identity.Name)
+                .Include(x => x.Project)
+                .ThenInclude(x => x.ProjectPhotos)
+                .Include(x => x.User)
+                .Where(x => x.User.Email == User.Identity.Name)
                 .ToListAsync());
+        }
+
+        public async Task<IActionResult> AddProjectImage(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Project project = await _context.Projects
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            ProjectPhotoViewModel model = new()
+            {
+                ProjectId = project.Id
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddProjectImage(ProjectPhotoViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Guid imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "projects");
+                Project project = await _context.Projects
+                    .Include(x => x.ProjectPhotos)
+                    .FirstOrDefaultAsync(x => x.Id == model.ProjectId);
+                if (project.ProjectPhotos == null)
+                {
+                    project.ProjectPhotos = new List<ProjectPhoto>();
+                }
+
+                project.ProjectPhotos.Add(new ProjectPhoto
+                {
+                    ImageId = imageId
+                });
+
+                _context.Projects.Update(project);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Edit), new { id = project.Id });
+            }
+
+            return View(model);
+
+        }
+
+        public async Task<IActionResult> DeleteImageProject(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            ProjectPhoto projectPhoto = await _context.ProjectPhotos
+                .Include(x => x.Project)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (projectPhoto == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                await _blobHelper.DeleteBlobAsync(projectPhoto.ImageId, "projects");
+            }
+            catch { }
+
+            _context.ProjectPhotos.Remove(projectPhoto);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Edit), new { id = projectPhoto.Project.Id });
         }
 
     }

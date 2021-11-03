@@ -12,6 +12,12 @@
         <form asp-action="Create" class="project-create__form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            <div class="form-group project-create__field" style="margin-top: 2rem; width:100%;">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" type="file" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+
             <partial name="_Project" />
 
             <div class="form-group">

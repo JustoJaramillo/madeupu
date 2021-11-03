@@ -84,7 +84,7 @@ namespace madeupu.API.Controllers.API
             await _userHelper.AddUserToRoleAsync(user, user.UserType.ToString());
 
             string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-            string tokenLink = Url.Action("ConfirmEmail", "Account", new
+            string tokenLink = Url.Action("ConfirmEmail", "Accounts", new
             {
                 userid = user.Id,
                 token = myToken
@@ -185,11 +185,11 @@ namespace madeupu.API.Controllers.API
                 string myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
                 string link = Url.Action(
                     "ResetPassword",
-                    "Account",
+                    "Accounts",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
                 _mailHelper.SendMail(model.Email, "Made Up U - Password reset", $"<h1>Made Up U - Password reset</h1>" +
                     $"To set a new password click on the following link :</br></br>" +
-                    $"<a href = \"{link}\">Change of passwor</a>");
+                    $"<a href = \"{link}\">Change of password-</a>");
                 return Ok("The instructions for changing your password have been sent to your emal.");
             }
 

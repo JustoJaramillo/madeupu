@@ -34,6 +34,7 @@ namespace madeupu.API.Controllers.API
         {
 
             return await _context.Projects
+                .Include(x=>x.ProjectPhotos)
                 .Include(x => x.ProjectCategory)
                 .Include(x => x.City)
                 .ThenInclude(x => x.Region)
@@ -54,6 +55,7 @@ namespace madeupu.API.Controllers.API
         public async Task<ActionResult<Project>> GetProject(int id)
         {
             var project = await _context.Projects
+                .Include(x => x.ProjectPhotos)
                 .Include(x => x.ProjectCategory)
                 .Include(x => x.City)
                 .ThenInclude(x => x.Region)
@@ -102,6 +104,8 @@ namespace madeupu.API.Controllers.API
                 .Include(x => x.Project)
                 .ThenInclude(x => x.Participations)
                 .ThenInclude(x => x.User)
+                .Include(x => x.Project)
+                .ThenInclude(x=>x.ProjectPhotos)
                 .Where(x => x.User.UserName == userName).ToList();
 
             foreach (var item in participations)
@@ -143,12 +147,6 @@ namespace madeupu.API.Controllers.API
                 return BadRequest("La categoria selecionada para el proyecto no existe.");
             }
 
-            //Guid imageId = project.ImageId;
-            //if (request.Image != null && request.Image.Length > 0)
-            //{
-            //    imageId = await _blobHelper.UploadBlobAsync(request.Image, "projects");
-            //}
-
             project.Address = request.Address;
             project.BeginAt = request.BeginAt;
             project.City = city;
@@ -156,8 +154,6 @@ namespace madeupu.API.Controllers.API
             project.Name = request.Name;
             project.Website = request.Website;
             project.ProjectCategory = projectCategory;
-            //project.ImageId = imageId;
-
 
             _context.Entry(project).State = EntityState.Modified;
 
@@ -227,7 +223,6 @@ namespace madeupu.API.Controllers.API
                 Name = request.Name,
                 Website = request.Website,
                 ProjectCategory = projectCategory,
-                //ImageId = imageId
             };
 
             ParticipationType participationType = await _context.ParticipationTypes

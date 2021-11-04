@@ -39,12 +39,24 @@ namespace madeupu.API.Data.Entities
         public Guid ImageId { get; set; }
 
         [Display(Name = "Foto")]
-        public string ImageFullPath => ImageId == Guid.Empty
-            ? Constants.NoImage
-            : $"{Constants.UserImage}{ImageId}";
+        public string ImageFullPath => LoginType == LoginType.Email 
+            ?
+                ImageId == Guid.Empty
+                ? Constants.NoImage
+                : $"{Constants.UserImage}{ImageId}"
+            :
+                string.IsNullOrEmpty(SocialImageUrl)
+                ? Constants.NoImage
+                : SocialImageUrl;
 
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
+
+        [Display(Name = "Foto")]
+        public LoginType LoginType { get; set; }
+
+        [Display(Name = "Usuario")]
+        public string SocialImageUrl { get; set; }
 
         [Display(Name = "Usuario")]
         public string FullName => $"{FirstName} {LastName}";

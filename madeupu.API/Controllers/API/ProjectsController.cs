@@ -34,7 +34,7 @@ namespace madeupu.API.Controllers.API
         {
 
             return await _context.Projects
-                .Include(x=>x.ProjectPhotos)
+                .Include(x => x.ProjectPhotos)
                 .Include(x => x.ProjectCategory)
                 .Include(x => x.City)
                 .ThenInclude(x => x.Region)
@@ -105,7 +105,7 @@ namespace madeupu.API.Controllers.API
                 .ThenInclude(x => x.Participations)
                 .ThenInclude(x => x.User)
                 .Include(x => x.Project)
-                .ThenInclude(x=>x.ProjectPhotos)
+                .ThenInclude(x => x.ProjectPhotos)
                 .Where(x => x.User.UserName == userName).ToList();
 
             foreach (var item in participations)
@@ -238,7 +238,8 @@ namespace madeupu.API.Controllers.API
                 User = user,
                 ParticipationType = participationType,
                 Project = project,
-                Message = "Creacion del proyecto"
+                Message = "Creacion del proyecto",
+                ActiveParticipation = true
             };
 
             _context.Projects.Add(project);

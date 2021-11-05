@@ -53,7 +53,7 @@
                 <p> Con @Html.DisplayFor(model => model.RatingsNumber) calificaciones</p>
                 @if (Model.Ratings.Count <= 0)
                 {
-                <p class="single-project__advertising"> Este proyecto aun no ha sido calificado, ¡Evalúalo y regálale un feedback! </p>
+                    <p class="single-project__advertising"> Este proyecto aun no ha sido calificado, ¡Evalúalo y regálale un feedback! </p>
                 }
             </div>
             <div class="single-project__rate-bar">
@@ -66,28 +66,30 @@
             <div class="single-project__comments-list">
                 @if (Model.Comments.Count > 0)
                 {
-                @foreach (var item in Model.Comments)
+                    @foreach (var item in Model.Comments)
                     {
-                <div class="single-project__single-comment">
-                    <div class="single-project__comment-content">
-                        <div class="single-project__comment-header">
-                            <h3 class="single-project__comment-user">@Html.DisplayFor(modelItem => item.User.FullName)</h3>
-                            <p class="single-project__comment-date">@Html.DisplayFor(modelItem => item.DateLocal) </p>
+                        <div class="single-project__single-comment">
+                            <div class="single-project__comment-content">
+                                <div class="single-project__comment-header">
+                                    <h3 class="single-project__comment-user">@Html.DisplayFor(modelItem => item.User.FullName)</h3>
+                                    <p class="single-project__comment-date">@Html.DisplayFor(modelItem => item.DateLocal) </p>
+                                </div>
+                                <div class="single-project__comment-info">
+                                    <img src="@item.User.ImageFullPath" style="height: 100px; max-width: 120px;" />
+                                    <p class="single-project__comment-description"> @Html.DisplayFor(modelItem => item.Message)</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="single-project__comment-info">
-                            <img src="@item.User.ImageFullPath" style="height: 100px; max-width: 120px;" />
-                            <p class="single-project__comment-description"> @Html.DisplayFor(modelItem => item.Message)</p>
-                        </div>
-                    </div>
-                </div>
                     }
                 }
                 else
                 {
-                <p class="single-project__advertising"> Actualmente este proyecto no tiene comentarios, ¡animate y apoya ya sea con buenas ideas o palabras de aliento! </p>
+                    <p class="single-project__advertising"> Actualmente este proyecto no tiene comentarios, ¡animate y apoya ya sea con buenas ideas o palabras de aliento! </p>
                 }
             </div>
         </div>
+
+        <a class="btn btn-info" asp-route-id="@Model.Id" asp-area="" asp-controller="Participations" asp-action="RequestParticipation">¡Quiero ser parte de este proyecto!</a>
     </div>
 </div>
 

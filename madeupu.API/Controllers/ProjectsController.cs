@@ -95,7 +95,8 @@ namespace madeupu.API.Controllers
                         User = user,
                         ParticipationType = participationType,
                         Project = project,
-                        Message = "Creacion del proyecto"
+                        Message = "Creacion del proyecto",
+                        ActiveParticipation = true
                     };
 
 
@@ -414,6 +415,7 @@ namespace madeupu.API.Controllers
                 .ThenInclude(x => x.ProjectPhotos)
                 .Include(x => x.User)
                 .Where(x => x.User.Email == User.Identity.Name)
+                .Where(x => x.ActiveParticipation == true)
                 .ToListAsync());
         }
 
@@ -492,6 +494,30 @@ namespace madeupu.API.Controllers
             _context.ProjectPhotos.Remove(projectPhoto);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Edit), new { id = projectPhoto.Project.Id });
+        }
+
+
+        public async Task<IActionResult> ProjectParticipations(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Project project = await _context.Projects
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.ParticipationType)
+                .Include(x => x.Participations)
+                .ThenInclude(x => x.User)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(project);
         }
 
     }

@@ -130,6 +130,7 @@ namespace madeupu.API.Controllers.API
             participation.ParticipationType = participationType;
             participation.Project = project;
             participation.Message = request.Message;
+            participation.ActiveParticipation = request.ActiveParticipation;
 
             _context.Entry(participation).State = EntityState.Modified;
 
@@ -185,7 +186,8 @@ namespace madeupu.API.Controllers.API
                 User = user,
                 ParticipationType = participationType,
                 Project = project,
-                Message = request.Message
+                Message = request.Message,
+                ActiveParticipation = request.ActiveParticipation
             };
 
             _context.Participations.Add(participation);

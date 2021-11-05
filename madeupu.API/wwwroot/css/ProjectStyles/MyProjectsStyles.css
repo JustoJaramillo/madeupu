@@ -23,10 +23,11 @@
     position: relative;
     width: 100%;
     /*max-width: 90%;*/
-    max-height: 200px;
+    /*max-height: 200px;*/
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-direction: column;
     margin: 1rem;
     padding: 20px;
     background-color: white;
@@ -34,10 +35,16 @@
     box-shadow: 0px 5px 15px 5px rgba(0,0,0,0.3);
 }
 
-  /*  .my-projects__item img {
+.my-projects__item-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+/*  .my-projects__item img {
         width: 10%;
     }*/
-
 .my-projects__item-info {
     width: auto;
     max-width: 100%;
@@ -76,8 +83,8 @@
     text-decoration: none;
     /*margin-bottom: 1rem;*/
     display: flex;
-    justify-content:flex-start;
-    align-items:center;
+    justify-content: flex-start;
+    align-items: center;
 }
 
     .my-projects__item-description p {
@@ -90,16 +97,16 @@
         text-overflow: ellipsis;
     }
 
-    .my-projects__item-location {
-        font-family: sans-serif;
-        font-size: 22px;
-        line-height: 26px;
-        color: #0C708C;
-        text-align: center;
-        /*width: 100%;*/
-        /*max-width: 100%;*/
-        text-decoration: none;
-    }
+.my-projects__item-location {
+    font-family: sans-serif;
+    font-size: 22px;
+    line-height: 26px;
+    color: #0C708C;
+    text-align: center;
+    /*width: 100%;*/
+    /*max-width: 100%;*/
+    text-decoration: none;
+}
 
 a:hover {
     text-decoration: none;
@@ -108,4 +115,11 @@ a:hover {
 .my-projects__item:hover {
     transition: all 0.2s ease;
     background-color: #C4E4F8;
+}
+
+.my-projects__buttons {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    width: 100%;
 }

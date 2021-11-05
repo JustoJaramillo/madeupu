@@ -1,0 +1,42 @@
+﻿body {
+
+}
+
+.project-participations {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0 50px;
+    margin: 3rem 0 0;
+}
+
+.project-participations__item {
+    width: 250px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    background-color: #C4E4F8;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0px 5px 15px 5px rgba(0,0,0,0.3);
+    margin: 0.5rem;
+}
+
+.project-participations__item img{
+    width: 100%;
+    max-width: 150px;
+    max-height: 150px;
+    clip-path: circle();
+    margin-bottom: 1rem;
+}
+
+.project-participations__item h3{
+    font-size: 22px;
+}
+
+.project-participations__item p{
+    text-align: center;
+}

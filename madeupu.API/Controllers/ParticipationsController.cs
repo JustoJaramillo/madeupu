@@ -85,6 +85,7 @@ namespace madeupu.API.Controllers
 
                 participation.User = user;
                 participation.Project = project;
+                participation.ActiveParticipation = true;
 
                 if (project.Participations == null)
                 {
@@ -189,6 +190,86 @@ namespace madeupu.API.Controllers
             _context.Participations.Remove(participations);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> RequestParticipation(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Project project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            ParticipationViewModel model = new ParticipationViewModel
+            {
+                ParticipationTypes = _comboHelper.GetComboParticipationTypes(),
+                ProjectId = project.Id
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RequestParticipation(int id, ParticipationViewModel model)
+        {
+            //model.Email = User.Identity.Name;
+
+            if (ModelState.IsValid)
+            {
+                Project project = await _context.Projects
+                    .Include(x => x.Participations)
+                    .ThenInclude(x => x.User)
+                    .Include(x => x.Participations)
+                    .ThenInclude(x => x.ParticipationType)
+                    .FirstOrDefaultAsync(x => x.Id == id);
+
+                if (project == null)
+                {
+                    return NotFound();
+                }
+
+                User user = await _userHelper.GetUserAsync(User.Identity.Name);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+
+                Participation participation = await _converterHelper.ToParticipationAsync(model, true);
+
+                participation.User = user;
+                participation.Project = project;
+                participation.ActiveParticipation = false;
+
+                if (project.Participations == null)
+                {
+                    project.Participations = new List<Participation>();
+                }
+
+                _context.Participations.Add(participation);
+                project.Participations.Add(participation);
+                _context.Projects.Update(project);
+                await _context.SaveChangesAsync();
+
+                if (user.UserType != Enums.UserType.User)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction("MyProjects", "Projects");
+                }
+            }
+            model.ParticipationTypes = _comboHelper.GetComboParticipationTypes();
+            return View(model);
         }
 
     }

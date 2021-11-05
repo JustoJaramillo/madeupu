@@ -23,5 +23,8 @@ namespace madeupu.API.Models.Request
 
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public int ProjectId { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public bool ActiveParticipation { get; set; }
     }
 }

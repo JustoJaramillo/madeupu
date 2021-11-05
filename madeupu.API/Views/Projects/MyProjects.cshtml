@@ -15,16 +15,18 @@
             @foreach (var item in Model)
             {
                 <div class="my-projects__item">
-                    <a href="SingleProject/@item.Project.Id"><img src="@item.Project.ImageFullPath" style="height: 100px; max-width: 120px;" /></a>
-                    <div class="my-projects__item-info">
-                        <a href="SingleProject/@item.Project.Id" class="my-projects__item-name">
-                            @Html.DisplayFor(modelItem => item.Project.Name)
-                        </a>
-                        <a href="SingleProject/@item.Project.Id" class="my-projects__item-description">
-                            <p>
-                                @Html.DisplayFor(modelItem => item.Project.Description)
-                            </p>
-                        </a>
+                    <div class="my-projects__item-content">
+                        <a href="SingleProject/@item.Project.Id"><img src="@item.Project.ImageFullPath" style="height: 100px; max-width: 120px;" /></a>
+                        <div class="my-projects__item-info">
+                            <a href="SingleProject/@item.Project.Id" class="my-projects__item-name">
+                                @Html.DisplayFor(modelItem => item.Project.Name)
+                            </a>
+                            <a href="SingleProject/@item.Project.Id" class="my-projects__item-description">
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Project.Description)
+                                </p>
+                            </a>
+                        </div>
                     </div>
                     @if (item.ParticipationType.Description == "Creador" || item.ParticipationType.Description == "Colaborador")
                     {
@@ -32,6 +34,8 @@
                             <a asp-action="Edit" asp-route-id="@item.Project.Id" class="btn btn-warning">Editar</a>
                             <br />
                             <a class="btn btn-info" asp-route-id="@item.Project.Id" asp-area="" asp-controller="Participations" asp-action="Create">Agregar una participación</a>
+                            <br />
+                            <a asp-action="ProjectParticipations" asp-route-id="@item.Project.Id" class="btn btn-info">Administrar participaciones</a>
                         </div>
                     }
                 </div>

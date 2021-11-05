@@ -32,34 +32,49 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.Message)
                             </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ActiveParticipation)
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Project.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ParticipationType.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User.FullName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Message)
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
-                                <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Borrar</button>
-                            </td>
-                        </tr>
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Project.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ParticipationType.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Message)
+                                </td>
+                                @if (item.ActiveParticipation == true)
+                                {
+                                    <td>
+                                        participante activo
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        Pendiente por aceptar solicitud
+                                    </td>
+                                }
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
+                                    <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Borrar</button>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>

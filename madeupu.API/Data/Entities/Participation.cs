@@ -15,10 +15,13 @@ namespace madeupu.API.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public ParticipationType ParticipationType { get; set; }
 
-        [Display(Name = "Mensaje.")]
+        [Display(Name = "Mensaje")]
         [MaxLength(500, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Message { get; set; }
+
+        [Display(Name = "Estado de participación")]
+        public bool ActiveParticipation { get; set; }
 
         [Display(Name = "Usuario")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]

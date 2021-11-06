@@ -121,7 +121,7 @@ namespace madeupu.API.Controllers
                     _context.Projects.Add(project);
                     await _context.SaveChangesAsync();
 
-                    return RedirectToAction(user.UserType != Enums.UserType.User ? nameof(Index) : nameof(MyProjects));
+                    return RedirectToAction(user.UserType != Enums.UserType.User ? nameof(MyProjects) : nameof(Index));
                 }
                 catch (DbUpdateException dbUpdateException)
                 {

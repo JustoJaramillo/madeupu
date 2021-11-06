@@ -9,7 +9,16 @@
 <link rel="stylesheet" href="~/css/ProjectStyles/SingleProyectStyles.css" />
 
 <div class="single-project">
+    <p></p>
     <div class="single-project__content">
+        <div class="single-project__share">
+        <a href="https://api.whatsapp.com/send?text=@string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString)" target="_blank" style="text-decoration:none;">
+            <img src="~/images/Icono-whatsapp.png" alt="icono whatsapp" style="height:50px; width: 50px; margin:0.5rem;" />
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=@string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString)" target="_blank" style="text-decoration:none;">
+            <img src="~/images/Icono-facebook.png" alt="icono facebook" style="height:50px; width: 50px; margin:0.5rem;" />
+        </a>
+        </div>
         @*image and date*@
         <div class="single-project__row">
             <img src="@Model.ImageFullPath" alt="Project image" />

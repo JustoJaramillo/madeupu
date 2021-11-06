@@ -32,6 +32,7 @@
             <input asp-for="Address" class="form-control" />
             <span asp-validation-for="Address" class="text-danger"></span>
         </div>
+        @*<p>@string.Format("{0:dd/MM/yyyy}", DateTime.Now)  </p>*@
     </div>
 
     @*Start date and  location*@
@@ -40,7 +41,7 @@
         @*Start date*@
         <div class="form-group project-create__field">
             <label asp-for="BeginAt" class="control-label"></label>
-            <input asp-for="BeginAt" class="form-control" />
+            <input asp-for="BeginAt" class="form-control" type="date" value="@string.Format("{0:dd/MM/yyyy}", DateTime.Now)"/>
             <span asp-validation-for="BeginAt" class="text-danger"></span>
         </div>
         <div class="form-group project-create__field">

@@ -52,10 +52,10 @@ namespace madeupu.API.Data.Entities
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
 
-        [Display(Name = "Foto")]
+        [Display(Name = "Tipo de login")]
         public LoginType LoginType { get; set; }
 
-        [Display(Name = "Usuario")]
+        [Display(Name = "Foto")]
         public string SocialImageUrl { get; set; }
 
         [Display(Name = "Usuario")]

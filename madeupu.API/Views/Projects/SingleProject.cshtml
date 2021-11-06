@@ -88,6 +88,7 @@
                 }
             </div>
         </div>
+        @Html.Raw(TempData["msg"])
 
         <a class="btn btn-info" asp-route-id="@Model.Id" asp-area="" asp-controller="Participations" asp-action="RequestParticipation">¡Quiero ser parte de este proyecto!</a>
     </div>

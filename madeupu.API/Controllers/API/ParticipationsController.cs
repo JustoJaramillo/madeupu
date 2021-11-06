@@ -215,5 +215,102 @@ namespace madeupu.API.Controllers.API
         {
             return _context.Participations.Any(e => e.Id == id);
         }
+
+
+        [HttpPost]
+        [Route("SendParticipationRequest")]
+        public async Task<ActionResult<Participation>> PostSendParticipationRequest(ParticipationRequest request)
+        {
+            User user = await _context.Users.Include(x => x.DocumentType).FirstOrDefaultAsync(x => x.UserName == request.UserName);
+            if (user == null)
+            {
+                return BadRequest("El usuario no existe.");
+            }
+
+            Project project = await _context.Projects.Include(x => x.Participations).ThenInclude(x => x.User).FirstOrDefaultAsync(x => x.Id == request.ProjectId);
+
+            if (project == null)
+            {
+                return BadRequest("El proyecto no existe.");
+            }
+            if (project.Participations.Count() > 0)
+            {
+                foreach (var item in project.Participations)
+                {
+                    if (item.User.UserName == user.UserName)
+                    {
+                        if (item.ActiveParticipation == true)
+                        {
+                            return BadRequest("Ya estas participando en este proyecto");
+                        }
+                        else
+                        {
+                            return BadRequest("Ya enviaste una solicitud para participar, porfavor ten paciencia y espera una respuesta");
+                        }
+                    }
+                }
+            }
+
+            ParticipationType participationType = await _context.ParticipationTypes.FindAsync(request.ParticipationTypeId);
+
+            if (participationType == null)
+            {
+                return BadRequest("No existe el tipo de participación.");
+            }
+
+            if (participationType.Description == "Creador")
+            {
+                return BadRequest("Ya esxiste un creador para este proyecto");
+            }
+
+            Participation participation = new Participation
+            {
+                User = user,
+                ParticipationType = participationType,
+                Project = project,
+                Message = request.Message,
+                ActiveParticipation = false
+            };
+
+            _context.Participations.Add(participation);
+            await _context.SaveChangesAsync();
+
+            return Ok(participation);
+        }
+
+        [HttpPut]
+        [Route("AcceptParticipationRequest/{id}")]
+        public async Task<IActionResult> AcceptParticipationRequest(int id)
+        {
+
+            Participation participation = await _context.Participations.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
+
+            if (participation == null)
+            {
+                return BadRequest("No existe la participación buscada");
+            }
+
+            participation.ActiveParticipation = true;
+
+            _context.Entry(participation).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ParticipationExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok("Se ha aceptado que el usuario participe en el proyecto");
+        }
     }
 }

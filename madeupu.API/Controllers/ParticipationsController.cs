@@ -219,7 +219,6 @@ namespace madeupu.API.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RequestParticipation(int id, ParticipationViewModel model)
         {
-            //model.Email = User.Identity.Name;
 
             if (ModelState.IsValid)
             {
@@ -235,12 +234,27 @@ namespace madeupu.API.Controllers
                     return NotFound();
                 }
 
+                if (project.Participations == null)
+                {
+                    project.Participations = new List<Participation>();
+                }
+
                 User user = await _userHelper.GetUserAsync(User.Identity.Name);
 
                 if (user == null)
                 {
                     return NotFound();
                 }
+
+                foreach (var item in project.Participations)
+                {
+                    if (item.User.UserName == user.UserName)
+                    {
+                        TempData["msg"] = "<script>alert('Ya has enviado una solicitud para este proyecto, por favor espera la respuesta del equipo del proyecto');</script>";
+                        return RedirectToAction("SingleProject", "Projects", new { id = project.Id });
+                    }
+                }
+
 
 
                 Participation participation = await _converterHelper.ToParticipationAsync(model, true);
@@ -249,10 +263,6 @@ namespace madeupu.API.Controllers
                 participation.Project = project;
                 participation.ActiveParticipation = false;
 
-                if (project.Participations == null)
-                {
-                    project.Participations = new List<Participation>();
-                }
 
                 _context.Participations.Add(participation);
                 project.Participations.Add(participation);
@@ -265,12 +275,31 @@ namespace madeupu.API.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("MyProjects", "Projects");
+                    return RedirectToAction("SingleProject", "Projects", new { id = project.Id });
                 }
             }
             model.ParticipationTypes = _comboHelper.GetComboParticipationTypes();
             return View(model);
         }
 
+        public async Task<IActionResult> AcceptRequest(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var participation = await _context.Participations
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (participation == null)
+            {
+                return NotFound();
+            }
+
+            participation.ActiveParticipation = true;
+            _context.Update(participation);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("MyProjects", "Projects");
+        }
     }
 }

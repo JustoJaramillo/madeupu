@@ -11,14 +11,14 @@
 <div class="single-project">
     <p></p>
     <div class="single-project__content">
-            <div class="single-project__share">
-                <a href="https://api.whatsapp.com/send?text=@string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString)" target="_blank" style="text-decoration:none;">
-                    <img src="~/images/Icono-whatsapp.png" alt="icono whatsapp" style="height:30px; width: 30px; margin:0.5rem;" />
-                </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=@string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString)" target="_blank" style="text-decoration:none;">
-                    <img src="~/images/Icono-facebook.png" alt="icono facebook" style="height:30px; width: 30px; margin:0.5rem;" />
-                </a>
-            </div>
+        <div class="single-project__share">
+            <a href="https://api.whatsapp.com/send?text=@string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString)" target="_blank" style="text-decoration:none;">
+                <img src="~/images/Icono-whatsapp.png" alt="icono whatsapp" style="height:30px; width: 30px; margin:0.5rem;" />
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=@string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString)" target="_blank" style="text-decoration:none;">
+                <img src="~/images/Icono-facebook.png" alt="icono facebook" style="height:30px; width: 30px; margin:0.5rem;" />
+            </a>
+        </div>
         @*image*@
         <div class="single-project__row">
             <img src="@Model.ImageFullPath" alt="Project image" />
@@ -67,6 +67,25 @@
         </div>
 
         <iframe style="max-width: 100%; margin-bottom: 2rem;" width="900" height="480" src="https://www.youtube.com/embed/@Model.VideoCode" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        @if (Model.ProjectPhotos.Count > 1)
+        {
+            <h3>Imagenes del proyecto que te podrían interesar</h3>
+            <div style="width: 95%; margin: 0.5rem auto; height: 2px; background-color: lightgray;"></div>
+            <div class="project-images__item-container">
+
+                @foreach (var item in Model.ProjectPhotos)
+                {
+                    <div class="project-image__item">
+                        <img src="@item.ImageFullPath" style="width:200px;height:200px;max-width: 100%; height: auto;" />
+                        <div class="project-image__item-visualization">
+                            <img src="@item.ImageFullPath" style="width:200px;height:200px;max-width: 100%; height: auto;" />
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
         <div class="single-project__rating-section">
             <div class="single-project__rating-obtained">
                 @if (Model.Ratings.Count > 0)

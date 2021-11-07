@@ -64,7 +64,7 @@ body {
     align-items: center;
     flex-direction: column;
     width: 48%;
-    min-width:295px;
+    min-width: 295px;
 }
 
 .single-project__about .single-project__paragraph-head {
@@ -157,17 +157,17 @@ body {
     margin-bottom: 0;
 }
 
-.single-project__comment-info{
+.single-project__comment-info {
     width: 100%;
     display: flex;
     align-items: center;
 }
 
-.single-project__comment-info img{
-    max-width: 80px;
-    width: 100%;
-    margin-right: 2rem;
-}
+    .single-project__comment-info img {
+        max-width: 80px;
+        width: 100%;
+        margin-right: 2rem;
+    }
 
 .single-project__comment-description {
     width: auto;
@@ -177,13 +177,12 @@ body {
     margin-bottom: 0;
 }
 
-.single-project__rating-section{
+.single-project__rating-section {
     width: 80%;
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-direction: column;
-
     background-color: white;
     padding: 20px;
 }
@@ -218,4 +217,61 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.project-images__item-container {
+    display: flex !important;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.project-image__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 210px;
+    height: 210px;
+    padding: 12px;
+    background-color: white;
+    margin: 1rem;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px 5px rgba(0,0,0,0.3);
+}
+
+.project-image__item-visualization {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px 5px rgba(0,0,0,0.3);
+}
+
+    .project-image__item-visualization img {
+        position: relative;
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 10px;
+    }
+
+.project-image__item:hover .project-image__item-visualization {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -210px;
+    margin-top: -210px;
+    width: 420px;
+    height: 420px;
+    z-index: 50;
+    display: flex;
+}
+
+.project-image__item img {
+    position: relative;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 10px;
 }

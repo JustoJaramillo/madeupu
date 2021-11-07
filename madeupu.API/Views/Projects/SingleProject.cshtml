@@ -11,15 +11,15 @@
 <div class="single-project">
     <p></p>
     <div class="single-project__content">
-        <div class="single-project__share">
-            <a href="https://api.whatsapp.com/send?text=@string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString)" target="_blank" style="text-decoration:none;">
-                <img src="~/images/Icono-whatsapp.png" alt="icono whatsapp" style="height:50px; width: 50px; margin:0.5rem;" />
-            </a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=@string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString)" target="_blank" style="text-decoration:none;">
-                <img src="~/images/Icono-facebook.png" alt="icono facebook" style="height:50px; width: 50px; margin:0.5rem;" />
-            </a>
-        </div>
-        @*image and date*@
+            <div class="single-project__share">
+                <a href="https://api.whatsapp.com/send?text=@string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString)" target="_blank" style="text-decoration:none;">
+                    <img src="~/images/Icono-whatsapp.png" alt="icono whatsapp" style="height:30px; width: 30px; margin:0.5rem;" />
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=@string.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString)" target="_blank" style="text-decoration:none;">
+                    <img src="~/images/Icono-facebook.png" alt="icono facebook" style="height:30px; width: 30px; margin:0.5rem;" />
+                </a>
+            </div>
+        @*image*@
         <div class="single-project__row">
             <img src="@Model.ImageFullPath" alt="Project image" />
         </div>
@@ -36,31 +36,44 @@
         </div>
 
         <div class="single-project__about">
-            <p class="single-project__paragraph-head">Fecha de inicio:</p>
-            <p class="single-project__paragraph">
-                @Html.DisplayFor(model => model.BeginAt)
-            </p>
-            <p class="single-project__paragraph-head">Sitio web:</p>
-            <p class="single-project__paragraph">
-                @Html.DisplayFor(model => model.Website)
-            </p>
-            <p class="single-project__paragraph-head">Dirección:</p>
-            <p class="single-project__paragraph">
-                @Html.DisplayFor(model => model.Address)
-            </p>
-            <p class="single-project__paragraph-head">Lugar de origen:</p>
-            <p class="single-project__paragraph">
-                @Html.DisplayFor(model => model.City.Name),
-                @Html.DisplayFor(model => model.City.Region.Name),
-                @Html.DisplayFor(model => model.City.Region.Country.Name)
-            </p>
+
+
+            <div class="single-project__about-item">
+                <p class="single-project__paragraph-head">Fecha de inicio:</p>
+                <p class="single-project__paragraph">
+                    @Html.DisplayFor(model => model.BeginAt)
+                </p>
+            </div>
+            <div class="single-project__about-item">
+                <p class="single-project__paragraph-head">Sitio web:</p>
+                <p class="single-project__paragraph">
+                    @Html.DisplayFor(model => model.Website)
+                </p>
+            </div>
+            <div class="single-project__about-item">
+                <p class="single-project__paragraph-head">Dirección:</p>
+                <p class="single-project__paragraph">
+                    @Html.DisplayFor(model => model.Address)
+                </p>
+            </div>
+            <div class="single-project__about-item">
+                <p class="single-project__paragraph-head">Lugar de origen:</p>
+                <p class="single-project__paragraph">
+                    @Html.DisplayFor(model => model.City.Name),
+                    @Html.DisplayFor(model => model.City.Region.Name),
+                    @Html.DisplayFor(model => model.City.Region.Country.Name)
+                </p>
+            </div>
         </div>
 
-        <iframe width="900" height="480" src="https://www.youtube.com/embed/@Model.VideoCode" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe style="max-width: 100%; margin-bottom: 2rem;" width="900" height="480" src="https://www.youtube.com/embed/@Model.VideoCode" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <div class="single-project__rating-section">
             <div class="single-project__rating-obtained">
-                <p> Calificación promedio: @Html.DisplayFor(model => model.AverageRating) </p>
-                <p> Con @Html.DisplayFor(model => model.RatingsNumber) calificaciones</p>
+                @if (Model.Ratings.Count > 0)
+                {
+                    <p> Calificación promedio: @Html.DisplayFor(model => model.AverageRating) </p>
+                    <p> Con @Html.DisplayFor(model => model.RatingsNumber) calificaciones</p>
+                }
                 @if (Model.Ratings.Count <= 0)
                 {
                     <p class="single-project__advertising"> Este proyecto aun no ha sido calificado, ¡Evalúalo y regálale un feedback! </p>
@@ -68,11 +81,17 @@
             </div>
             <div class="single-project__rate-bar">
                 <a asp-action="AddRate" asp-route-id="@Model.Id" class="btn btn-info">¡Quiero participar con una calificación!</a>
-                <a asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-outline-info">¡Quiero publicar un comentario!</a>
             </div>
         </div>
         <div class="single-project__comments-section">
-            <p class="single-project__advertising"> ¡Dale una mirada a los comentarios y animate a participar! </p>
+            @if (Model.Comments.Count > 0)
+            {
+                <p class="single-project__advertising"> ¡Dale una mirada a los comentarios y animate a participar! </p>
+            }
+            <div style=" width: 100%; display: flex; align-items: center; justify-content: space-around; margin-bottom: 2rem;">
+                <a asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-info">¡Quiero publicar un comentario!</a>
+                <a class="btn btn-primary" asp-route-id="@Model.Id" asp-area="" asp-controller="Participations" asp-action="RequestParticipation">¡Quiero ser parte de este proyecto!</a>
+            </div>
             <div class="single-project__comments-list">
                 @if (Model.Comments.Count > 0)
                 {
@@ -100,7 +119,6 @@
         </div>
         @Html.Raw(TempData["msg"])
 
-        <a class="btn btn-info" asp-route-id="@Model.Id" asp-area="" asp-controller="Participations" asp-action="RequestParticipation">¡Quiero ser parte de este proyecto!</a>
     </div>
 </div>
 

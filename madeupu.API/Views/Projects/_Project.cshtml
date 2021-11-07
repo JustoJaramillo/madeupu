@@ -28,11 +28,6 @@
             <span asp-validation-for="Website" class="text-danger"></span>
         </div>
         <div class="form-group project-create__field">
-            <label asp-for="video" class="control-label"></label>
-            <input asp-for="video" class="form-control" />
-            <span asp-validation-for="video" class="text-danger"></span>
-        </div>
-        <div class="form-group project-create__field">
             <label asp-for="Address" class="control-label"></label>
             <input asp-for="Address" class="form-control" />
             <span asp-validation-for="Address" class="text-danger"></span>
@@ -42,7 +37,12 @@
 
     @*Start date and  location*@
     <div class="project-create__fields-row-column">
-
+        <div class="form-group project-create__field">
+            <label class="control-label">Vídeo de youtube</label>
+            <input asp-for="video" class="form-control" />
+            <span asp-validation-for="video" class="text-danger"></span>
+        </div>
+        <p>*Consejo: adjunta una url de youtube que sea de formato regular. Ejemplo: https://www.youtube.com/watch?v=lgtTY_9t1qE </p>
         @*Start date*@
         <div class="form-group project-create__field">
             <label asp-for="BeginAt" class="control-label"></label>

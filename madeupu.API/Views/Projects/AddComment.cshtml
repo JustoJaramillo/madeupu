@@ -17,6 +17,10 @@
             <span asp-validation-for="Message" class="text-danger"></span>
         </div>
 
-        <input type="submit" value="Publicar" class="btn btn-primary" />
+        <div style="width: 300px; display: flex; align-items: center; justify-content: space-around; margin: 0 auto;">
+            <input type="submit" value="Publicar" class="btn btn-primary" />
+            <a asp-action="SingleProject" asp-route-id="@Model.ProjectId" class="btn btn-info">Regresar sin comentar</a>
+        </div>
+
     </div>
 </form>

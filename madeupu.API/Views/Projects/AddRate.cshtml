@@ -8,6 +8,8 @@
 
 <h2>Calificar un proyecto</h2>
 
+<h5>  Da click en una estrella para calificar el proyecto en una escala de uno a cinco, siendo cinco el más alto  </h5>
+
 <form asp-action="AddRate" class="single-project__rate-box">
     <input type="hidden" asp-for="ProjectId" />
     <div class="single-project__rate-list-container">
@@ -29,5 +31,7 @@
             </div>
         </div>
     </div>
+
+    <a style="margin: 2rem auto;" asp-action="SingleProject" asp-route-id="@Model.ProjectId" class="btn btn-info">Regresar sin calificar</a>
 </form>
 

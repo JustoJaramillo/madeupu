@@ -30,6 +30,7 @@
                     </div>
                     @if (item.ParticipationType.Description == "Creador" || item.ParticipationType.Description == "Colaborador")
                     {
+                        <div style="width: 95%; margin: 0.5rem auto; height: 2px; background-color: lightgray;"></div>
                         <div class="my-projects__buttons">
                             <a asp-action="Edit" asp-route-id="@item.Project.Id" class="btn btn-warning">Editar</a>
                             <br />

@@ -61,10 +61,12 @@
     font-size: 22px;
     line-height: 26px;
     color: #0C708C;
-    text-align: left;
+/*    text-align: left;*/
     min-width: 20%;
-    max-width: 100%;
+    max-width: 20%;
     text-decoration: none;
+    margin-right: 1rem;
+    text-align: center;
 }
 
 .my-projects__item-description {

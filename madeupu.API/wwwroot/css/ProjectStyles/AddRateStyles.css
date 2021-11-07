@@ -5,6 +5,8 @@
 }
 
 .single-project__rate-list-container {
+
+    margin: 3rem 0;
 }
 
 .single-project__rate-list {
@@ -12,6 +14,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: scale(1.5);
 }
 
 .single-project__rate-item {
@@ -27,10 +30,11 @@
     font-size: 2rem;
     background-color: lightblue;
     color: transparent;
-    line-height: 1.7;
+    line-height: 2.1;
+    padding: 0;
 }
 
     .single-project__rate-input:hover {
         color: black;
-        background-color: yellow;
+        background-color: #efb810;
     }

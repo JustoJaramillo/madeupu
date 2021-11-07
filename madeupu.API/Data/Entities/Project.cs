@@ -74,6 +74,12 @@ namespace madeupu.API.Data.Entities
         [Display(Name = "Calificación promedio")]
         //[DisplayFormat(DataFormatString = "{0:N}")]
         public int AverageRating => Ratings == null ? 0 : (Ratings.Count > 0 ? (Decimal.ToInt32(Ratings.Sum(x => x.Rate) / Ratings.Count)) : 0);
-         
+
+        [Display(Name = "Vídeo")]
+        [MaxLength(200, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string video { get; set; }
+
+        public string VideoCode => (video.Split('/')[video.Split('/').Count() - 1].Contains("watch") ? video.Split('/')[video.Split('/').Count() - 1].Split('=')[1] : "no lo contiene");
     }
 }

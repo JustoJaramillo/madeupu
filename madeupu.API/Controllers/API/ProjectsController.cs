@@ -154,6 +154,7 @@ namespace madeupu.API.Controllers.API
             project.Name = request.Name;
             project.Website = request.Website;
             project.ProjectCategory = projectCategory;
+            project.video = request.video;
 
             _context.Entry(project).State = EntityState.Modified;
 
@@ -223,6 +224,7 @@ namespace madeupu.API.Controllers.API
                 Name = request.Name,
                 Website = request.Website,
                 ProjectCategory = projectCategory,
+                video = request.video
             };
 
             ParticipationType participationType = await _context.ParticipationTypes

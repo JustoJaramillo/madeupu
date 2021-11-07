@@ -43,6 +43,8 @@ namespace madeupu.API.Models.Request
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string UserName { get; set; }
 
-
+        [MaxLength(200, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string video { get; set; }
     }
 }

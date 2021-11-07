@@ -78,6 +78,7 @@ namespace madeupu.API.Helpers
                 Description = model.Description,
                 City = await _context.Cities.FindAsync(model.CityId),
                 ProjectCategory = await _context.ProjectCategories.FindAsync(model.ProjectCategoryId),
+                video = model.video
             };
         }
 
@@ -96,8 +97,8 @@ namespace madeupu.API.Helpers
                 Cities = _combosHelper.GetComboCities(),
                 ProjectCategoryId = project.ProjectCategory.Id,
                 ProjectCategories = _combosHelper.GetComboProyectCategories(),
-                ProjectPhotos = project.ProjectPhotos
-
+                ProjectPhotos = project.ProjectPhotos,
+                video = project.video
             };
         }
 

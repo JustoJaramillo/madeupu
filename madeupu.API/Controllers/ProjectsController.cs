@@ -419,6 +419,23 @@ namespace madeupu.API.Controllers
                 .ToListAsync());
         }
 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ProjectsByUser(string userName)
+        {
+            return View(await _context.Participations
+                .Include(x => x.ParticipationType)
+                .Include(x => x.Project)
+                .ThenInclude(x => x.City)
+                .ThenInclude(x => x.Region)
+                .ThenInclude(x => x.Country)
+                .Include(x => x.Project)
+                .ThenInclude(x => x.ProjectPhotos)
+                .Include(x => x.User)
+                .Where(x => x.User.UserName == userName)
+                .Where(x => x.ActiveParticipation == true)
+                .ToListAsync());
+        }
+
         public async Task<IActionResult> AddProjectImage(int? id)
         {
             if (id == null)

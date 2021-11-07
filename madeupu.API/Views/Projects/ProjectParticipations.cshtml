@@ -9,46 +9,56 @@
 <h1>Administración de participaciones de @Model.Name</h1>
 
 <div class="project-participations">
-    @foreach (var item in Model.Participations)
+    @if (Model.Participations.Count > 0)
     {
-        @if (item.ParticipationType.Description != "Creador")
+
+        @foreach (var item in Model.Participations)
         {
+            @if (item.ParticipationType.Description != "Creador")
+            {
 
-            <div class="project-participations__item">
-                <img src="@item.User.ImageFullPath" alt="Imagen de usuario" />
-                <p>
-                    @Html.DisplayFor(modelItem => item.ParticipationType.Description)
-                </p>
-                <h3>
-                    @Html.DisplayFor(modelItem => item.User.FullName)
-                </h3>
-                <p>
-                    @Html.DisplayFor(modelItem => item.Message)
-                </p>
-                @if (item.ActiveParticipation == true)
-                {
+                <div class="project-participations__item">
+                    <img src="@item.User.ImageFullPath" alt="Imagen de usuario" />
                     <p>
-                        participante activo
+                        @Html.DisplayFor(modelItem => item.ParticipationType.Description)
                     </p>
-                }
-                else
-                {
+                    <h3>
+                        @Html.DisplayFor(modelItem => item.User.FullName)
+                    </h3>
                     <p>
-                        Pendiente por aceptar solicitud
+                        @Html.DisplayFor(modelItem => item.Message)
                     </p>
-                }
-                <div class="project-participations__item-buttons">
-                    @if (item.ActiveParticipation == false)
+                    @if (item.ActiveParticipation == true)
                     {
-                        <a asp-action="AcceptRequest" asp-controller="Participations" asp-route-id="@item.Id" class="btn btn-success">Aceptar</a>
+                        <p>
+                            participante activo
+                        </p>
                     }
-                    <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Borrar</button>
-                </div>
+                    else
+                    {
+                        <p>
+                            Pendiente por aceptar solicitud
+                        </p>
+                    }
+                    <div class="project-participations__item-buttons">
+                        @if (item.ActiveParticipation == false)
+                        {
+                            <a asp-action="AcceptRequest" asp-controller="Participations" asp-route-id="@item.Id" class="btn btn-success">Aceptar</a>
+                        }
+                        <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Borrar</button>
+                    </div>
 
-            </div>
+                </div>
+            }
+
         }
 
     }
+    else
+    {
+        <p> Actualmente este proyecto no tiene participaciones diferentes al creador</p>
+    }
+
 </div>
 
 

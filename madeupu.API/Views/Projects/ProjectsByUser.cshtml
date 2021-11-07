@@ -1,0 +1,49 @@
+﻿@model IEnumerable<madeupu.API.Data.Entities.Participation>
+@{
+    ViewData["Title"] = "ProjectsByUser";
+}
+
+<link rel="stylesheet" href="~/css/ProjectStyles/MyProjectsStyles.css" />
+
+<h1>Proyectos de por nombre de usuario</h1>
+
+<div class="my-projects__content">
+    <div class="my-projects__list">
+        @if (Model.Count() > 0)
+        {
+            @foreach (var item in Model)
+            {
+                <div class="my-projects__item">
+                    <div class="my-projects__item-content">
+                        <a href="SingleProject/@item.Project.Id"><img src="@item.Project.ImageFullPath" style="height: 100px; max-width: 120px;" /></a>
+                        <div class="my-projects__item-info">
+                            <a href="SingleProject/@item.Project.Id" class="my-projects__item-name">
+                                @Html.DisplayFor(modelItem => item.Project.Name)
+                            </a>
+                            <a href="SingleProject/@item.Project.Id" class="my-projects__item-description">
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Project.Description)
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="my-projects__buttons">
+                        <a asp-action="Edit" asp-route-id="@item.Project.Id" class="btn btn-warning">Editar</a>
+                        <br />
+                        <a class="btn btn-info" asp-route-id="@item.Project.Id" asp-area="" asp-controller="Participations" asp-action="Create">Agregar una participación</a>
+                        <br />
+                        <a asp-action="ProjectParticipations" asp-route-id="@item.Project.Id" class="btn btn-info">Administrar participaciones</a>
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <div class="my-projects__empty">
+                <p> Actualmente este usuario no tiene proyectos</p>
+            </div>
+        }
+    </div>
+</div>
+

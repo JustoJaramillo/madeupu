@@ -41,12 +41,15 @@ namespace madeupu.API.Controllers.API
                 .ThenInclude(x => x.Country)
                 .Include(x => x.Comments)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Ratings)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x=> x.DocumentType)
                 .Include(x => x.Participations)
                 .ThenInclude(x => x.ParticipationType)
                 .Include(x => x.Participations)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .ToListAsync();
         }
 
@@ -62,12 +65,15 @@ namespace madeupu.API.Controllers.API
                 .ThenInclude(x => x.Country)
                 .Include(x => x.Comments)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Ratings)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Participations)
                 .ThenInclude(x => x.ParticipationType)
                 .Include(x => x.Participations)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (project == null)

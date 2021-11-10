@@ -253,7 +253,7 @@ namespace madeupu.API.Controllers
                     "ResetPassword",
                     "Accounts",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
-                _mailHelper.SendMail(model.Email, "Vehicles - Reseteo de contraseña", $"<h1>Made Up U - Reseteo de contraseña</h1>" +
+                _mailHelper.SendMail(model.Email, "MADE UP U - Reseteo de contraseña", $"<h1>Made Up U - Reseteo de contraseña</h1>" +
                     $"Para establecer una nueva contraseña haga clic en el siguiente enlace:</br></br>" +
                     $"<a href = \"{link}\">Cambio de Contraseña</a>");
                 ViewBag.Message = "Las instrucciones para el cambio de contraseña han sido enviadas a su email.";

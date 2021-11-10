@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace Vehicles.API.Controllers.API
+namespace madeupu.API.Controllers.API
 {
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

@@ -32,6 +32,7 @@ namespace madeupu.API.Controllers.API
             return await _context.Participations
                 .Include(x => x.ParticipationType)
                 .Include(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Project)
                 .ThenInclude(x => x.ProjectCategory)
                 .Include(x => x.Project)
@@ -41,15 +42,18 @@ namespace madeupu.API.Controllers.API
                 .Include(x => x.Project)
                 .ThenInclude(x => x.Comments)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Project)
                 .ThenInclude(x => x.Ratings)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Project)
                 .ThenInclude(x => x.Participations)
                 .ThenInclude(x => x.ParticipationType)
                 .Include(x => x.Project)
                 .ThenInclude(x => x.Participations)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .ToListAsync();
         }
 
@@ -60,6 +64,7 @@ namespace madeupu.API.Controllers.API
             var participation = await _context.Participations
                 .Include(x => x.ParticipationType)
                 .Include(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Project)
                 .ThenInclude(x => x.ProjectCategory)
                 .Include(x => x.Project)
@@ -69,15 +74,18 @@ namespace madeupu.API.Controllers.API
                 .Include(x => x.Project)
                 .ThenInclude(x => x.Comments)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Project)
                 .ThenInclude(x => x.Ratings)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Project)
                 .ThenInclude(x => x.Participations)
                 .ThenInclude(x => x.ParticipationType)
                 .Include(x => x.Project)
                 .ThenInclude(x => x.Participations)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.DocumentType)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (participation == null)

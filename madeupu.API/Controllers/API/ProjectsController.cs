@@ -44,7 +44,7 @@ namespace madeupu.API.Controllers.API
                 .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Ratings)
                 .ThenInclude(x => x.User)
-                .ThenInclude(x=> x.DocumentType)
+                .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Participations)
                 .ThenInclude(x => x.ParticipationType)
                 .Include(x => x.Participations)
@@ -115,7 +115,9 @@ namespace madeupu.API.Controllers.API
                 .ThenInclude(x => x.DocumentType)
                 .Include(x => x.Project)
                 .ThenInclude(x => x.ProjectPhotos)
-                .Where(x => x.User.UserName == userName).ToList();
+                .Where(x => x.User.UserName == userName)
+                .Where(x => x.ActiveParticipation == true)
+                .ToList();
 
             foreach (var item in participations)
             {

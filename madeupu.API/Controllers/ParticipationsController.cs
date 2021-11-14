@@ -2,6 +2,7 @@
 using madeupu.API.Data.Entities;
 using madeupu.API.Helpers;
 using madeupu.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,6 +26,7 @@ namespace madeupu.API.Controllers
             _userHelper = userHelper;
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Participations
@@ -36,6 +38,11 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> Create(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -113,6 +120,11 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -193,8 +205,14 @@ namespace madeupu.API.Controllers
         }
 
 
+
         public async Task<IActionResult> RequestParticipation(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -284,6 +302,11 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> AcceptRequest(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
             if (id == null)
             {
                 return NotFound();

@@ -55,6 +55,11 @@ namespace madeupu.API.Controllers
 
         public IActionResult Create()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
             ProjectViewModel model = new ProjectViewModel
             {
                 ProjectCategories = _combosHelper.GetComboProyectCategories(),
@@ -148,6 +153,11 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -229,6 +239,11 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> SingleProject(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -264,6 +279,11 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> AddComment(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -338,6 +358,12 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> AddRate(int? id)
         {
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -405,6 +431,11 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> MyProjects()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
             return View(await _context.Participations
                 .Include(x => x.ParticipationType)
                 .Include(x => x.Project)
@@ -438,6 +469,11 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> AddProjectImage(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -516,6 +552,11 @@ namespace madeupu.API.Controllers
 
         public async Task<IActionResult> ProjectParticipations(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
             if (id == null)
             {
                 return NotFound();

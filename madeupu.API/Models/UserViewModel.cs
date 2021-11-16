@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,6 +38,12 @@ namespace madeupu.API.Models
         [Display(Name = "Dirección")]
         [MaxLength(100, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
         public string Address { get; set; }
+
+        [DefaultValue("57")]
+        [Display(Name = "Codigo País")]
+        [MaxLength(5, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string CountryCode { get; set; }
 
         [Display(Name = "Teléfono")]
         [MaxLength(20, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]

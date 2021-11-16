@@ -49,6 +49,7 @@ namespace madeupu.API.Data
                 user = new User
                 {
                     Address = address,
+                    CountryCode = "57",
                     Document = document,
                     DocumentType = _context.DocumentTypes.FirstOrDefault(x => x.Description == "Cédula"),
                     Email = email,

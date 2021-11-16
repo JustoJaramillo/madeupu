@@ -108,6 +108,7 @@ namespace madeupu.API.Helpers
             currentUser.Document = user.Document;
             currentUser.Address = user.Address;
             currentUser.ImageId = user.ImageId;
+            currentUser.CountryCode = user.CountryCode;
             currentUser.PhoneNumber = user.PhoneNumber;
             return await _userManager.UpdateAsync(currentUser);
         }
@@ -122,6 +123,7 @@ namespace madeupu.API.Helpers
             User user = new User
             {
                 Address = model.Address,
+                CountryCode = model.CountryCode,
                 Document = model.Document,
                 Email = model.Username,
                 FirstName = model.FirstName,

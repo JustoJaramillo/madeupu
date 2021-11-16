@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using madeupu.API.Helpers;
 using madeupu.API.Enums;
 using System.Text.Json.Serialization;
+using System.ComponentModel;
 
 namespace madeupu.API.Data.Entities
 {
@@ -30,6 +31,12 @@ namespace madeupu.API.Data.Entities
         [MaxLength(20, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Document { get; set; }
+
+        [DefaultValue("57")]
+        [Display(Name = "Codigo País")]
+        [MaxLength(5, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string CountryCode { get; set; }
 
         [Display(Name = "Dirección")]
         [MaxLength(100, ErrorMessage = "El campo {0} no puede tener más de {1} carácteres.")]

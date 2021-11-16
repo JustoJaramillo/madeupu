@@ -69,6 +69,7 @@ namespace madeupu.API.Controllers.API
             user = new User
             {
                 Address = request.Address,
+                CountryCode = request.CountryCode,
                 Document = request.Document,
                 DocumentType = documentType,
                 Email = request.Email,
@@ -209,6 +210,7 @@ namespace madeupu.API.Controllers.API
             User user = new()
             {
                 Address = "Pendiente",
+                CountryCode = "57",
                 Document = "Pendiente",
                 DocumentType = _context.DocumentTypes.FirstOrDefault(),
                 Email = model.Email,

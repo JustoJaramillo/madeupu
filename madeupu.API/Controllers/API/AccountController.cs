@@ -107,7 +107,7 @@ namespace madeupu.API.Controllers.API
                 User user = await _userHelper.GetUserAsync(model.Username);
                 if (user != null)
                 {
-                    Microsoft.AspNetCore.Identity.SignInResult result = await _userHelper.ValidatePasswordAsync(user, model.Password);
+                    SignInResult result = await _userHelper.ValidatePasswordAsync(user, model.Password);
 
                     if (result.Succeeded)
                     {
